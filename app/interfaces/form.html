@@ -9,30 +9,30 @@
     <body class="container">
         <h1>Cadastre</h1>
 
-        <form class="container" method="POST" action="">
+        <form action="index.php?class=OrderForm&method=save" class="container" method="POST" action="">
             <div class="mb-3">
                 <label for="title" class="form-label">Título da Encomenda</label>
-                <input type="text" name="title" class="form-control"></input>
+                <input type="text" name="title" class="form-control" required></input>
             </div>
 
             <div class="mb-3">
                 <label for="client" class="form-label">Nome do Cliente</label>
-                <input type="text" name="client" class="form-control"></input>
+                <input type="text" name="client" class="form-control" required></input>
             </div>
 
             <div class="mb-3">
                 <label for="endDate" class="form-label">Data de Entrega</label>
-                <input type="datetime-local" name="endDate" class="form-control"></input>
+                <input type="datetime-local" name="endDate" class="form-control" required></input>
             </div>
 
             <div class="mb-3">
                 <label for="price" class="form-label">Valor da Encomenda</label>
-                <input type="number" name="price" class="form-control"></input>
+                <input type="number" name="price" class="form-control" required></input>
             </div>
 
             <div class="mb-3">
                 <label for="paymentMethod" class="form-label">Metodo de Pagamento</label>
-                <input type="text" name="paymentMethod" class="form-control"></input>
+                <input type="text" name="paymentMethod" class="form-control" required></input>
             </div>
             
             <div class="mb-3">
