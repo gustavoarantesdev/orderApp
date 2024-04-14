@@ -7,6 +7,7 @@ class OrderList
 
     public function __construct()
     {
-        $this->html = file_get_contents('../interfaces/list.html');
+        $file = dirname(__DIR__) . '/interfaces/list.html';
+        $this->html = file_get_contents($file);
     }
 }

@@ -8,6 +8,7 @@ class OrderForm
 
     public function __construct()
     {
-        $this->html = file_get_contents('../interfaces/form.html');
+        $file = dirname(__DIR__) . '/interfaces/form.html';
+        $this->html = file_get_contents($file);
     }
 }
