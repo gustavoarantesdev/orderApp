@@ -2,9 +2,10 @@
 
 spl_autoload_register(function($class)
 {
-    if (file_exists($class . '.php'))
+    $file = __DIR__ . '/class/' . $class . '.php';
+    if (file_exists($file))
     {
-        require_once $class . '.php';
+        require_once $file;
     }
 });
 

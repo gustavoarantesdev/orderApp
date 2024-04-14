@@ -29,11 +29,11 @@ class Order
 
         $result = $conn->prepare($sql);
         $result->execute([':title'         => $order['title'],
-                         [':client'        => $order['client'],
-                         [':endDate'       => $order['endDate'],
-                         [':price'         => $order['price'],
-                         [':paymentMethod' => $order['paymentMethod'],
-                         [':description'   => $order['description']
+                         ':client'        => $order['client'],
+                         ':endDate'       => $order['endDate'],
+                         ':price'         => $order['price'],
+                         ':paymentMethod' => $order['paymentMethod'],
+                         ':description'   => $order['description']
                          ]);
     }
 }
