@@ -10,4 +10,9 @@ class OrderList
         $file = dirname(__DIR__) . '/interfaces/list.html';
         $this->html = file_get_contents($file);
     }
+
+    public function show()
+    {
+        print $this->html;
+    }
 }
