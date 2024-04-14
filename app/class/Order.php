@@ -18,4 +18,22 @@ class Order
         }
         return self::$conn;
     }
+
+    public static function save($order)
+    {
+        $conn = self::getConnection();
+        $sql = "INSERT INTO order (title, client, endDate, 
+                                   price, paymentMethod, description) 
+                VALUES (:title, :client, :endDate, 
+                        :price, :paymentMethod, :description)";
+
+        $result = $conn->prepare($sql);
+        $result->execute([':title'         => $order['title'],
+                         [':client'        => $order['client'],
+                         [':endDate'       => $order['endDate'],
+                         [':price'         => $order['price'],
+                         [':paymentMethod' => $order['paymentMethod'],
+                         [':description'   => $order['description']
+                         ]);
+    }
 }
