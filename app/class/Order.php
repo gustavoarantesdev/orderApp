@@ -19,6 +19,13 @@ class Order
         return self::$conn;
     }
 
+    public static function all()
+    {
+        $conn = self::getConnection();
+        $result = $conn->query("SELECT * FROM \"order\" ORDER BY endDate");
+        return $result->fetch();
+    }
+
     public static function save($order)
     {
         $conn = self::getConnection();
