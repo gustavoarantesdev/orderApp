@@ -23,7 +23,7 @@ class Order
     {
         $conn = self::getConnection();
         $result = $conn->query("SELECT * FROM \"order\" ORDER BY endDate");
-        return $result->fetch();
+        return $result->fetchAll();
     }
 
     public static function save($order)
