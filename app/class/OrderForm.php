@@ -12,19 +12,19 @@ class OrderForm
         $this->html = file_get_contents($file);
     }
 
-    public function save($data)
+    public function save($param)
     {
         try
         {
-            Order::save($data);
-            $this->data = $data;
+            Order::save($param);
+            $this->data = $param;
             print "Cadastrado com Sucesso";
         }
         catch (Exception $e)
         {
             print $e->getMessage();
         }
-    }
+   }
 
     public function show()
     {

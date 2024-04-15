@@ -14,11 +14,11 @@ $method = isset($_REQUEST['method']) ? $_REQUEST['method'] : null;
 
 if (!empty($class) && class_exists($class))
 {
-    $page = new $class($_GET);
+    $page = new $class($_REQUEST);
 
     if (!empty($method) && method_exists($class, $method))
     {
-        $page->$method($_GET);
+        $page->$method($_REQUEST);
     }
 
     $page->show();

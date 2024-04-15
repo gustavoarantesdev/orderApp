@@ -14,7 +14,7 @@ class Order
             $user = $file['user'];
 
             self::$conn = new PDO("pgsql:dbname={$name};user={$user};host={$host}");
-            self::$conn->setAttribute(PDO::ATTR-ERRMODE, PDO::ERRMODE_EXCEPTION);
+            self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
         return self::$conn;
     }
@@ -22,13 +22,25 @@ class Order
     public static function save($order)
     {
         $conn = self::getConnection();
-        $sql = "INSERT INTO order (title, client, endDate, 
-                                   price, paymentMethod, description) 
-                VALUES (:title, :client, :endDate, 
-                        :price, :paymentMethod, :description)";
+        $sql = "INSERT INTO \"order\" (
+                    title, 
+                    client, 
+                    endDate, 
+                    price, 
+                    paymentMethod, 
+                    description)
+
+                VALUES (
+                    :title, 
+                    :client, 
+                    :endDate, 
+                    :price, 
+                    :paymentMethod, 
+                    :description)
+               ";
 
         $result = $conn->prepare($sql);
-        $result->execute([':title'         => $order['title'],
+        $result->execute([':title'        => $order['title'],
                          ':client'        => $order['client'],
                          ':endDate'       => $order['endDate'],
                          ':price'         => $order['price'],
