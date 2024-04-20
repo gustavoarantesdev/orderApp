@@ -24,6 +24,7 @@ class OrderList
                 $element = dirname(__DIR__) . '/interfaces/element.html';
                 $element = file_get_contents($element);
 
+                $element = str_replace('{id}', $order['id'], $element);
                 $element = str_replace('{title}', $order['title'], $element);
                 $element = str_replace('{client}', $order['client'], $element);
                 $element = str_replace('{endDate}', $order['enddate'], $element);
@@ -44,5 +45,18 @@ class OrderList
     {
         $this->load();
         print $this->html;
+    }
+
+    public function delete($param)
+    {
+        try
+        {
+            $id = (int) $param['id'];
+            Order::delete($id);
+        }
+        catch (Exception $e)
+        {
+            print $e->getMessage();
+        }
     }
 }
