@@ -12,41 +12,41 @@
         <form action="index.php?class=OrderForm&method=save" method="POST" class="container">
             <div class="mb-3">
                 <label for="id" class="form-label">Código</label>
-                <input type="text" name="id" readonly="1" class="form-control"></input>
+                <input type="text" name="id" readonly="1" class="form-control" value="{id}"></input>
             </div>
             <div class="mb-3">
                 <label for="title" class="form-label">Título da Encomenda</label>
-                <input type="text" name="title" class="form-control" ></input>
+                <input type="text" name="title" class="form-control" value="{title}"></input>
             </div>
 
             <div class="mb-3">
                 <label for="client" class="form-label">Nome do Cliente</label>
-                <input type="text" name="client" class="form-control"></input>
+                <input type="text" name="client" class="form-control" value="{client}"></input>
             </div>
 
             <div class="mb-3">
                 <label for="endDate" class="form-label">Data de Entrega</label>
-                <input type="datetime-local" name="endDate" class="form-control"></input>
+                <input type="datetime-local" name="endDate" class="form-control" value="{endDate}"></input>
             </div>
 
             <div class="mb-3">
                 <label for="price" class="form-label">Valor da Encomenda</label>
-                <input type="number" name="price" class="form-control"></input>
+                <input type="number" name="price" class="form-control" value="{price}"></input>
             </div>
 
             <div class="mb-3">
                 <label for="paymentMethod" class="form-label">Metodo de Pagamento</label>
-                <input type="text" name="paymentMethod" class="form-control"></input>
+                <input type="text" name="paymentMethod" class="form-control" value="{paymentMethod}"></input>
             </div>
             
             <div class="mb-3">
                 <label for="description" class="form-label">Descrição</label>
-                <textarea type="text" name="description" rows="5" class="form-control"></textarea>
+                <textarea type="text" name="description" rows="5" class="form-control" value="{description}"></textarea>
             </div>
 
             <div class="mb-3">
                 <label for="creationDate"  class="form-label">Data de Criação</label>
-                <input type="text" name="creationDate" readonly="1" class="form-control"></input>
+                <input type="text" name="creationDate" readonly="1" class="form-control" value="{creationDate}"></input>
             </div>
 
             <button type="submit" class="btn btn-primary">Salvar</button>
