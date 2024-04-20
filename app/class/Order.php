@@ -55,4 +55,12 @@ class Order
                          ':description'   => $order['description']
                          ]);
     }
+
+    public static delete($id)
+    {
+        $conn = self::getConnection();
+        $result = $conn->prepare("DELETE FROM \"order\" WHERE id=:id");   
+        $result->execute([':id' => $id]);
+        $return $result->fetch();
+    }
 }
