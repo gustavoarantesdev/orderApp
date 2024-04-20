@@ -26,9 +26,20 @@ class Order
         return $result->fetchAll();
     }
 
+    public static function find($id)
+    {
+        $conn = self::getConnection();
+        $result = $conn->prepare("SELECT * FROM \"order\" WHERE id=:id");
+        $result->execute([':id' => $id]);
+        return $result->fetch();
+    }
+
     public static function save($order)
     {
         $conn = self::getConnection();
+
+        if (empty($order['id']))
+        {
         $sql = "INSERT INTO \"order\" (
                     title, 
                     client, 
@@ -54,6 +65,28 @@ class Order
                          ':paymentMethod' => $order['paymentMethod'],
                          ':description'   => $order['description']
                          ]);
+        }
+        else
+        {
+            $sql = "UPDATE \"order\" SET 
+                        title         = :title, 
+                        client        = :client, 
+                        endDate       = :endDate, 
+                        price         = :price, 
+                        paymentMethod = :paymentMethod, 
+                        description   = :description
+                    WHERE id = :id";
+
+            $result = $conn->prepare($sql);
+            $result->execute([':id'            => $order['id'],
+                              ':title'         => $order['title'],
+                              ':client'        => $order['client'],
+                              ':endDate'       => $order['endDate'],
+                              ':price'         => $order['price'],
+                              ':paymentMethod' => $order['paymentMethod'],
+                              ':description'   => $order['description']
+                             ]);
+        }
     }
 
     public static function delete($id)
