@@ -24,12 +24,14 @@ class OrderList
                 $element = dirname(__DIR__) . '/interfaces/element.html';
                 $element = file_get_contents($element);
 
-                $element = str_replace('{id}', $order['id'], $element);
-                $element = str_replace('{title}', $order['title'], $element);
-                $element = str_replace('{client}', $order['client'], $element);
-                $element = str_replace('{endDate}', $order['enddate'], $element);
+                $formattedEndDate = date('d/m/Y H:i', strtotime($order['enddate']));
+
+                $element = str_replace('{id}',          $order['id'],          $element);
+                $element = str_replace('{title}',       $order['title'],       $element);
+                $element = str_replace('{client}',      $order['client'],      $element);
+                $element = str_replace('{endDate}',     $formattedEndDate,     $element);
                 $element = str_replace('{description}', $order['description'], $element);
-                $element = str_replace('{price}', $order['price'], $element);
+                $element = str_replace('{price}',       $order['price'],       $element);
 
                 $elements .= $element;
             }
