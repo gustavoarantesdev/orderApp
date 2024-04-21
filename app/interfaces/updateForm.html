@@ -50,8 +50,19 @@
             </div>
 
             <button type="submit" class="btn btn-primary">Salvar</button>
+            <button type="button" class="btn btn-danger" onclick="deleteOrder()">Deletar</button>
 
         </form>
+
+        <script>
+            function deleteOrder() 
+            {
+                if (confirm("Tem certeza de que deseja deletar")) 
+                {
+                    window.location.href = "index.php?class=OrderFormUpdate&method=delete&id={id}";
+                }
+            }
+    </script>
 
     </body>
 </html>
