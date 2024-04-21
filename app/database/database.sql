@@ -2,6 +2,8 @@ createdb candydb
 
 psql -d candydb
 
+SET timezone TO 'America/Sao_Paulo';
+
 CREATE TABLE "order" 
 (
     id SERIAL PRIMARY KEY, 
