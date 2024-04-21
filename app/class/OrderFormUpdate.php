@@ -40,6 +40,19 @@ class OrderFormUpdate
         }
    }
 
+    public function delete($param)
+    {
+        try
+        {
+            $id = (int) $param['id'];
+            Order::delete($id);
+        }
+        catch (Exception $e)
+        {
+            print $e->getMessage();
+        }
+    }
+
     public function show()
     {
         $this->html = str_replace('{id}', (string) $this->data['id'], $this->html);
