@@ -22,7 +22,7 @@ class Order
     public static function all()
     {
         $conn = self::getConnection();
-        $result = $conn->query("SELECT * FROM \"order\" ORDER BY endDate");
+        $result = $conn->query("SELECT * FROM \"order\" WHERE finished = false ORDER BY endDate");
         return $result->fetchAll();
     }
 
