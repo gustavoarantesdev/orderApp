@@ -49,12 +49,12 @@ class OrderList
         print $this->html;
     }
 
-    public function delete($param)
+    public function finish($param)
     {
         try
         {
             $id = (int) $param['id'];
-            Order::delete($id);
+            Order::finish($id, $finish = true);
         }
         catch (Exception $e)
         {
