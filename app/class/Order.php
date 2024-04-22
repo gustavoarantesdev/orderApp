@@ -26,6 +26,13 @@ class Order
         return $result->fetchAll();
     }
 
+    public static function listAll()
+    {
+        $conn = self::getConnection();
+        $result = $conn->query("SELECT * FROM \"order\" ORDER BY endDate");
+        return $result->fetchAll();
+    }
+
     public static function find($id)
     {
         $conn = self::getConnection();
