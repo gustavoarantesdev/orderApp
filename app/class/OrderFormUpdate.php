@@ -58,9 +58,6 @@ class OrderFormUpdate
 
     public function show()
     {
-        print '<pre>';
-        print_r($this->data);
-        print '</pre>';
         $this->html = str_replace('{id}', (string) $this->data['id'], $this->html);
         $this->html = str_replace('{title}', (string) $this->data['title'], $this->html);
         $this->html = str_replace('{client}', (string) $this->data['client'], $this->html);
