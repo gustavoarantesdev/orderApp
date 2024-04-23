@@ -31,8 +31,14 @@
             </div>
 
             <div class="mb-3">
-                <label for="paymentMethod" class="form-label">Metodo de Pagamento</label>
-                <input type="text" name="paymentMethod" class="form-control" required></input>
+                <label for="paymentMethod" class="form-label">Método de Pagamento</label>
+                <select name="paymentMethod" class="form-select" required>
+                    <option hidden>Selecione</option>
+                    <option value="Cartão de Crédito">Cartão de Crédito</option>
+                    <option value="Cartão de Débito">Cartão de Débito</option>
+                    <option value="Dinheiro">Dinheiro</option>
+                    <option value="Pix">Pix</option>
+                </select>
             </div>
             
             <div class="mb-3">
