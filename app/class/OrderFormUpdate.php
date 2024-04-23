@@ -60,14 +60,15 @@ class OrderFormUpdate
         $this->html = str_replace('{client}', (string) $this->data['client'], $this->html);
         $this->html = str_replace('{endDate}', (string) $this->data['enddate'], $this->html);
         $this->html = str_replace('{price}', (string) $this->data['price'], $this->html);
-        $this->html = str_replace('{paymentMethod}', (string) $this->data['paymentmethod'], $this->html);
+
+        $paymentMethod = $this->data['paymentmethod'];
+        $this->html = str_replace("value=\"$paymentMethod\"", "value=\"$paymentMethod\" selected", $this->html);    
+
         $this->html = str_replace('{description}', (string) $this->data['description'], $this->html);
 
         $formattedEndDate = date('d/m/Y H:i', strtotime($this->data['creationdate']));
-
         $this->html = str_replace('{creationDate}', (string) $formattedEndDate, $this->html);
 
         print $this->html;
     }
 }
-
