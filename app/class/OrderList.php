@@ -38,8 +38,8 @@ class OrderList
                 $element = str_replace('{title}',       $order['title'],       $element);
                 $element = str_replace('{client}',      $order['client'],      $element);
                 $element = str_replace('{endDate}',     $formattedEndDate,     $element);
-                $element = str_replace('{description}', $order['description'], $element);
                 $element = str_replace('{price}',       $order['price'],       $element);
+                $element = str_replace('{paymentMethod}', $order['paymentmethod'], $element);
 
                 $elements .= $element;
             }
