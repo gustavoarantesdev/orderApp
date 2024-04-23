@@ -81,7 +81,8 @@ class Order
                         endDate       = :endDate, 
                         price         = :price, 
                         paymentMethod = :paymentMethod, 
-                        description   = :description
+                        description   = :description,
+                        finished      = :finished
                     WHERE id = :id";
 
             $result = $conn->prepare($sql);
@@ -91,7 +92,8 @@ class Order
                               ':endDate'       => $order['endDate'],
                               ':price'         => $order['price'],
                               ':paymentMethod' => $order['paymentMethod'],
-                              ':description'   => $order['description']
+                              ':description'   => $order['description'],
+                              ':finished'      => $order['finished']
                              ]);
         }
     }

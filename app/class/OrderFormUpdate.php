@@ -30,6 +30,9 @@ class OrderFormUpdate
     {
         try
         {
+            $finished = isset($param['finished']) && $param['finished'] === 't' ? 't' : 'f';
+            $param['finished'] = $finished;
+
             Order::save($param);
             $this->data = $param;
             print "Cadastrado com Sucesso";
@@ -55,6 +58,9 @@ class OrderFormUpdate
 
     public function show()
     {
+        print '<pre>';
+        print_r($this->data);
+        print '</pre>';
         $this->html = str_replace('{id}', (string) $this->data['id'], $this->html);
         $this->html = str_replace('{title}', (string) $this->data['title'], $this->html);
         $this->html = str_replace('{client}', (string) $this->data['client'], $this->html);
@@ -66,6 +72,11 @@ class OrderFormUpdate
 
         $this->html = str_replace('{description}', (string) $this->data['description'], $this->html);
 
+        $finishedChecked = ($this->data['finished'] == 1) ? 'checked' : '';
+        $this->html = str_replace('<input class="form-check-input" type="checkbox" name="finished" value="t">',
+                                  '<input class="form-check-input" type="checkbox" name="finished" value="t" ' . $finishedChecked . '>',
+                      $this->html);
+ 
         $formattedEndDate = date('d/m/Y H:i', strtotime($this->data['creationdate']));
         $this->html = str_replace('{creationDate}', (string) $formattedEndDate, $this->html);
 
