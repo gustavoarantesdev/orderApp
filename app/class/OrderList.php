@@ -94,17 +94,4 @@ class OrderList
         $this->load();
         print $this->html;
     }
-
-    public function finish($param)
-    {
-        try
-        {
-            $id = (int) $param['id'];
-            Order::finish($id, $finish = true);
-        }
-        catch (Exception $e)
-        {
-            print $e->getMessage();
-        }
-    }
 }

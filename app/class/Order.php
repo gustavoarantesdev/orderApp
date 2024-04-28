@@ -105,13 +105,4 @@ class Order
         $result->execute([':id' => $id]);
         return $result->fetch();
     }
-
-    public static function finish($id, $finish)
-    {
-        $conn = self::getConnection();
-        $result = $conn->prepare("UPDATE \"order\" SET finished = :finished WHERE id=:id"); 
-        $result->execute([':id'       => $id,
-                          ':finished' => $finish
-                         ]);
-    }
 }
