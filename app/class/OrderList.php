@@ -40,7 +40,9 @@ class OrderList
                 $formattedDate = Utility::dateFormat($order['enddate'],);
                 $element = str_replace('{endDate}',       $formattedDate,          $element);
 
-                $element = str_replace('{price}',         $order['price'],         $element);
+                $formattedPrice = Utility::priceFormat($order['price']);
+                $element = str_replace('{price}',         $formattedPrice,         $element);
+
                 $element = str_replace('{paymentMethod}', $order['paymentmethod'], $element);
 
                 $elements .= $element;
@@ -74,7 +76,9 @@ class OrderList
                 $formattedDate = Utility::dateFormat($order['enddate'], 'noTime');
                 $element = str_replace('{endDate}',       $formattedDate,          $element);
 
-                $element = str_replace('{price}',         $order['price'],         $element);
+                $formattedPrice = Utility::priceFormat($order['price']);
+                $element = str_replace('{price}',         $formattedPrice,         $element);
+
                 $element = str_replace('{paymentMethod}', $order['paymentmethod'], $element);
                 $element = str_replace('{status}',        $order['finished'],      $element);
 
