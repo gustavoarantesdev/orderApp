@@ -1,5 +1,6 @@
 <?php
 require_once 'Order.php';
+require_once 'Utility.php';
 
 class OrderList
 {
@@ -24,7 +25,6 @@ class OrderList
         try
         {
             $orders = Order::all();
-         
 
             $elements = '';
             foreach ($orders as $order)
@@ -32,13 +32,15 @@ class OrderList
                 $element = dirname(__DIR__) . '/interfaces/element.html';
                 $element = file_get_contents($element);
 
-                $formattedEndDate = date('d/m/Y H:i', strtotime($order['enddate']));
 
-                $element = str_replace('{id}',          $order['id'],          $element);
-                $element = str_replace('{title}',       $order['title'],       $element);
-                $element = str_replace('{client}',      $order['client'],      $element);
-                $element = str_replace('{endDate}',     $formattedEndDate,     $element);
-                $element = str_replace('{price}',       $order['price'],       $element);
+                $element = str_replace('{id}',            $order['id'],            $element);
+                $element = str_replace('{title}',         $order['title'],         $element);
+                $element = str_replace('{client}',        $order['client'],        $element);
+
+                $formattedDate = Utility::dateFormat($order['enddate']);
+                $element = str_replace('{endDate}',       $formattedDate,          $element);
+
+                $element = str_replace('{price}',         $order['price'],         $element);
                 $element = str_replace('{paymentMethod}', $order['paymentmethod'], $element);
 
                 $elements .= $element;
@@ -64,19 +66,20 @@ class OrderList
                 $element = dirname(__DIR__) . '/interfaces/itemListAll.html';
                 $element = file_get_contents($element);
 
-                $formattedEndDate = date('d/m/Y H:i', strtotime($order['enddate']));
 
-                $element = str_replace('{id}',          $order['id'],          $element);
-                $element = str_replace('{title}',       $order['title'],       $element);
-                $element = str_replace('{client}',      $order['client'],      $element);
-                $element = str_replace('{endDate}',     $formattedEndDate,     $element);
-                $element = str_replace('{price}',       $order['price'],       $element);
-                $element = str_replace('{paymentMethod}',       $order['paymentmethod'],       $element);
-                $element = str_replace('{status}',       $order['finished'],       $element);
+                $element = str_replace('{id}',            $order['id'],            $element);
+                $element = str_replace('{title}',         $order['title'],         $element);
+                $element = str_replace('{client}',        $order['client'],        $element);
 
-                $formattedEndDate = date('d/m/Y H:i', strtotime($order['creationdate']));
+                $formattedDate = Utility::dateFormat($order['enddate']);
+                $element = str_replace('{endDate}',       $formattedDate,          $element);
 
-                $element = str_replace('{creationDate}',       $formattedEndDate,       $element);
+                $element = str_replace('{price}',         $order['price'],         $element);
+                $element = str_replace('{paymentMethod}', $order['paymentmethod'], $element);
+                $element = str_replace('{status}',        $order['finished'],      $element);
+
+                $formattedDate = Utility::dateFormat($order['creationdate']);
+                $element = str_replace('{creationDate}',  $formattedDate,          $element);
 
                 $elements .= $element;
             }
