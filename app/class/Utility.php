@@ -2,8 +2,8 @@
 
 class Utility
 {
-    public static function dateFormat($date)
+    public static function dateFormat($date, $mode = 'null')
     {
-        return date('d/m/y H:i', strtotime($date));
+         return ($mode == 'noTime') ? date('d/m/y', strtotime($date)) :  date('d/m/y H:i', strtotime($date));
     }
 }
