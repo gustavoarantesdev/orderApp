@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This class is to centralize the auxiliary codes used in many parts of the code.
+ * This class provides utility functions that are commonly used throughout the codebase.
  * 
  * @author gustavoarantes
  */
