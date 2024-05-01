@@ -3,7 +3,7 @@ require_once 'Order.php';
 require_once 'Utility.php';
 
 /**
- * Represents a list of orders with various display options.
+ * This class represents a list of orders with various display options.
  *
  * The OrderList class provides methods to load and display a list of orders in different formats,
  * such as a simple list or a detailed list showing additional information.
