@@ -2,15 +2,17 @@
 
 /**
  * This class is to centralize the auxiliary codes used in many parts of the code.
+ * 
  * @author gustavoarantes
  */
 class Utility
 {
     /**
-     * This method is used to convert dates to the Brazilian format dd/mm/yyyy h:s.
-     * @param $date - Date is the database date..
-     * @param $withTime - Receive boolean values, true when there is a timetable and false when the timetable is not needed.
-     * @return - returns the formatted date. 
+     * This method format a date for display in Brazilian format, optionally incluing the time.
+     * 
+     * @param string $date The date to be formatted. 
+     * @param bool $withTime A Boolean value to whether or not to include the time in the formatting.
+     * @return string The date formatted as a string. 
      */
     public static function dateFormat($date, $withTime)
     {
@@ -19,8 +21,9 @@ class Utility
 
     /**
      * This method format the price for display, replacing the period with a comma. 
-     * @param float $price - The price to be formatted.
-     * @return string - The price formatted as a string. 
+     * 
+     * @param float $price The price to be formatted.
+     * @return string The price formatted as a string. 
      */ 
     public static function priceFormat($price)
     {
