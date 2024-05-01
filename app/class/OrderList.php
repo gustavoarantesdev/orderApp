@@ -2,10 +2,27 @@
 require_once 'Order.php';
 require_once 'Utility.php';
 
+/**
+ * Represents a list of orders with various display options.
+ *
+ * The OrderList class provides methods to load and display a list of orders in different formats,
+ * such as a simple list or a detailed list showing additional information.
+ * 
+ * @author gustavoarantes
+ */
 class OrderList
 {
+     /**
+     * @var string $html The HTML content of the order list.
+     */
     private $html;
 
+     /**
+     * Constructs a new OrderList object.
+     *
+     * If the 'method' parameter is not set in the request, it loads a basic order list HTML template.
+     * Otherwise, it loads an HTML template for displaying all orders.
+     */
     public function __construct()
     {
         if (!isset($_REQUEST['method']))
@@ -20,6 +37,12 @@ class OrderList
         }
     }
 
+    /**
+     * Loads the orders and populates the HTML content with order details.
+     *
+     * This method retrieves all orders and populates the HTML template with details of each order,
+     * including ID, title, client, end date, price, and payment method.
+     */
     public function load()
     {
         try
@@ -55,6 +78,12 @@ class OrderList
         }
     }
 
+     /**
+     * Loads all orders and populates the HTML content with detailed order information.
+     *
+     * This method retrieves all orders and populates the HTML template with detailed information of each order,
+     * including ID, title, client, end date, price, payment method, status, and creation date.
+     */
     public function listAll()
     {
         try
@@ -95,7 +124,9 @@ class OrderList
         }
     }
 
-
+    /**
+     * Displays the HTML content of the order list.
+     */
     public function show()
     {
         $this->load();
