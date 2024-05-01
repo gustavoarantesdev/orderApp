@@ -1,9 +1,23 @@
 <?php
 
+/**
+ * This class represents an order and provides methods for interacting with orders in the database.
+ */
 class Order
 {
+    /**
+     * @var PDO|null The database connection object.
+     */
     private static $conn;
 
+    /**
+     * Retrieves the database connection.
+     *
+     * If the connection hasn't been established yet, it reads the database configuration from a file
+     * and creates a new PDO connection.
+     *
+     * @return PDO The database connection object.
+     */
     public static function getConnection()
     {
         if (empty(self::$conn))
@@ -19,6 +33,13 @@ class Order
         return self::$conn;
     }
 
+    /**
+     * Retrieves all orders that are not finished from the database.
+     *
+     * Orders are sorted by their end date in ascending order.
+     *
+     * @return array An array containing all orders.
+     */
     public static function all()
     {
         $conn = self::getConnection();
@@ -26,6 +47,13 @@ class Order
         return $result->fetchAll();
     }
 
+    /**
+     * Retrieves all orders from the database.
+     *
+     * Orders are sorted by their end date in ascending order.
+     *
+     * @return array An array containing all orders.
+     */
     public static function listAll()
     {
         $conn = self::getConnection();
@@ -33,6 +61,12 @@ class Order
         return $result->fetchAll();
     }
 
+    /**
+     * Retrieves an order by its ID from the database.
+     *
+     * @param int $id The ID of the order to retrieve.
+     * @return array|null The order data if found, or null if not found.
+     */
     public static function find($id)
     {
         $conn = self::getConnection();
@@ -41,6 +75,13 @@ class Order
         return $result->fetch();
     }
 
+    /**
+     * Saves an order to the database.
+     *
+     * If the order has an ID, it updates the existing order. Otherwise, it inserts a new order.
+     *
+     * @param array $order The order data to save.
+     */
     public static function save($order)
     {
         $conn = self::getConnection();
@@ -98,6 +139,12 @@ class Order
         }
     }
 
+    /**
+     * Deletes an order from the database by its ID.
+     *
+     * @param int $id The ID of the order to delete.
+     * @return bool True if the order was successfully deleted, false otherwise.
+     */
     public static function delete($id)
     {
         $conn = self::getConnection();
