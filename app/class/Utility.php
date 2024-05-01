@@ -17,6 +17,11 @@ class Utility
         return ($withTime) ? date('d/m/y', strtotime($date)) : date('d/m/y H:i', strtotime($date));
     }
 
+    /**
+     * This method format the price for display, replacing the period with a comma. 
+     * @param float $price - The price to be formatted.
+     * @return string - The price formatted as a string. 
+     */ 
     public static function priceFormat($price)
     {
         return str_replace('.', ',', $price);
