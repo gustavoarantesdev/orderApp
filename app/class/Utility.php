@@ -30,6 +30,12 @@ class Utility
         return str_replace('.', ',', $price);
     }
 
+    /**
+     * This method cut title bigger then 20 characters.
+     * 
+     * @param string $title The title to be cutted.
+     * @return string The title cutted.
+     */
     public static function cutTitle($title)
     {
         if (strlen($title) <= 20)
