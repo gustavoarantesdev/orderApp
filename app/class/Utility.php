@@ -60,4 +60,25 @@ class Utility
         $hasSpace = str_contains($client, ' ');
         return $hasSpace ? strstr($client, ' ', true) : $client;
     }
+
+    /**
+     * This method formats the payment type to an abbreviated version.
+     * @param string $paymentMethod The payment method name to be cutted.
+     * @return string The payment name formatted.
+     */
+    public static function formatPaymentMethod($paymentMethod)
+    {
+        if ($paymentMethod == 'Cartão de Crédito')
+        {
+            return 'Crédito';
+        }
+        else if ($paymentMethod == 'Cartão de Débito')
+        {
+            return 'Débito';
+        }
+        else
+        {
+            return $paymentMethod;
+        }
+    } 
 }
