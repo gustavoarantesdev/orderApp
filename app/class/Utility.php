@@ -29,4 +29,9 @@ class Utility
     {
         return str_replace('.', ',', $price);
     }
+
+    public static function cutTitle($title)
+    {
+        return substr($title, 0, 20);
+    }
 }
