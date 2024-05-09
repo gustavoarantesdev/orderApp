@@ -48,4 +48,16 @@ class Utility
             return $cuttedTitle;
         }
     }
+
+    /**
+     * This method cuts the customer's name when finding the first space in the name.
+     * 
+     * @param string $client The client name to be cutted.
+     * @return string The client name cutted.
+     */
+    public static function formatClient($client)
+    {
+        $hasSpace = str_contains($client, ' ');
+        return $hasSpace ? strstr($client, ' ', true) : $client;
+    }
 }
