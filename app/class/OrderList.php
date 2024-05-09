@@ -55,10 +55,13 @@ class OrderList
                 $element = dirname(__DIR__) . '/interfaces/element.html';
                 $element = file_get_contents($element);
 
-
                 $element = str_replace('{id}',            $order['id'],            $element);
-                $element = str_replace('{title}',         $order['title'],         $element);
-                $element = str_replace('{client}',        $order['client'],        $element);
+
+                $cuttedTitle = Utility::cutTitle($order['title']);
+                $element = str_replace('{title}',         $cuttedTitle,         $element);
+
+                $formatedClient = Utility::formatClient($order['client']);
+                $element = str_replace('{client}',        $formatedClient,        $element);
 
                 $formattedDate = Utility::dateFormat($order['enddate'], false);
                 $element = str_replace('{endDate}',       $formattedDate,          $element);
@@ -66,7 +69,8 @@ class OrderList
                 $formattedPrice = Utility::priceFormat($order['price']);
                 $element = str_replace('{price}',         $formattedPrice,         $element);
 
-                $element = str_replace('{paymentMethod}', $order['paymentmethod'], $element);
+                $formatedPaymentMethod = Utility::formatPaymentMethod($order['paymentmethod']);
+                $element = str_replace('{paymentMethod}', $formatedPaymentMethod, $element);
 
                 $elements .= $element;
             }
