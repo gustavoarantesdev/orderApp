@@ -32,6 +32,14 @@ class Utility
 
     public static function cutTitle($title)
     {
-        return substr($title, 0, 20);
+        if (strlen($title) <= 20)
+        {
+            return $title;
+        }
+        else 
+        {
+            $cuttedTitle = substr($title, 0, 20) . '...';
+            return $cuttedTitle;
+        }
     }
 }
