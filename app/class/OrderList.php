@@ -117,7 +117,8 @@ class OrderList
                 $formattedPrice = Utility::priceFormat($order['price']);
                 $element = str_replace('{price}',         $formattedPrice,         $element);
 
-                $element = str_replace('{paymentMethod}', $order['paymentmethod'], $element);
+                $formatedPaymentMethod = Utility::formatPaymentMethod($order['paymentmethod']);
+                $element = str_replace('{paymentMethod}', $formatedPaymentMethod, $element);
 
                 $formattedFinishStatus = Utility::formatFinishStatus($order['finished']);
                 $element = str_replace('{status}',        $formattedFinishStatus,      $element);
