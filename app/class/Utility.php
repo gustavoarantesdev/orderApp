@@ -81,4 +81,22 @@ class Utility
             return $paymentMethod;
         }
     } 
+
+    /**
+     * This method formats the order status by adding a span in place of 1 or 0.
+     * 
+     * @param string $status The status value.
+     * @return string The status formatted.
+     */
+    public static function formatFinishStatus($status)
+    {
+        if ($status == '1')
+        {
+            return '<span class="badge bg-success-subtle border border-success-subtle text-success-emphasis rounded-pill">Finalizada <i class="bi bi-box2-heart-fill"></i></span>';
+        }
+        else
+        {
+            return '<span class="badge bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-pill">N.Finalizada <i class="bi bi-box2-fill"></i></span>';
+        }
+    }
 }
