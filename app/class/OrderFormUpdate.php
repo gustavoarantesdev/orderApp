@@ -1,5 +1,4 @@
 <?php
-
 require_once 'Order.php';
 
 class OrderFormUpdate
@@ -41,7 +40,7 @@ class OrderFormUpdate
         {
             print $e->getMessage();
         }
-   }
+    }
 
     public function delete($param)
     {
@@ -58,11 +57,11 @@ class OrderFormUpdate
 
     public function show()
     {
-        $this->html = str_replace('{id}', (string) $this->data['id'], $this->html);
-        $this->html = str_replace('{title}', (string) $this->data['title'], $this->html);
-        $this->html = str_replace('{client}', (string) $this->data['client'], $this->html);
+        $this->html = str_replace('{id}',      (string) $this->data['id'],      $this->html);
+        $this->html = str_replace('{title}',   (string) $this->data['title'],   $this->html);
+        $this->html = str_replace('{client}',  (string) $this->data['client'],  $this->html);
         $this->html = str_replace('{endDate}', (string) $this->data['enddate'], $this->html);
-        $this->html = str_replace('{price}', (string) $this->data['price'], $this->html);
+        $this->html = str_replace('{price}',   (string) $this->data['price'],   $this->html);
 
         $paymentMethod = $this->data['paymentmethod'];
         $this->html = str_replace("value=\"$paymentMethod\"", "value=\"$paymentMethod\" selected", $this->html);    
@@ -74,8 +73,8 @@ class OrderFormUpdate
                                   '<input class="form-check-input" type="checkbox" name="finished" value="t" ' . $finishedChecked . '>',
                       $this->html);
  
-        $formattedEndDate = date('d/m/Y H:i', strtotime($this->data['creationdate']));
-        $this->html = str_replace('{creationDate}', (string) $formattedEndDate, $this->html);
+        $formattedDate = Utility::dateFormat($this->data['creationdate'], false);
+        $this->html = str_replace('{creationDate}', (string) $formattedDate, $this->html);
 
         print $this->html;
     }
