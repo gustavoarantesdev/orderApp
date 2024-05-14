@@ -55,19 +55,19 @@ class OrderList
                 $element = dirname(__DIR__) . '/interfaces/element.html';
                 $element = file_get_contents($element);
 
-                $element = str_replace('{id}',            $order['id'],            $element);
+                $element = str_replace('{id}',            $order['id'],           $element);
 
                 $cuttedTitle = Utility::cutTitle($order['title']);
-                $element = str_replace('{title}',         $cuttedTitle,         $element);
+                $element = str_replace('{title}',         $cuttedTitle,           $element);
 
                 $formatedClient = Utility::formatClient($order['client']);
                 $element = str_replace('{client}',        $formatedClient,        $element);
 
                 $formattedDate = Utility::dateFormat($order['enddate'], false);
-                $element = str_replace('{endDate}',       $formattedDate,          $element);
+                $element = str_replace('{endDate}',       $formattedDate,         $element);
 
                 $formattedPrice = Utility::priceFormat($order['price']);
-                $element = str_replace('{price}',         $formattedPrice,         $element);
+                $element = str_replace('{price}',         $formattedPrice,        $element);
 
                 $formatedPaymentMethod = Utility::formatPaymentMethod($order['paymentmethod']);
                 $element = str_replace('{paymentMethod}', $formatedPaymentMethod, $element);
@@ -102,29 +102,29 @@ class OrderList
                 $element = file_get_contents($element);
 
 
-                $element = str_replace('{id}',            $order['id'],            $element);
+                $element = str_replace('{id}',            $order['id'],           $element);
 
                 $cuttedTitle = Utility::cutTitle($order['title']);
-                $element = str_replace('{title}',         $cuttedTitle,         $element);
-                $element = str_replace('{title}',         $order['title'],         $element);
+                $element = str_replace('{title}',         $cuttedTitle,           $element);
+                $element = str_replace('{title}',         $order['title'],        $element);
 
                 $formatedClient = Utility::formatClient($order['client']);
                 $element = str_replace('{client}',        $formatedClient,        $element);
 
                 $formattedDate = Utility::dateFormat($order['enddate'], true);
-                $element = str_replace('{endDate}',       $formattedDate,          $element);
+                $element = str_replace('{endDate}',       $formattedDate,         $element);
 
                 $formattedPrice = Utility::priceFormat($order['price']);
-                $element = str_replace('{price}',         $formattedPrice,         $element);
+                $element = str_replace('{price}',         $formattedPrice,        $element);
 
                 $formatedPaymentMethod = Utility::formatPaymentMethod($order['paymentmethod']);
                 $element = str_replace('{paymentMethod}', $formatedPaymentMethod, $element);
 
                 $formattedFinishStatus = Utility::formatFinishStatus($order['finished']);
-                $element = str_replace('{status}',        $formattedFinishStatus,      $element);
+                $element = str_replace('{status}',        $formattedFinishStatus, $element);
 
                 $formattedDate = Utility::dateFormat($order['creationdate'], true);
-                $element = str_replace('{creationDate}',  $formattedDate,          $element);
+                $element = str_replace('{creationDate}',  $formattedDate,         $element);
 
                 $elements .= $element;
             }
