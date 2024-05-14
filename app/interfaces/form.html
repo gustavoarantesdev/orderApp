@@ -60,7 +60,7 @@
                                 </div>
 
                                 <div class="d-flex justify-content-between">
-                                    <button type="submit" class="btn btn-success">Cadastrar</button>
+                                    <button type="submit" class="btn btn-success" onclick="confirmOrder()">Cadastrar</button>
                                     <button type="button" class="btn btn-secondary" onclick="window.location='index.php'">Voltar</button>
                                 </div>
 
@@ -71,5 +71,14 @@
             </article>
         </main>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+        <script>
+            function confirmOrder() {
+                if (confirm("Cadastro realizado com sucesso!")) 
+                {
+                    window.location.href = "index.php";
+                }
+            }
+        </script>
     </body>
 </html>
