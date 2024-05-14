@@ -34,7 +34,8 @@ class OrderFormUpdate
 
             Order::save($param);
             $this->data = $param;
-            print "Cadastrado com Sucesso";
+
+            header('Location: index.php');
         }
         catch (Exception $e)
         {
@@ -48,6 +49,7 @@ class OrderFormUpdate
         {
             $id = (int) $param['id'];
             Order::delete($id);
+            header('Location: index.php');
         }
         catch (Exception $e)
         {
