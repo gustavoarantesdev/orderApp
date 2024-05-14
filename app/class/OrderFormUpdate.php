@@ -1,17 +1,36 @@
 <?php
 require_once 'Order.php';
 
+/**
+ * Class OrderFormUpdate
+ * 
+ * This class represents a form for updating orders with various actions such as updating, saving, and deleting.
+ * 
+ * The OrderFormUpdate class provides methods to update, save, delete, and display an order update form.
+ * 
+ * @author gustavoarantes 
+ */
 class OrderFormUpdate
 {
     private $html;
     private $data;
 
+    /**
+     * Constructs a new OrderFormUpdate object.
+     * 
+     * It loads the HTML template for the order update form.
+     */
     public function __construct()
     {
         $file = dirname(__DIR__) . '/interfaces/updateForm.html';
         $this->html = file_get_contents($file);
     }
 
+    /**
+     * Loads the data of the order to be updated based on the provided ID.
+     * 
+     * @param array $param The parameters containing the ID of the order to be updated.
+     */
     public function update($param)
     {
         try
@@ -25,6 +44,11 @@ class OrderFormUpdate
         }
     }
 
+     /**
+     * Saves the updated data of the order.
+     * 
+     * @param array $param The parameters containing the updated data of the order.
+     */
     public function save($param)
     {
         try
@@ -43,6 +67,11 @@ class OrderFormUpdate
         }
     }
 
+     /**
+     * Deletes an order based on the provided ID.
+     * 
+     * @param array $param The parameters containing the ID of the order to be deleted.
+     */
     public function delete($param)
     {
         try
@@ -57,6 +86,9 @@ class OrderFormUpdate
         }
     }
 
+    /**
+     * Displays the HTML content of the order update form with the data of the order to be updated.
+     */
     public function show()
     {
         $this->html = str_replace('{id}',      (string) $this->data['id'],      $this->html);
