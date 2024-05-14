@@ -86,7 +86,7 @@
                             
                                 <div class="d-flex justify-content-between">
                                     <div>
-                                        <button type="submit" class="btn btn-success">Salvar</button>
+                                        <button type="submit" class="btn btn-success" onclick="updateOrder()">Salvar</button>
                                         <button type="button" class="btn btn-danger" onclick="deleteOrder()">Deletar</button>
                                     </div>
                                     <button type="button" class="btn btn-secondary" onclick="window.location='index.php?class=OrderList&method=listAll'">Voltar</button>
@@ -98,12 +98,20 @@
                 </div> 
             </article>
         </main>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
         <script>
-            function deleteOrder() {
-                if (confirm("Tem certeza de que deseja deletar")) 
+            function updateOrder() 
+            {
+                if (confirm("Alteração realizada com sucesso!")) 
+                {
+                    window.location.href = "index.php";
+                }
+            }
+
+            function deleteOrder() 
+            {
+                if (confirm("Tem certeza de que deseja deletar?")) 
                 {
                     window.location.href = "index.php?class=OrderFormUpdate&method=delete&id={id}";
                 }
