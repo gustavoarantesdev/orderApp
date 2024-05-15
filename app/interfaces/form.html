@@ -22,7 +22,7 @@
                     <div class="card p-3">
                         <div class="card-body">
                             <h4 class="card-title mb-3">Nova Encomenda</h4> 
-                             <form action="index.php?class=OrderForm&method=save" method="POST">
+                             <form id="orderForm" action="index.php?class=OrderForm&method=save" method="POST">
                                 <div class="mb-3">
                                     <label for="title" class="form-label">Encomenda</label>
                                     <input type="text" name="title" class="form-control" placeholder="Festa na Caixa" required></input>
@@ -45,7 +45,7 @@
                             
                                 <div class="mb-3">
                                     <label for="paymentMethod" class="form-label">Pagamento</label>
-                                    <select name="paymentMethod" class="form-select" required>
+                                    <select id="paymentMethod" name="paymentMethod" class="form-select" required>
                                         <option hidden>Selecione...</option>
                                         <option value="Cartão de Crédito">Cartão de Crédito</option>
                                         <option value="Cartão de Débito">Cartão de Débito</option>
@@ -60,7 +60,7 @@
                                 </div>
 
                                 <div class="d-flex justify-content-between">
-                                    <button type="submit" class="btn btn-success" onclick="confirmOrder()">Cadastrar</button>
+                                    <button type="button" class="btn btn-success" onclick="validateForm()">Cadastrar</button>
                                     <button type="button" class="btn btn-secondary" onclick="window.location='index.php'">Voltar</button>
                                 </div>
 
@@ -73,10 +73,25 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
         <script>
-            function confirmOrder() {
-                if (confirm("Cadastro realizado com sucesso!")) 
+            function validateForm() 
+            {
+                var form = document.getElementById('orderForm');
+                var paymentMethod = document.getElementById('paymentMethod').value;
+
+                if (form.checkValidity() && paymentMethod !== "Selecione...") 
                 {
-                    window.location.href = "index.php";
+                    if (confirm("Cadastro realizado com sucesso!")) 
+                    {
+                        form.submit();
+                    }
+                } 
+                else 
+                {
+                    form.reportValidity();
+                    if (paymentMethod === "" || paymentMethod === "Selecione...") 
+                    {
+                        alert("Por favor, selecione um método de pagamento válido.");
+                    }
                 }
             }
         </script>
