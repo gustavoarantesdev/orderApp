@@ -52,7 +52,7 @@ class OrderList
             $elements = '';
             foreach ($orders as $order)
             {
-                $element = dirname(__DIR__) . '/interfaces/element.html';
+                $element = dirname(__DIR__) . '/interfaces/cardItem.html';
                 $element = file_get_contents($element);
 
                 $element = str_replace('{id}',            $order['id'],           $element);
@@ -71,6 +71,9 @@ class OrderList
 
                 $formatedPaymentMethod = Utility::formatPaymentMethod($order['paymentmethod']);
                 $element = str_replace('{paymentMethod}', $formatedPaymentMethod, $element);
+
+                $daysCounted = Utility::daysCount($order['enddate']);
+                $element = str_replace('{daysCount}', $daysCounted, $element);
 
                 $elements .= $element;
             }
