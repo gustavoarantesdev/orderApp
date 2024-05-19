@@ -63,7 +63,7 @@ class OrderList
                 $formatedClient = Utility::formatClient($order['client']);
                 $element = str_replace('{client}',        $formatedClient,        $element);
 
-                $formattedDate = Utility::dateFormat($order['enddate'], false);
+                $formattedDate = Utility::dateFormat($order['enddate'], true);
                 $element = str_replace('{endDate}',       $formattedDate,         $element);
 
                 $formattedPrice = Utility::priceFormat($order['price']);
@@ -114,7 +114,7 @@ class OrderList
                 $formatedClient = Utility::formatClient($order['client']);
                 $element = str_replace('{client}',        $formatedClient,        $element);
 
-                $formattedDate = Utility::dateFormat($order['enddate'], true);
+                $formattedDate = Utility::dateFormat($order['enddate']);
                 $element = str_replace('{endDate}',       $formattedDate,         $element);
 
                 $formattedPrice = Utility::priceFormat($order['price']);
@@ -126,7 +126,7 @@ class OrderList
                 $formattedFinishStatus = Utility::formatFinishStatus($order['finished']);
                 $element = str_replace('{status}',        $formattedFinishStatus, $element);
 
-                $formattedDate = Utility::dateFormat($order['creationdate'], true);
+                $formattedDate = Utility::dateFormat($order['creationdate']);
                 $element = str_replace('{creationDate}',  $formattedDate,         $element);
 
                 $elements .= $element;
