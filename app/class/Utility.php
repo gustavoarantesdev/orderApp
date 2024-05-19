@@ -99,4 +99,25 @@ class Utility
             return '<span class="badge bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-pill">N.Finalizada <i class="bi bi-box2-fill"></i></span>';
         }
     }
+
+    /**
+     * This method calculates the difference in days between the given date and the current date.
+     * It formats the output to indicate whether the date is overdue or how many days are left.
+     * 
+     * @param string $date The date to compare with the current date.
+     * @return string The formatted difference in days.
+     */
+    public static function daysCount($date)
+    {
+        $databaseDate = new DateTime($date);
+        $currentDate = new DateTime();
+
+        $difference = $currentDate ->diff($databaseDate);
+
+        if ($difference->invert) {
+            return '<p class="card-text text-danger rounded-5"><strong>ATRASADA ' . $difference->days . ' DIAS!</strong></p>';
+        } else {
+            return 'FALTAM ' . $difference->days . ' DIAS.';
+        }
+    }
 }
