@@ -100,4 +100,56 @@ class Utility
             ? '<p class="card-text text-danger rounded-5"><strong>ATRASADA ' . $difference->days . ' DIAS!</strong></p>' 
             : 'FALTAM ' . $difference->days . ' DIAS.';
     }
+
+    /**
+     * Converts the date to yyyy-mm-dd format to save in the database.
+     *
+     * Assumes that the input date is always in the format dd/mm/yyyy.
+     *
+     * @param string $completionDate The date to be converted.
+     * @return string The converted date in yyyy-mm-dd format.
+     */
+    public static function dateSaveDb(string $completionDate): string
+    {
+        // Assumes that $completionDate is always in 'd/m/Y' format
+        $date = DateTime::createFromFormat('d/m/Y', $completionDate);
+
+        return $date->format('Y-m-d');
+    }
+
+    /**
+     * Converts a string price by removing the ',' and replacing the ',' with '.' and converting to a float number to save in the database.
+     *
+     * @param string $price The price to convert.
+     * @return float The price converted to float.
+     */
+    public static function orderPriceSaveDb(string $orderPrice): float
+    {
+        $normalized_price = str_replace(['.', ','], ['', '.'], $orderPrice);
+
+        return (float) $normalized_price;
+    }
+
+    /**
+     * Converts the number of installments to an integer, and if the payment method is different from credit, it is converted to blank.
+     *
+     * @param string $paymentMethod The payment method.
+     * @param string $paymentInstallments The payment installments.
+     * @return int|string The number of installments as an integer or an empty string if the method is not credit.o connect
+     */
+    public static function paymentInstallmentsSaveDb(string $paymentMethod, string $paymentInstallments)
+    {
+        $invalidInstallments = 'Selecione...';
+        $nonCreditMethods = [
+            'Cartão de Débito',
+            'Dinheiro',
+            'Pix'
+        ];
+
+        if ($paymentInstallments === $invalidInstallments || in_array($paymentMethod, $nonCreditMethods, true)) {
+            return '';
+        }
+
+        return (int) $paymentInstallments;
+    }
 }
