@@ -86,36 +86,39 @@ class Order
     {
         $conn = self::getConnection();
 
-        if (empty($order['id']))
-        {
-        $sql = "INSERT INTO \"order\" (
-                    title, 
-                    client, 
-                    endDate, 
-                    price, 
-                    paymentMethod, 
-                    description)
+        if (empty($order['id'])) {
+            $sql = "INSERT INTO orders (
+                    order_title, 
+                    client_name, 
+                    completion_date, 
+                    completion_time, 
+                    order_price, 
+                    payment_method, 
+                    payment_installments,
+                    order_description )
 
                 VALUES (
-                    :title, 
-                    :client, 
-                    :endDate, 
-                    :price, 
-                    :paymentMethod, 
-                    :description)
+                    :order_title, 
+                    :client_name, 
+                    :completion_date, 
+                    :completion_time, 
+                    :order_price, 
+                    :payment_method, 
+                    :payment_installments,
+                    :order_description )
                ";
 
-        $result = $conn->prepare($sql);
-        $result->execute([':title'        => $order['title'],
-                         ':client'        => $order['client'],
-                         ':endDate'       => $order['endDate'],
-                         ':price'         => $order['price'],
-                         ':paymentMethod' => $order['paymentMethod'],
-                         ':description'   => $order['description']
-                         ]);
-        }
-        else
-        {
+            $result = $conn->prepare($sql);
+            $result->execute([':order_title'          => $order['order_title'],
+                              ':client_name'          => $order['client_name'],
+                              ':completion_date'      => $order['completion_date'],
+                              ':completion_time'      => $order['completion_time'],
+                              ':order_price'          => $order['order_price'],
+                              ':payment_method'       => $order['payment_method'],
+                              ':payment_installments' => $order['payment_installments'],
+                              ':order_description'    => $order['order_description']
+                             ]);
+        } else {
             $sql = "UPDATE \"order\" SET 
                         title         = :title, 
                         client        = :client, 
