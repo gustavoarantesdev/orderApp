@@ -1,5 +1,6 @@
 <?php
 require_once 'Order.php';
+require_once 'Utility.php';
 
 /**
  * Class OrderForm
@@ -28,17 +29,19 @@ class OrderForm
     /**
      * Saves the data submitted from the order creation form.
      * 
-     * @param array $param The parameters containing the data submitted from the form.
+     * @param array $order The parameters containing the data submitted from the form.
      */
-    public function save($param)
+    public function save($order)
     {
-        try
-        {
-            Order::save($param);
+        try {
+            $order['order_price'] = Utility::orderPriceSaveDb($order['order_price']);
+            $order['payment_installments'] = Utility::paymentInstallmentsSaveDb($order['payment_method'], $order['payment_installments']);
+            $order['completion_date'] = Utility::dateSaveDb($order['completion_date']);
+
+            Order::save($order);
             header('Location: index.php');
-        }
-        catch (Exception $e)
-        {
+
+        } catch (Exception $e) {
             print $e->getMessage();
         }
     }
