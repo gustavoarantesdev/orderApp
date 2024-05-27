@@ -12,12 +12,22 @@ require_once 'Utility.php';
  */
 class OrderList
 {
-     /**
+    /**
      * @var string $html The HTML content of the order list.
      */
     private $html;
 
-     /**
+    /**
+     * Path to the base HTML template.
+     */
+    private const BASE_TEMPLATE_PATH = '/interfaces/list.html';
+
+    /**
+     * Path to the all orders HTML template.
+     */
+    private const ALL_TEMPLATE_PATH = '/interfaces/listAll.html';
+
+    /**
      * Constructs a new OrderList object.
      *
      * If the 'method' parameter is not set in the request, it loads a basic order list HTML template.
@@ -25,16 +35,8 @@ class OrderList
      */
     public function __construct()
     {
-        if (!isset($_REQUEST['method']))
-        {
-            $file = dirname(__DIR__) . '/interfaces/list.html';
-            $this->html = file_get_contents($file);
-        }
-        else
-        {
-            $file = dirname(__DIR__) . '/interfaces/listAll.html';
-            $this->html = file_get_contents($file);
-        }
+        $filePath = dirname(__DIR__) . (isset($_REQUEST['method']) ? self::ALL_TEMPLATE_PATH : self::BASE_TEMPLATE_PATH);
+        $this->html = file_get_contents($filePath);
     }
 
     /**
@@ -43,44 +45,41 @@ class OrderList
      * This method retrieves all orders and populates the HTML template with details of each order,
      * including ID, title, client, end date, price, and payment method.
      */
-    public function load()
+    public function load(): void
     {
-        try
-        {
+        try {
             $orders = Order::all();
 
             $elements = '';
-            foreach ($orders as $order)
-            {
+            foreach ($orders as $order) {
                 $element = dirname(__DIR__) . '/interfaces/cardItem.html';
                 $element = file_get_contents($element);
 
-                $element = str_replace('{id}',            $order['id'],           $element);
+                $element = str_replace('{id}', $order['order_id'], $element);
 
-                $cuttedTitle = Utility::cutTitle($order['title']);
-                $element = str_replace('{title}',         $cuttedTitle,           $element);
+                $cuttedTitle = Utility::cutTitle($order['order_title']);
+                $element = str_replace('{title}', $cuttedTitle, $element);
 
-                $formatedClient = Utility::formatClient($order['client']);
-                $element = str_replace('{client}',        $formatedClient,        $element);
+                $formatedClient = Utility::formatClient($order['client_name']);
+                $element = str_replace('{client}', $formatedClient, $element);
 
-                $formattedDate = Utility::dateFormat($order['enddate'], true);
-                $element = str_replace('{endDate}',       $formattedDate,         $element);
+                // $formattedDate = Utility::dateFormat($order['completion_date'], true);
+                $element = str_replace('{endDate}', $order['completion_date'], $element);
 
-                $formattedPrice = Utility::priceFormat($order['price']);
-                $element = str_replace('{price}',         $formattedPrice,        $element);
+                $formattedPrice = Utility::priceFormat($order['order_price']);
+                $element = str_replace('{price}', $formattedPrice, $element);
 
-                $formatedPaymentMethod = Utility::formatPaymentMethod($order['paymentmethod']);
+                $formatedPaymentMethod = Utility::formatPaymentMethod($order['payment_method']);
                 $element = str_replace('{paymentMethod}', $formatedPaymentMethod, $element);
 
-                $daysCounted = Utility::daysCount($order['enddate']);
+                $daysCounted = Utility::daysCount($order['completion_date']);
                 $element = str_replace('{daysCount}', $daysCounted, $element);
 
                 $elements .= $element;
             }
             $this->html = str_replace('{elements}', $elements, $this->html);
-        }
-        catch (Exception $e)
-        {
+
+        } catch (Exception $e) {
             print $e->getMessage();
         }
     }
@@ -91,50 +90,45 @@ class OrderList
      * This method retrieves all orders and populates the HTML template with detailed information of each order,
      * including ID, title, client, end date, price, payment method, status, and creation date.
      */
-    public function listAll()
+    public function listAll(): void
     {
-        try
-        {
+        try {
             $orders = Order::listAll();
          
 
             $elements = '';
-            foreach ($orders as $order)
-            {
+            foreach ($orders as $order) {
                 $element = dirname(__DIR__) . '/interfaces/itemListAll.html';
                 $element = file_get_contents($element);
 
+                $element = str_replace('{id}', $order['order_id'], $element);
 
-                $element = str_replace('{id}',            $order['id'],           $element);
+                $cuttedTitle = Utility::cutTitle($order['order_title']);
+                $element = str_replace('{title}', $cuttedTitle, $element);
 
-                $cuttedTitle = Utility::cutTitle($order['title']);
-                $element = str_replace('{title}',         $cuttedTitle,           $element);
-                $element = str_replace('{title}',         $order['title'],        $element);
+                $formatedClient = Utility::formatClient($order['client_name']);
+                $element = str_replace('{client}', $formatedClient, $element);
 
-                $formatedClient = Utility::formatClient($order['client']);
-                $element = str_replace('{client}',        $formatedClient,        $element);
+                $formattedDate = Utility::dateFormat($order['completion_date']);
+                $element = str_replace('{endDate}', $formattedDate, $element);
 
-                $formattedDate = Utility::dateFormat($order['enddate']);
-                $element = str_replace('{endDate}',       $formattedDate,         $element);
+                $formattedPrice = Utility::priceFormat($order['order_price']);
+                $element = str_replace('{price}', $formattedPrice, $element);
 
-                $formattedPrice = Utility::priceFormat($order['price']);
-                $element = str_replace('{price}',         $formattedPrice,        $element);
-
-                $formatedPaymentMethod = Utility::formatPaymentMethod($order['paymentmethod']);
+                $formatedPaymentMethod = Utility::formatPaymentMethod($order['payment_method']);
                 $element = str_replace('{paymentMethod}', $formatedPaymentMethod, $element);
 
-                $formattedFinishStatus = Utility::formatFinishStatus($order['finished']);
-                $element = str_replace('{status}',        $formattedFinishStatus, $element);
+                $formattedFinishStatus = Utility::formatFinishStatus($order['is_completed']);
+                $element = str_replace('{status}', $formattedFinishStatus, $element);
 
-                $formattedDate = Utility::dateFormat($order['creationdate']);
-                $element = str_replace('{creationDate}',  $formattedDate,         $element);
+                $formattedDate = Utility::dateFormat($order['created_at']);
+                $element = str_replace('{creationDate}', $formattedDate, $element);
 
                 $elements .= $element;
             }
             $this->html = str_replace('{elements}', $elements, $this->html);
-        }
-        catch (Exception $e)
-        {
+
+        } catch (Exception $e) {
             print $e->getMessage();
         }
     }
@@ -142,7 +136,7 @@ class OrderList
     /**
      * Displays the HTML content of the order list.
      */
-    public function show()
+    public function show(): void
     {
         $this->load();
         print $this->html;
