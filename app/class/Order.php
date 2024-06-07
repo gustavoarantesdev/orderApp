@@ -86,7 +86,6 @@ class Order
     {
         $conn = self::getConnection();
 
-        if (empty($order['order_id'])) {
             $sql = "INSERT INTO orders (
                     order_title, 
                     client_name, 
@@ -118,29 +117,34 @@ class Order
                 ':payment_installments' => $order['payment_installments'],
                 ':order_description'    => $order['order_description']
             ]);
-        } else {
-            $sql = "UPDATE orders SET 
-                    order_title       = :order_title, 
-                    client_name       = :client_name, 
-                    completion_date   = :completion_date, 
-                    order_price       = :order_price, 
-                    payment_method    = :payment_method, 
-                    order_description = :order_description,
-                    is_completd       = :is_completd
-                WHERE order_id = :order_id";
+    }
+
+    public static function update($order) 
+    {
+        $conn = self::getConnection();
+        $sql = "UPDATE orders SET 
+                order_title          = :order_title, 
+                client_name          = :client_name, 
+                completion_date      = :completion_date, 
+                order_price          = :order_price, 
+                payment_method       = :payment_method, 
+                payment_installments = :payment_installments,
+                order_description    = :order_description,
+                is_completed         = :is_completed
+            WHERE order_id = :order_id";
 
             $result = $conn->prepare($sql);
             $result->execute([
-                ':order_id'          => $order['order_id'],
-                ':order_title'       => $order['order_title'],
-                ':client_name'       => $order['client_name'],
-                ':completion_date'   => $order['completion_date'],
-                ':order_price'       => $order['order_price'],
-                ':payment_method'    => $order['payment_method'],
-                ':order_description' => $order['orde_description'],
-                ':is_completed'      => $order['is_completd']
+                ':order_id'             => $order['order_id'],
+                ':order_title'          => $order['order_title'],
+                ':client_name'          => $order['client_name'],
+                ':completion_date'      => $order['completion_date'],
+                ':order_price'          => $order['order_price'],
+                ':payment_method'       => $order['payment_method'],
+                ':payment_installments' => $order['payment_installments'],
+                ':order_description'    => $order['order_description'],
+                ':is_completed'         => $order['is_completed']
             ]);
-        }
     }
 
     /**
