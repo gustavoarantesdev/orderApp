@@ -64,7 +64,6 @@ class OrderList
                 $element = str_replace('{client}', $formatedClient, $element);
 
                 $formattedDate = Utility::dateFormat($order['completion_date'], $order['completion_time'], true);
-                //$element = str_replace('{endDate}', $order['completion_date'], $element);
                 $element = str_replace('{endDate}', $formattedDate, $element);
 
                 $formattedPrice = Utility::priceFormat($order['order_price']);
