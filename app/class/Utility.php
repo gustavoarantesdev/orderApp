@@ -11,12 +11,42 @@ class Utility
      * Formats a date for display in Brazilian format, optionally including the time.
      * 
      * @param string $date The date to be formatted.
+     * @param string $time The time to be formatted.
      * @param bool $withTime Whether or not to include the time in the formatting.
      * @return string The date formatted as a string.
      */
-    public static function dateFormat(string $date, bool $withTime = false): string
+
+    public static function dateFormat(string $date, string $time, bool $withTime = false): string
     {
-        return $withTime ? date('d/m/Y H:i', strtotime($date)) : date('d/m/Y', strtotime($date));
+        $timestamp = strtotime($date);
+
+        $formattedDate = date('d/m/Y', $timestamp);
+
+        // Days of the week in Portuguese
+        $daysOfWeek = [
+            'Sun' => 'Dom',
+            'Mon' => 'Seg',
+            'Tue' => 'Ter',
+            'Wed' => 'Qua',
+            'Thu' => 'Qui',
+            'Fri' => 'Sex',
+            'Sat' => 'Sáb'
+        ];
+
+        $dayOfWeek = date('D', $timestamp);
+
+        // Translate the day into Portuguese
+        $dayOfWeekPt = $daysOfWeek[$dayOfWeek];
+
+        // Add the day of the week next to the date.
+        $formattedDateWithDay = $dayOfWeekPt . ' ' . $formattedDate;
+
+        if ($withTime) {
+            $formattedTime = date('H:i', strtotime($time));
+            return $formattedDateWithDay . ' ' . $formattedTime;
+        }
+
+        return $formattedDateWithDay;
     }
 
     /**
@@ -147,7 +177,7 @@ class Utility
         ];
 
         if ($paymentInstallments === $invalidInstallments || in_array($paymentMethod, $nonCreditMethods, true)) {
-            return '';
+            return 0;
         }
 
         return (int) $paymentInstallments;
