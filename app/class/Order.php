@@ -2,13 +2,15 @@
 
 /**
  * This class represents an order and provides methods for interacting with orders in the database.
+ * 
+ * @author gustavoarantes
  */
 class Order
 {
     /**
      * @var PDO|null The database connection object.
      */
-    private static $conn = null;
+    private static ?PDO $conn = null;
 
     /**
      * Retrieves the database connection.
@@ -18,15 +20,12 @@ class Order
      *
      * @return PDO The database connection object.
      */
-    public static function getConnection(): PDO
+    private static function getConnection(): PDO
     {
-        if (empty(self::$conn)) {
-            $file = parse_ini_file('database/config.ini');
-            $host = $file['host'];
-            $name = $file['name'];
-            $user = $file['user'];
-
-            self::$conn = new PDO("pgsql:dbname={$name};user={$user};host={$host}");
+        if (self::$conn === null) {
+            $config = parse_ini_file('database/config.ini');
+            $dsn = "pgsql:dbname={$config['name']};host={$config['host']}";
+            self::$conn = new PDO($dsn, $config['user']);
             self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
         return self::$conn;
@@ -41,9 +40,7 @@ class Order
      */
     public static function all(): array
     {
-        $conn = self::getConnection();
-        $result = $conn->query("SELECT * FROM orders WHERE is_completed = false ORDER BY completion_date");
-        return $result->fetchAll();
+        return self::fetchOrders("SELECT * FROM orders WHERE is_completed = false ORDER BY completion_date");
     }
 
     /**
@@ -55,9 +52,7 @@ class Order
      */
     public static function listAll(): array
     {
-        $conn = self::getConnection();
-        $result = $conn->query("SELECT * FROM orders ORDER BY completion_date");
-        return $result->fetchAll();
+        return self::fetchOrders("SELECT * FROM orders ORDER BY completion_date");
     }
 
     /**
@@ -66,87 +61,88 @@ class Order
      * @param int $order_id The ID of the order to retrieve.
      * @return array|null The order data if found, or null if not found.
      */
-    public static function find($order_id): ?array
+    public static function find(int $order_id): ?array
     {
         $conn = self::getConnection();
-        $result = $conn->prepare("SELECT * FROM orders WHERE order_id=:order_id");
-        $result->execute([':order_id' => $order_id]);
-        return $result->fetch();
+        $stmt = $conn->prepare("SELECT * FROM orders WHERE order_id = :order_id");
+        $stmt->execute([':order_id' => $order_id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
     }
 
     /**
      * Saves an order to the database.
      *
-     * If the order has an ID, it updates the existing order. Otherwise, it inserts a new order.
+     * Inserts a new order into the database.
      *
      * @param array $order The order data to save.
-     * @return void
      */
-    public static function save($order): void
+    public static function save(array $order): void
     {
         $conn = self::getConnection();
-
-            $sql = "INSERT INTO orders (
+        $sql = "INSERT INTO orders (
                     order_title, 
                     client_name, 
                     completion_date, 
                     completion_time, 
-                    order_price, 
+                    order_price,
                     payment_method, 
-                    payment_installments,
-                    order_description 
+                    payment_installments, 
+                    order_description
                 ) VALUES (
                     :order_title, 
                     :client_name, 
                     :completion_date, 
                     :completion_time, 
-                    :order_price, 
+                    :order_price,
                     :payment_method, 
-                    :payment_installments,
-                    :order_description 
+                    :payment_installments, 
+                    :order_description
                 )";
 
-            $result = $conn->prepare($sql);
-            $result->execute([
-                ':order_title'          => $order['order_title'],
-                ':client_name'          => $order['client_name'],
-                ':completion_date'      => $order['completion_date'],
-                ':completion_time'      => $order['completion_time'],
-                ':order_price'          => $order['order_price'],
-                ':payment_method'       => $order['payment_method'],
-                ':payment_installments' => $order['payment_installments'],
-                ':order_description'    => $order['order_description']
-            ]);
+        self::executeQuery($conn, $sql, [
+            ':order_title'          => $order['order_title'],
+            ':client_name'          => $order['client_name'],
+            ':completion_date'      => $order['completion_date'],
+            ':completion_time'      => $order['completion_time'],
+            ':order_price'          => $order['order_price'],
+            ':payment_method'       => $order['payment_method'],
+            ':payment_installments' => $order['payment_installments'],
+            ':order_description'    => $order['order_description'],
+        ]);
     }
 
-    public static function update($order) 
+    /**
+     * Updates an existing order in the database.
+     *
+     * @param array $order The order data to update.
+     */
+    public static function update(array $order): void
     {
         $conn = self::getConnection();
-        $sql = "UPDATE orders SET 
-                order_title          = :order_title, 
-                client_name          = :client_name, 
-                completion_date      = :completion_date, 
-                completion_time      = :completion_time, 
-                order_price          = :order_price, 
-                payment_method       = :payment_method, 
-                payment_installments = :payment_installments,
-                order_description    = :order_description,
-                is_completed         = :is_completed
-            WHERE order_id = :order_id";
+        $sql = "UPDATE orders SET
+                    order_title          = :order_title, 
+                    client_name          = :client_name, 
+                    completion_date      = :completion_date,
+                    completion_time      = :completion_time, 
+                    order_price          = :order_price, 
+                    payment_method       = :payment_method,
+                    payment_installments = :payment_installments, 
+                    order_description    = :order_description,
+                    is_completed         = :is_completed
+                WHERE order_id = :order_id";
 
-            $result = $conn->prepare($sql);
-            $result->execute([
-                ':order_id'             => $order['order_id'],
-                ':order_title'          => $order['order_title'],
-                ':client_name'          => $order['client_name'],
-                ':completion_date'      => $order['completion_date'],
-                ':completion_time'      => $order['completion_time'],
-                ':order_price'          => $order['order_price'],
-                ':payment_method'       => $order['payment_method'],
-                ':payment_installments' => $order['payment_installments'],
-                ':order_description'    => $order['order_description'],
-                ':is_completed'         => $order['is_completed']
-            ]);
+        self::executeQuery($conn, $sql, [
+            ':order_id'             => $order['order_id'],
+            ':order_title'          => $order['order_title'],
+            ':client_name'          => $order['client_name'],
+            ':completion_date'      => $order['completion_date'],
+            ':completion_time'      => $order['completion_time'],
+            ':order_price'          => $order['order_price'],
+            ':payment_method'       => $order['payment_method'],
+            ':payment_installments' => $order['payment_installments'],
+            ':order_description'    => $order['order_description'],
+            ':is_completed'         => $order['is_completed']
+        ]);
     }
 
     /**
@@ -155,10 +151,36 @@ class Order
      * @param int $order_id The ID of the order to delete.
      * @return bool True if the order was successfully deleted, false otherwise.
      */
-    public static function delete($order_id): bool
+    public static function delete(int $order_id): bool
     {
         $conn = self::getConnection();
-        $result = $conn->prepare("DELETE FROM orders WHERE order_id=:order_id");   
-        return $result->execute([':order_id' => $order_id]);
+        $stmt = $conn->prepare("DELETE FROM orders WHERE order_id = :order_id");
+        return $stmt->execute([':order_id' => $order_id]);
+    }
+
+    /**
+     * Fetches orders from the database based on the given SQL query.
+     *
+     * @param string $sql The SQL query to execute.
+     * @return array An array of orders.
+     */
+    private static function fetchOrders(string $sql): array
+    {
+        $conn = self::getConnection();
+        $stmt = $conn->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Executes a prepared SQL query with the given parameters.
+     *
+     * @param PDO $conn The database connection.
+     * @param string $sql The SQL query to execute.
+     * @param array $params The parameters to bind to the query.
+     */
+    private static function executeQuery(PDO $conn, string $sql, array $params): void
+    {
+        $stmt = $conn->prepare($sql);
+        $stmt->execute($params);
     }
 }
