@@ -13,7 +13,15 @@ require_once 'Utility.php';
  */
 class OrderForm
 {
+    /**
+     * @var string The HTML content of the order creation form.
+     */
     private $html;
+
+    /**
+     * Path to the HTML template.
+     */
+    private const TEMPLATE_PATH = '/interfaces/form.html';
 
     /**
      * Constructs a new OrderForm object.
@@ -22,8 +30,8 @@ class OrderForm
      */
     public function __construct()
     {
-        $file = dirname(__DIR__) . '/interfaces/form.html';
-        $this->html = file_get_contents($file);
+        $filePath = dirname(__DIR__) . self::TEMPLATE_PATH;
+        $this->html = file_get_contents($filePath);
     }
 
     /**
@@ -31,25 +39,36 @@ class OrderForm
      * 
      * @param array $order The parameters containing the data submitted from the form.
      */
-    public function save($order)
+    public function save(array $order): void
     {
         try {
-            $order['order_price'] = Utility::orderPriceSaveDb($order['order_price']);
-            $order['payment_installments'] = Utility::paymentInstallmentsSaveDb($order['payment_method'], $order['payment_installments']);
-            $order['completion_date'] = Utility::dateSaveDb($order['completion_date']);
-
+            $order = $this->prepareOrderData($order);
             Order::save($order);
             header('Location: index.php');
-
+            exit;
         } catch (Exception $e) {
             print $e->getMessage();
         }
     }
 
     /**
+     * Prepares the order data for saving.
+     * 
+     * @param array $order The raw order data.
+     * @return array The prepared order data.
+     */
+    private function prepareOrderData(array $order): array
+    {
+        $order['order_price'] = Utility::orderPriceSaveDb($order['order_price']);
+        $order['payment_installments'] = Utility::paymentInstallmentsSaveDb($order['payment_method'], $order['payment_installments']);
+        $order['completion_date'] = Utility::dateSaveDb($order['completion_date']);
+        return $order;
+    }
+
+    /**
      * Displays the HTML content of the order creation form.
      */
-    public function show()
+    public function show(): void
     {
         print $this->html;
     }
