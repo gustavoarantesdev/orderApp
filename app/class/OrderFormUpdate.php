@@ -60,17 +60,28 @@ class OrderFormUpdate
     public function save(array $order): void
     {
         try {
-            $order['order_price'] = Utility::orderPriceSaveDb($order['order_price']);
-            $order['payment_installments'] = Utility::paymentInstallmentsSaveDb($order['payment_method'], $order['payment_installments']);
-            $order['completion_date'] = Utility::dateSaveDb($order['completion_date']);
-
+            $order = $this->prepareOrderData($order);
             Order::update($order);
             $this->data = $order;
-
             header('Location: index.php');
+            exit;
         } catch (Exception $e) {
             print $e->getMessage();
         }
+    }
+
+    /**
+     * Prepares the order data for saving.
+     * 
+     * @param array $order The raw order data.
+     * @return array The prepared order data.
+     */
+    private function prepareOrderData(array $order): array
+    {
+        $order['order_price'] = Utility::orderPriceSaveDb($order['order_price']);
+        $order['payment_installments'] = Utility::paymentInstallmentsSaveDb($order['payment_method'], $order['payment_installments']);
+        $order['completion_date'] = Utility::dateSaveDb($order['completion_date']);
+        return $order;
     }
 
     /**
