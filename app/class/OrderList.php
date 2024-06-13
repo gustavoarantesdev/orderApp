@@ -108,7 +108,7 @@ class OrderList
                 $formatedClient = Utility::formatClient($order['client_name']);
                 $element = str_replace('{client}', $formatedClient, $element);
   
-                $formattedDate = Utility::dateFormat($order['completion_date'], $order['completion_time'], true);
+                $formattedDate = Utility::dateFormat($order['completion_date'], $order['completion_time']);
                 $element = str_replace('{endDate}', $formattedDate, $element);
 
                 $formattedPrice = Utility::priceFormat($order['order_price']);
@@ -117,7 +117,7 @@ class OrderList
                 $formatedPaymentMethod = Utility::formatPaymentMethod($order['payment_method']);
                 $element = str_replace('{paymentMethod}', $formatedPaymentMethod, $element);
 
-                $formattedFinishStatus = Utility::formatFinishStatus($order['is_completed']);
+                $formattedFinishStatus = Utility::orderStatus($order['is_completed'], $order['completion_date']);
                 $element = str_replace('{status}', $formattedFinishStatus, $element);
 
                 $elements .= $element;

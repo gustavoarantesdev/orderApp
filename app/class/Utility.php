@@ -101,16 +101,30 @@ class Utility
     }
 
     /**
-     * Formats the order status by adding a span in place of 1 or 0.
+     * Formats the order status.
      * 
-     * @param string $status The status value.
-     * @return string The status formatted.
+     * @param int $isCompleted The status value.
+     * @param string $completionDate The completion date.
+     * @return string The order status.
      */
-    public static function formatFinishStatus(string $status): string
+    public static function orderStatus(int $isCompleted, string $completionDate): string
     {
-        return ($status === '1') 
-            ? '<span class="badge bg-success-subtle border border-success-subtle text-success-emphasis rounded-pill">Finalizada <i class="bi bi-box2-heart-fill"></i></span>' 
-            : '<span class="badge bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-pill">N.Finalizada <i class="bi bi-box2-fill"></i></span>';
+        $status = [
+            'completed' => '<span class="p-2 badge bg-success-subtle border border-success-subtle text-success-emphasis rounded-pill">FINALIZADA</span>',
+            'overdue'   => '<span class="p-2 badge bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-pill">ATRASADA</span>',
+            'open'      => '<span class="p-2 badge bg-warning-subtle border border-warning-subtle text-warning-emphasis rounded-pill">ABERTA</span>'
+        ];
+
+        if ($isCompleted == '1') {
+            return $status['completed'];
+        }
+
+        $completionDate = new DateTime($completionDate);
+        $currentDate = new DateTime();
+
+        return $completionDate <= $currentDate
+            ? $status['overdue']
+            : $status['open'];
     }
 
     /**
