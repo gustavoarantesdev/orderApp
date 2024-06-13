@@ -3,9 +3,14 @@
     <td>{title}</td>
     <td>{client}</td>
     <td>{endDate}</td>
-    <td>R$ {price}</td>
+    <td>R${price}</td>
     <td>{paymentMethod}</td>
     <td>{status}</td>
-    <td>{creationDate}</td>
-    <td><a href='index.php?class=OrderFormUpdate&method=update&id={id}'><i class="btn btn-outline-primary bi bi-pencil-square"></i></a></td>
+    <td>
+        <button class="btn bg-primary-subtle p-2 lh-1 rounded-5" type="button" onclick="window.location='index.php?class=OrderFormUpdate&method=update&id={id}'">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
+            </svg>
+        </button>
+    </td>
 </tr>
