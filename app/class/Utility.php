@@ -10,15 +10,15 @@ class Utility
     /**
      * Formats a date for display in Brazilian format, optionally including the time.
      * 
-     * @param string $date The date to be formatted.
-     * @param string $time The time to be formatted.
+     * @param string $completionDate The order completion date to be formatted.
+     * @param string $completionTime The order completion time to be formatted.
      * @param bool $withTime Whether or not to include the time in the formatting.
      * @return string The date formatted as a string.
      */
 
-    public static function dateFormat(string $date, string $time, bool $withTime = false): string
+    public static function dateFormat(string $completionDate, string $completionTime, bool $withTime = false): string
     {
-        $timestamp = strtotime($date);
+        $timestamp = strtotime($completionDate);
 
         $formattedDate = date('d/m/Y', $timestamp);
 
@@ -42,7 +42,7 @@ class Utility
         $formattedDateWithDay = $dayOfWeekPt . ' ' . $formattedDate;
 
         if ($withTime) {
-            $formattedTime = date('H:i', strtotime($time));
+            $formattedTime = date('H:i', strtotime($completionTime));
             return $formattedDateWithDay . ' ' . $formattedTime;
         }
 
@@ -52,40 +52,40 @@ class Utility
     /**
      * Formats the price for display, replacing the period with a comma.
      * 
-     * @param float $price The price to be formatted.
+     * @param float $orderPrice The order price to be formatted.
      * @return string The price formatted as a string.
      */
-    public static function priceFormat(float $price): string
+    public static function priceFormat(float $orderPrice): string
     {
-        return number_format($price, 2, ',', '.');
+        return number_format($orderPrice, 2, ',', '.');
     }
 
     /**
      * Cuts the title if it is longer than 20 characters.
      * 
-     * @param string $title The title to be cut.
+     * @param string $orderTitle The order title to be cut.
      * @return string The cut title.
      */
-    public static function cutTitle(string $title): string
+    public static function cutTitle(string $orderTitle): string
     {
-        return (strlen($title) <= 20) ? $title : substr($title, 0, 20) . '...';
+        return (strlen($orderTitle) <= 20) ? $orderTitle : substr($orderTitle, 0, 20) . '...';
     }
 
     /**
      * Cuts the customer's name at the first space.
      * 
-     * @param string $client The client name to be cut.
+     * @param string $clientName The client name to be cut.
      * @return string The cut client name.
      */
-    public static function formatClient(string $client): string
+    public static function formatClient(string $clientName): string
     {
-        return strstr($client, ' ', true) ?: $client;
+        return strstr($clientName, ' ', true) ?: $clientName;
     }
 
     /**
      * Formats the payment type to an abbreviated version.
      * 
-     * @param string $paymentMethod The payment method name to be cut.
+     * @param string $paymentMethod The order payment method name to be cut.
      * @return string The payment name formatted.
      */
     public static function formatPaymentMethod(string $paymentMethod): string
@@ -103,8 +103,8 @@ class Utility
     /**
      * Formats the order status.
      * 
-     * @param int $isCompleted The status value.
-     * @param string $completionDate The completion date.
+     * @param int $isCompleted The completed order status value.
+     * @param string $completionDate The order completion date.
      * @return string The order status.
      */
     public static function orderStatus(int $isCompleted, string $completionDate): string
@@ -131,18 +131,18 @@ class Utility
      * Calculates the difference in days between the given date and the current date.
      * Formats the output to indicate whether the date is overdue or how many days are left.
      * 
-     * @param string $date The date to compare with the current date.
+     * @param string $completionDate The order completion date to compare with the current date.
      * @return string The formatted difference in days.
      */
-    public static function daysCount(string $date): string
+    public static function daysCount(string $completionDate): string
     {
-        $databaseDate = new DateTime($date);
+        $completionDate = new DateTime($completionDate);
         $currentDate = new DateTime();
-        $difference = $currentDate->diff($databaseDate);
+        $dateDifference = $currentDate->diff($completionDate);
 
-        return $difference->invert 
-            ? '<p class="card-text text-danger rounded-5"><strong>ATRASADA ' . $difference->days . ' DIAS!</strong></p>' 
-            : 'FALTAM ' . $difference->days . ' DIAS.';
+        return $dateDifference->invert 
+            ? '<p class="card-text text-danger rounded-5"><strong>ATRASADA ' . $dateDifference->days . ' DIAS!</strong></p>' 
+            : 'FALTAM ' . $dateDifference->days . ' DIAS.';
     }
 
     /**
@@ -155,7 +155,6 @@ class Utility
      */
     public static function dateSaveDb(string $completionDate): string
     {
-        // Assumes that $completionDate is always in 'd/m/Y' format
         $date = DateTime::createFromFormat('d/m/Y', $completionDate);
 
         return $date->format('Y-m-d');
@@ -164,21 +163,21 @@ class Utility
     /**
      * Converts a string price by removing the ',' and replacing the ',' with '.' and converting to a float number to save in the database.
      *
-     * @param string $price The price to convert.
-     * @return float The price converted to float.
+     * @param string $orderPrice The order price to be convert.
+     * @return float The price converted in float.
      */
     public static function orderPriceSaveDb(string $orderPrice): float
     {
-        $normalized_price = str_replace(['.', ','], ['', '.'], $orderPrice);
+        $normalizedPrice = str_replace(['.', ','], ['', '.'], $orderPrice);
 
-        return (float) $normalized_price;
+        return (float) $normalizedPrice;
     }
 
     /**
      * Converts the number of installments to an integer, and if the payment method is different from credit, it is converted to blank.
      *
-     * @param string $paymentMethod The payment method.
-     * @param string $paymentInstallments The payment installments.
+     * @param string $paymentMethod The order payment method.
+     * @param string $paymentInstallments The order payment installments.
      * @return int|string The number of installments as an integer or an empty string if the method is not credit.o connect
      */
     public static function paymentInstallmentsSaveDb(string $paymentMethod, string $paymentInstallments)
