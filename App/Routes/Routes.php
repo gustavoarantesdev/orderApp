@@ -13,7 +13,13 @@ abstract class Routes
     public static function getRoutes()
     {
         return [
-            '/' => 'OrderController@index',
+            '/'            => 'OrderController@index',
+            '/create'      => 'OrderController@create',
+            '/store/{id}'  => 'OrderController@store',
+            '/show'        => 'OrderController@show',
+            '/edit/{id}'   => 'OrderController@edit',
+            '/update/{id}' => 'OrderController@update',
+            '/delete/{id}' => 'OrderController@delete',
         ];
     }
 }
