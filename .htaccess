@@ -1,0 +1,8 @@
+# Ativa o módulo de reescrita de URL.
+RewriteEngine On
+
+# Proíbe a navegação em diretórios
+Options -Indexes
+
+# Redireciona todas as requisições para a pasta public
+RewriteRule ^(.*)$ public/ [L]
