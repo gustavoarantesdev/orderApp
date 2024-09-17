@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Core\View;
+
 class OrderController
 {
     /**
@@ -9,7 +11,7 @@ class OrderController
      */
     public function index()
     {
-        echo '<h1>Todos os pedidos disponiveis</h1>';
+        View::render('index');
     }
 
     /**
@@ -17,8 +19,7 @@ class OrderController
      */
     public function create()
     {
-        echo '<h1>Cadastrar novo pedidos</h1>';
-        //
+        View::render('newOrder');
     }
 
     /**
@@ -35,8 +36,7 @@ class OrderController
      */
     public function show()
     {
-        echo '<h1>Todos os pedidos</h1>';
-        //
+        View::render('allOrders');
     }
 
     /**
