@@ -3,15 +3,20 @@
 namespace App\Controllers;
 
 use App\Core\View;
+use App\Models\OrderModel;
 
-class OrderController
+class OrderController extends View
 {
     /**
      * Página inicial com todos os pedidos.
      */
     public function index()
     {
-        View::render('index');
+        $orderModel = new OrderModel;
+
+        $data = $orderModel->getOrders();
+
+        View::render('index', ['data' => $data]);
     }
 
     /**
