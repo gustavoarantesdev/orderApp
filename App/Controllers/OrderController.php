@@ -30,10 +30,27 @@ class OrderController extends View
     /**
      * Armazena um novo pedido.
      */
-    public function store(string $id)
+    public function store()
     {
-        echo '<h1>Todos os pedidos</h1>';
-        //
+        if (!isset($_POST['order_title'])) {
+            header('Location:' . BASE_URL . '/create' );
+        }
+
+        $data = [
+            'order_title'          => $_POST['order_title'],
+            'client_name'          => $_POST['client_name'],
+            'completion_date'      => $_POST['completion_date'],
+            'completion_time'      => $_POST['completion_time'],
+            'order_price'          => $_POST['order_price'],
+            'payment_method'       => $_POST['payment_method'],
+            'payment_installments' => $_POST['payment_installments'],
+            'order_description'    => $_POST['order_description'],
+        ];
+
+        $orderModel = new OrderModel();
+        $orderModel->createOrder($data);
+
+        header('Location:' . BASE_URL);
     }
 
     /**
