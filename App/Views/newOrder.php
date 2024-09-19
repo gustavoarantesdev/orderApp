@@ -13,7 +13,7 @@
                             </svg>
                         </div>
 
-                        <form id="orderForm" action="index.php?class=OrderForm&method=save" method="POST">
+                        <form id="orderForm" action="<?= BASE_URL . '/store' ?>" method="POST">
                             <div class="mb-4">
                                 <label for="order_title" class="form-label"><strong>ENCOMENDA</strong></label>
                                 <input type="text" name="order_title" class="form-control text-black border border-dark-subtle rounded-4 p-3" placeholder="Festa na Caixa" required></input>
@@ -74,7 +74,8 @@
                                 <textarea type="text" name="order_description" rows="3" class="form-control  border-dark-subtle rounded-4 p-3" placeholder="Levar maquininha."></textarea>
                             </div>
 
-                            <button id="backButton" class="btn bg-body-secondary p-3 lh-1 rounded-5" type="button" style="width: 60px; height: 60px;">
+                            <!-- Botão retornar -->
+                            <button class="btn bg-body-secondary p-3 lh-1 rounded-5" type="button" style="width: 60px; height: 60px;" onclick="window.location='<?= BASE_URL ?>'">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
                                 </svg>
@@ -85,6 +86,7 @@
             </div>
         </div>
 
+        <!-- Botão confirmar -->
         <div class="position-fixed bottom-0 end-0 m-5">
             <button id="submitButton" class="btn bg-success-subtle text-success-emphasis rounded-5 p-3 lh-1 shadow" type="button" style="width: 60px; height: 60px;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
@@ -94,8 +96,6 @@
         </div>
     </article>
 </main>
-
-
 
 <script>
     // Mask for date, time and money
@@ -171,11 +171,6 @@
         $('#submitButton').on('click', function(event) {
             event.preventDefault(); // Prevent default form submission
             validateForm();
-        });
-
-        // Event handler for back button
-        $('#backButton').on('click', function() {
-            window.location = 'index.php';
         });
 
         // Event handler for removing error messages on input or change
