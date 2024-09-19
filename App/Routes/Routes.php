@@ -15,7 +15,7 @@ abstract class Routes
         return [
             '/'            => 'OrderController@index',
             '/create'      => 'OrderController@create',
-            '/store/{id}'  => 'OrderController@store',
+            '/store'       => 'OrderController@store',
             '/show'        => 'OrderController@show',
             '/edit/{id}'   => 'OrderController@edit',
             '/update/{id}' => 'OrderController@update',
