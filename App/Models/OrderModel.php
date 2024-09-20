@@ -24,6 +24,31 @@ class OrderModel extends Model
         return $stmt->fetchAll();
     }
 
+    public function getAllOrders(): array
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM orders ORDER BY completion_date DESC");
+
+        $stmt->execute();
+
+        $stmt = $stmt->fetchAll();
+
+        foreach ($stmt as $data) {
+            $data->order_status = Helpers::orderStatus($data->is_completed, $data->completion_date);
+
+            $data->order_title = Helpers::cutTitle($data->order_title);
+
+            $data->client_name = Helpers::formatClient($data->client_name);
+
+            $data->completion_date = Helpers::dateFormat($data->completion_date, $data->completion_time);
+
+            $data->order_price = Helpers::priceFormat($data->order_price);
+
+            $data->payment_method = Helpers::formatPaymentMethod($data->payment_method);
+        }
+
+        return $stmt;
+    }
+
     public function createOrder(array $data)
     {
         $data['order_price'] = Helpers::orderPriceSaveDb($data['order_price']);
