@@ -21,22 +21,24 @@
                         </thead>
 
                         <tbody>
-                            <tr>
-                                <td>{id}</td>
-                                <td>{title}</td>
-                                <td>{client}</td>
-                                <td>{endDate}</td>
-                                <td>R${price}</td>
-                                <td>{paymentMethod}</td>
-                                <td>{status}</td>
-                                <td>
-                                    <button class="btn bg-primary-subtle p-2 lh-1 rounded-5" type="button" onclick="window.location='index.php?class=OrderFormUpdate&method=update&id={id}'">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
-                                            <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3" />
-                                        </svg>
-                                    </button>
-                                </td>
-                            </tr>
+                            <?php foreach ($data as $order) { ?>
+                                <tr>
+                                    <td><?= $order->order_id ?></td>
+                                    <td><?= $order->order_title ?></td>
+                                    <td><?= $order->client_name ?></td>
+                                    <td><?= $order->completion_date ?></td>
+                                    <td><?= "R$ $order->order_price" ?></td>
+                                    <td><?= $order->payment_method ?></td>
+                                    <td><?= $order->order_status ?></td>
+                                    <td>
+                                        <button class="btn bg-primary-subtle p-2 lh-1 rounded-5" type="button" onclick="window.location='index.php?class=OrderFormUpdate&method=update&id={id}'">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                                <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3" />
+                                            </svg>
+                                        </button>
+                                    </td>
+                                </tr>
+                            <?php } ?>
                         </tbody>
                     </table>
                 </div>
