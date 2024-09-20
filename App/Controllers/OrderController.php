@@ -58,7 +58,10 @@ class OrderController extends View
      */
     public function show()
     {
-        View::render('allOrders');
+        $orderModel = new OrderModel();
+        $data = $orderModel->getAllOrders();
+
+        View::render('allOrders', $data);
     }
 
     /**
