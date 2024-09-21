@@ -13,7 +13,7 @@ abstract class View
      * Renderiza uma view com base no nome do arquivo fornecido.
      * Se dados forem passados, eles serão extraídos e disponibilizado na view.
      */
-    protected static function render(string $viewName, array $data = []): void
+    protected static function render(string $viewName, $data = null): void
     {
         // Caminho base pasta App/.
         $baseDir = dirname(__DIR__, 1);
@@ -28,9 +28,6 @@ abstract class View
 
         // Inclui o header da aplicação.
         require "{$baseDir}/Views/partials/header.php";
-
-        // Extrai os dados passados e os disponibiliza como variáveis na view.
-        extract($data);
 
         // Inclui a view solicitada.
         require $viewFilePath;
