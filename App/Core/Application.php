@@ -112,6 +112,7 @@ class Application
 
         // Redireciona para a nova URI sem a QueryString.
         header('Location:' . BASE_URL . $this->uri);
+        exit;
     }
 
     /**

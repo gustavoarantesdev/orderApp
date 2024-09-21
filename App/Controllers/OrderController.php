@@ -34,6 +34,7 @@ class OrderController extends View
     {
         if (!isset($_POST['order_title'])) {
             header('Location:' . BASE_URL . '/create' );
+            exit;
         }
 
         $data = [
@@ -82,6 +83,7 @@ class OrderController extends View
     {
         if (!isset($_POST['order_title'])) {
             header('Location:' . BASE_URL);
+            exit;
         }
 
         $data = [
