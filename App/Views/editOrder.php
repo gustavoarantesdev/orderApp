@@ -13,42 +13,42 @@
                             </svg>
                         </div>
 
-                        <form id="orderForm" action="index.php?class=OrderFormUpdate&method=save" method="POST">
-                            <input type="hidden" name="order_id" value="{order_id}"></input>
+                        <form id="orderForm" action="<?= BASE_URL . '/update' ?>" method="POST">
+                            <input type="hidden" name="order_id" value="<?= $data->order_id ?>"></input>
 
                             <div class="mb-4">
                                 <label for="order_title" class="form-label"><strong>ENCOMENDA</strong></label>
-                                <input type="text" name="order_title" class="form-control text-black border border-dark-subtle rounded-4 p-3" placeholder="Festa na Caixa" value="{order_title}"></input>
+                                <input type="text" name="order_title" class="form-control text-black border border-dark-subtle rounded-4 p-3" placeholder="Festa na Caixa" value="<?= $data->order_title ?>"></input>
                             </div>
 
                             <div class="mb-4">
                                 <label for="client_name" class="form-label"><strong>CLIENTE</strong></label>
-                                <input type="text" name="client_name" class="form-control text-black border-dark-subtle rounded-4 p-3" placeholder="Lívia Couto" value="{client_name}"></input>
+                                <input type="text" name="client_name" class="form-control text-black border-dark-subtle rounded-4 p-3" placeholder="Lívia Couto" value="<?= $data->client_name ?>"></input>
                             </div>
 
                             <div class="mb-4">
                                 <label for="completion_date" class="form-label"><strong>ENTREGA</strong></label>
-                                <input type="text" name="completion_date" id="completion_date" class="completion_date form-control text-black border-dark-subtle rounded-4 p-3" placeholder="01/06/2024" value="{completion_date}"></input>
+                                <input type="text" name="completion_date" id="completion_date" class="completion_date form-control text-black border-dark-subtle rounded-4 p-3" placeholder="01/06/2024" value="<?= $data->completion_date ?>"></input>
                             </div>
 
                             <div class="mb-4">
                                 <label for="completion_time" class="form-label"><strong>HORARIO</strong></label>
-                                <input type="text" name="completion_time" id="completion_time" class="completion_time form-control text-black border-dark-subtle rounded-4 p-3" placeholder="20:30" value="{completion_time}"></input>
+                                <input type="text" name="completion_time" id="completion_time" class="completion_time form-control text-black border-dark-subtle rounded-4 p-3" placeholder="20:30" value="<?= $data->completion_time ?>{completion_time}"></input>
                             </div>
 
                             <div class="mb-4">
                                 <label for="order_price" class="form-label"><strong>PREÇO</strong></label>
-                                <input type="text" name="order_price" class="order_price form-control text-black border-dark-subtle rounded-4 p-3" placeholder="250,00" value="{order_price}"></input>
+                                <input type="text" name="order_price" class="order_price form-control text-black border-dark-subtle rounded-4 p-3" placeholder="250,00" value="<?= $data->order_price ?>"></input>
                             </div>
 
                             <div class="mb-4">
                                 <label for="payment_method" class="form-label"><strong>PAGAMENTO</strong></label>
                                 <select name="payment_method" id="payment_method" class="form-select border-dark-subtle rounded-4 p-3" required>
                                     <option hidden>Selecione...</option>
-                                    <option value="Cartão de Crédito">Cartão de Crédito</option>
-                                    <option value="Cartão de Débito">Cartão de Débito</option>
-                                    <option value="Dinheiro">Dinheiro</option>
-                                    <option value="Pix">Pix</option>
+                                    <option value="Cartão de Crédito" <?= $data->payment_method == 'Cartão de Crédito' ? 'selected' : '' ?>>Cartão de Crédito</option>
+                                    <option value="Cartão de Débito" <?= $data->payment_method == 'Cartão de Débito' ? 'selected' : '' ?>>Cartão de Débito</option>
+                                    <option value="Dinheiro" <?= $data->payment_method == 'Dinheiro' ? 'selected' : '' ?>>Dinheiro</option>
+                                    <option value="Pix" <?= $data->payment_method == 'Pix' ? 'selected' : '' ?>>Pix</option>
                                 </select>
                             </div>
 
@@ -56,24 +56,24 @@
                                 <label for="payment_installments" class="form-label"><strong>PARCELAS</strong></label>
                                 <select name="payment_installments" id="payment_installments" class="form-select border-dark-subtle rounded-4 p-3" required>
                                     <option hidden>Selecione...</option>
-                                    <option value="1">1x</option>
-                                    <option value="2">2x</option>
-                                    <option value="3">3x</option>
-                                    <option value="4">4x</option>
-                                    <option value="5">5x</option>
-                                    <option value="6">6x</option>
-                                    <option value="7">7x</option>
-                                    <option value="8">8x</option>
-                                    <option value="9">9x</option>
-                                    <option value="10">10x</option>
-                                    <option value="11">11x</option>
-                                    <option value="12">12x</option>
+                                        <option value="1" <?= $data->payment_installments == 1 ? 'selected' : '' ?>>1x</option>
+                                        <option value="2" <?= $data->payment_installments == 2 ? 'selected' : '' ?>>2x</option>
+                                        <option value="3" <?= $data->payment_installments == 3 ? 'selected' : '' ?>>3x</option>
+                                        <option value="4" <?= $data->payment_installments == 4 ? 'selected' : '' ?>>4x</option>
+                                        <option value="5" <?= $data->payment_installments == 5 ? 'selected' : '' ?>>5x</option>
+                                        <option value="6" <?= $data->payment_installments == 6 ? 'selected' : '' ?>>6x</option>
+                                        <option value="7" <?= $data->payment_installments == 7 ? 'selected' : '' ?>>7x</option>
+                                        <option value="8" <?= $data->payment_installments == 8 ? 'selected' : '' ?>>8x</option>
+                                        <option value="9" <?= $data->payment_installments == 9 ? 'selected' : '' ?>>9x</option>
+                                        <option value="10" <?= $data->payment_installments == 10 ? 'selected' : '' ?>>10x</option>
+                                        <option value="11" <?= $data->payment_installments == 11 ? 'selected' : '' ?>>11x</option>
+                                        <option value="12" <?= $data->payment_installments == 12 ? 'selected' : '' ?>>12x</option>
                                 </select>
                             </div>
 
                             <div class="mb-4">
                                 <label for="order_description" class="form-label"><strong>OBSERVAÇÃO</strong></label>
-                                <textarea type="text" name="order_description" rows="3" class="form-control  border-dark-subtle rounded-4 p-3" placeholder="Levar maquininha.">{order_description}</textarea>
+                                <textarea type="text" name="order_description" rows="3" class="form-control  border-dark-subtle rounded-4 p-3" placeholder="Levar maquininha."><?= $data->order_description ?></textarea>
                             </div>
 
                             <div class="mb-4">
@@ -83,17 +83,18 @@
                                     <span class="m-3">Finalizada?</span>
 
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="is_completed" value="t">
+                                        <input class="form-check-input" type="radio" name="is_completed" value="t" <?= $data->is_completed == true ? 'checked' : '' ?>>
                                         <label class="form-check-label" for="is_completed">Sim</label>
                                     </div>
 
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="is_completed" value="f">
+                                        <input class="form-check-input" type="radio" name="is_completed" value="f" <?= $data->is_completed == false ? 'checked' : '' ?>>
                                         <label class="form-check-label" for="is_completed">Não</label>
                                     </div>
                                 </div>
                             </div>
 
+                            <!-- Botão deletar encomenda -->
                             <button id="deleteButton" class="btn bg-danger-subtle text-danger-emphasis p-3 lh-1 rounded-5" type="button" style="width: 60px; height: 60px;">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                     <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
@@ -101,7 +102,9 @@
                                 </svg>
                             </button>
                             <span class="mx-2"></span>
-                            <button id="backButton" class="btn bg-body-secondary p-3 lh-1 rounded-5" type="button" style="width: 60px; height: 60px;">
+
+                            <!-- Botão retornar -->
+                            <button class="btn bg-body-secondary p-3 lh-1 rounded-5" type="button" style="width: 60px; height: 60px;" onclick="window.location='<?= BASE_URL ?>'">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
                                 </svg>
@@ -110,11 +113,12 @@
                     </div>
                 </div>
                 <div class="text-center text-secondary pt-3">
-                    <p>Código {order_id} - Cadastrada em {created_at}</p>
+                    <p><?= "Código $data->order_id - Cadastrada em: $data->created_at"?></p>
                 </div>
             </div>
         </div>
 
+        <!-- Botão enviar -->
         <div class="position-fixed bottom-0 end-0 m-5">
             <button id="submitButton" class="btn text-warning-emphasis bg-warning-subtle rounded-5 p-3 lh-1 shadow" type="button" style="width: 60px; height: 60px;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
@@ -207,11 +211,6 @@
         $('#submitButton').on('click', function(event) {
             event.preventDefault(); // Prevent default form submission
             validateForm();
-        });
-
-        // Event handler for back button
-        $('#backButton').on('click', function() {
-            window.location = 'index.php';
         });
 
         // Event handler for delete button
