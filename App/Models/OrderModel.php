@@ -136,4 +136,18 @@ class OrderModel extends Model
 
         return $data;
     }
+
+    public function deleteOrder(int $orderId)
+    {
+        $stmt = $this->pdo->prepare("DELETE FROM orders WHERE order_id = :order_id");
+
+        $data = $stmt->execute([':order_id' => $orderId]);
+
+        if (is_null($data)) {
+            header('Location:' . BASE_URL);
+            exit;
+        }
+
+        return header('Location:' . BASE_URL);
+    }
 }
