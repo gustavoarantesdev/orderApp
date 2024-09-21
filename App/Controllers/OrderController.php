@@ -16,7 +16,7 @@ class OrderController extends View
 
         $data = $orderModel->getOrders();
 
-        View::render('index', ['data' => $data]);
+        View::render('index', $data);
     }
 
     /**
@@ -69,17 +69,39 @@ class OrderController extends View
      */
     public function edit(string $id)
     {
-        echo "<h1>Editar um pedidos {$id}</h1>";
-        //
+        $orderModel = new OrderModel();
+        $data = $orderModel->fetchOrder($id);
+
+        View::render('editOrder', $data);
     }
 
     /**
      * Atualiza um pedido no banco de dados.
      */
-    public function update(string $id)
+    public function update()
     {
-        echo '<h1>Todos os pedidos</h1>';
-        //
+        if (!isset($_POST['order_title'])) {
+            header('Location:' . BASE_URL);
+        }
+
+        $data = [
+            'order_id'             => $_POST['order_id'],
+            'order_title'          => $_POST['order_title'],
+            'client_name'          => $_POST['client_name'],
+            'completion_date'      => $_POST['completion_date'],
+            'completion_time'      => $_POST['completion_time'],
+            'order_price'          => $_POST['order_price'],
+            'payment_method'       => $_POST['payment_method'],
+            'payment_installments' => $_POST['payment_installments'],
+            'order_description'    => $_POST['order_description'],
+            'is_completed'         => $_POST['is_completed']
+        ];
+
+        $orderModel = new OrderModel();
+        $orderModel->updateOrder($data);
+
+        header('Location:' . BASE_URL . '/edit/' . $_POST['order_id']);
+        exit;
     }
 
     /**
