@@ -18,7 +18,7 @@ abstract class Routes
             '/store'       => 'OrderController@store',
             '/show'        => 'OrderController@show',
             '/edit/{id}'   => 'OrderController@edit',
-            '/update/{id}' => 'OrderController@update',
+            '/update' => 'OrderController@update',
             '/delete/{id}' => 'OrderController@delete',
         ];
     }
