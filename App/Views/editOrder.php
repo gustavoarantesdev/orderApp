@@ -33,7 +33,7 @@
 
                             <div class="mb-4">
                                 <label for="completion_time" class="form-label"><strong>HORARIO</strong></label>
-                                <input type="text" name="completion_time" id="completion_time" class="completion_time form-control text-black border-dark-subtle rounded-4 p-3" placeholder="20:30" value="<?= $data->completion_time ?>{completion_time}"></input>
+                                <input type="text" name="completion_time" id="completion_time" class="completion_time form-control text-black border-dark-subtle rounded-4 p-3" placeholder="20:30" value="<?= $data->completion_time ?>"></input>
                             </div>
 
                             <div class="mb-4">
@@ -95,12 +95,13 @@
                             </div>
 
                             <!-- Botão deletar encomenda -->
-                            <button id="deleteButton" class="btn bg-danger-subtle text-danger-emphasis p-3 lh-1 rounded-5" type="button" style="width: 60px; height: 60px;">
+                            <button class="btn bg-danger-subtle text-danger-emphasis p-3 lh-1 rounded-5" type="button" style="width: 60px; height: 60px;" onclick="window.location='<?= BASE_URL . '/delete/' . $data->order_id?>'">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                     <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
                                     <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
                                 </svg>
                             </button>
+
                             <span class="mx-2"></span>
 
                             <!-- Botão retornar -->
@@ -216,7 +217,7 @@
         // Event handler for delete button
         $('#deleteButton').on('click', function() {
             if (confirm("Tem certeza de que deseja deletar?")) {
-                window.location.href = "index.php?class=OrderFormUpdate&method=delete&id={order_id}";
+                window.location.href = "<?= BASE_URL . '/delete' . $order_id ?>";
             }
         });
 
