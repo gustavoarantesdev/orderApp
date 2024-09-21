@@ -39,7 +39,7 @@
                                     <p class="card-text"><strong><?= $order->payment_method ?></strong></p>
                                     <hr>
 
-                                    <p class="card-text text-secondary"><small>{daysCount}</small></p>
+                                    <p class="card-text text-secondary"><small><?= $order->days_count ?></small></p>
 
                                     <!-- Botão editar encomenda -->
                                     <button class="btn bg-body-secondary p-3 lh-1 rounded-5" type="button" onclick="window.location='<?= BASE_URL ?>/edit/<?= $order->order_id ?>'">
