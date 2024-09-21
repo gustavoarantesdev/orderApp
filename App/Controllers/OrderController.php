@@ -111,7 +111,10 @@ class OrderController extends View
      */
     public function delete(string $id)
     {
-        echo '<h1>Deleta um pedidos</h1>';
-        //
+        echo "Delete id $id";
+        $orderModel = new OrderModel();
+        $data = $orderModel->deleteOrder($id);
+
+        
     }
 }
