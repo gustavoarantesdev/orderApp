@@ -21,7 +21,19 @@ class OrderModel extends Model
 
         $stmt->execute();
 
-        return $stmt->fetchAll();
+        $stmt = $stmt->fetchAll();
+
+        foreach ($stmt as $data) {
+            $data->order_status = Helpers::orderStatus($data->is_completed, $data->completion_date);
+            $data->order_title = Helpers::cutTitle($data->order_title);
+            $data->client_name = Helpers::formatClient($data->client_name);
+            $data->days_count = Helpers::daysCount($data->completion_date);
+            $data->completion_date = Helpers::dateFormat($data->completion_date, $data->completion_time);
+            $data->order_price = Helpers::priceFormat($data->order_price);
+            $data->payment_method = Helpers::formatPaymentMethod($data->payment_method);
+        }
+
+        return $stmt;
     }
 
     public function getAllOrders(): array
@@ -44,7 +56,7 @@ class OrderModel extends Model
         return $stmt;
     }
 
-    public function createOrder(array $data)
+    public function createOrder(array $data): void
     {
         $data['order_price'] = Helpers::orderPriceSaveDb($data['order_price']);
         $data['payment_installments'] = Helpers::paymentInstallmentsSaveDb($data['payment_method'], $data['payment_installments']);
