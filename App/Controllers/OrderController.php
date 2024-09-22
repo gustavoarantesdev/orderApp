@@ -112,6 +112,13 @@ class OrderController extends View
     public function delete(int $id): void
     {
         $orderModel = new OrderModel();
-        $orderModel->deleteOrder($id);
+        $data = $orderModel->deleteOrder($id);
+
+        if (is_null($data)) {
+            header('Location:' . BASE_URL);
+            exit;
+        }
+
+        header('Location:' . BASE_URL);
     }
 }
