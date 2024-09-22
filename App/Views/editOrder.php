@@ -214,13 +214,6 @@
             validateForm();
         });
 
-        // Event handler for delete button
-        $('#deleteButton').on('click', function() {
-            if (confirm("Tem certeza de que deseja deletar?")) {
-                window.location.href = "<?= BASE_URL . '/delete' . $order_id ?>";
-            }
-        });
-
         // Event handler for removing error messages on input or change
         $('#orderForm input, #orderForm select').on('input change', function() {
             $(this).next('.error-message').remove();
