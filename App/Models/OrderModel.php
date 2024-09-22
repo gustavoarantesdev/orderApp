@@ -9,66 +9,46 @@ class OrderModel extends Model
 {
     private $pdo;
 
-    public function __construct() 
+    public function __construct()
     {
-        $conn = $this->getConnection();
-        $this->pdo = $conn;
+        $this->pdo = $this->getConnection();
     }
 
     public function getOrders(): array
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM orders WHERE is_completed = false ORDER BY completion_date");
-
-        $stmt->execute();
-
-        $stmt = $stmt->fetchAll();
-
-        foreach ($stmt as $data) {
-            $data->order_status = Helpers::orderStatus($data->is_completed, $data->completion_date);
-            $data->order_title = Helpers::cutTitle($data->order_title);
-            $data->client_name = Helpers::formatClient($data->client_name);
-            $data->days_count = Helpers::daysCount($data->completion_date);
-            $data->completion_date = Helpers::dateFormat($data->completion_date, $data->completion_time);
-            $data->order_price = Helpers::priceFormat($data->order_price);
-            $data->payment_method = Helpers::formatPaymentMethod($data->payment_method);
-        }
-
-        return $stmt;
+        $query = ("SELECT * FROM orders WHERE is_completed = false ORDER BY completion_date");
+        return $this->fetchOrders($query);
     }
 
     public function getAllOrders(): array
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM orders ORDER BY completion_date DESC");
-
-        $stmt->execute();
-
-        $stmt = $stmt->fetchAll();
-
-        foreach ($stmt as $data) {
-            $data->order_status = Helpers::orderStatus($data->is_completed, $data->completion_date);
-            $data->order_title = Helpers::cutTitle($data->order_title);
-            $data->client_name = Helpers::formatClient($data->client_name);
-            $data->completion_date = Helpers::dateFormat($data->completion_date, $data->completion_time);
-            $data->order_price = Helpers::priceFormat($data->order_price);
-            $data->payment_method = Helpers::formatPaymentMethod($data->payment_method);
-        }
-
-        return $stmt;
+        $query = ("SELECT * FROM orders ORDER BY completion_date DESC");
+        return $this->fetchOrders($query);
     }
 
     public function createOrder(array $data): void
     {
-        $data['order_price'] = Helpers::orderPriceSaveDb($data['order_price']);
-        $data['payment_installments'] = Helpers::paymentInstallmentsSaveDb($data['payment_method'], $data['payment_installments']);
-        $data['completion_date'] = Helpers::dateSaveDb($data['completion_date']);
+        $data = $this->prepareDataToSaveDb($data);
 
         $stmt = $this->pdo->prepare(
             "INSERT INTO orders (
-            order_title, client_name, completion_date, completion_time, 
-            order_price, payment_method, payment_installments, order_description
+                order_title,
+                client_name,
+                completion_date,
+                completion_time,
+                order_price,
+                payment_method,
+                payment_installments,
+                order_description
             ) VALUES (
-            :order_title, :client_name, :completion_date, :completion_time, 
-            :order_price, :payment_method, :payment_installments, :order_description
+                :order_title,
+                :client_name,
+                :completion_date,
+                :completion_time,
+                :order_price,
+                :payment_method,
+                :payment_installments,
+                :order_description
         )");
 
         $stmt->execute([
@@ -81,13 +61,11 @@ class OrderModel extends Model
             ':payment_installments' => $data['payment_installments'],
             ':order_description'    => $data['order_description'],
         ]);
-    } 
+    }
 
-    public function updateOrder($data): void
+    public function updateOrder(array $data): void
     {
-        $data['order_price'] = Helpers::orderPriceSaveDb($data['order_price']);
-        $data['payment_installments'] = Helpers::paymentInstallmentsSaveDb($data['payment_method'], $data['payment_installments']);
-        $data['completion_date'] = Helpers::dateSaveDb($data['completion_date']);
+        $data = $this->prepareDataToSaveDb($data);
 
         $stmt = $this->pdo->prepare(
             "UPDATE orders SET
@@ -141,5 +119,41 @@ class OrderModel extends Model
         $stmt = $this->pdo->prepare("DELETE FROM orders WHERE order_id = :order_id");
 
         return $stmt->execute([':order_id' => $orderId]);
+    }
+
+    private function fetchOrders(string $query, array $params = []): array
+    {
+        $stmt = $this->pdo->prepare($query);
+
+        $stmt->execute($params);
+        $orders = $stmt->fetchAll();
+
+        foreach ($orders as $order) {
+            $order = $this->formatOrderDataToPrint($order);
+        }
+
+        return $orders;
+    }
+
+    private function prepareDataToSaveDb(array $data): array
+    {
+        $data['order_price']          = Helpers::orderPriceSaveDb($data['order_price']);
+        $data['payment_installments'] = Helpers::paymentInstallmentsSaveDb($data['payment_method'], $data['payment_installments']);
+        $data['completion_date']      = Helpers::dateSaveDb($data['completion_date']);
+
+        return $data;
+    }
+
+    private function formatOrderDataToPrint(object $data): object
+    {
+        $data->order_status    = Helpers::orderStatus($data->is_completed, $data->completion_date);
+        $data->order_title     = Helpers::cutTitle($data->order_title);
+        $data->client_name     = Helpers::formatClient($data->client_name);
+        $data->days_count      = Helpers::daysCount($data->completion_date);
+        $data->completion_date = Helpers::dateFormat($data->completion_date, $data->completion_time);
+        $data->order_price     = Helpers::priceFormat($data->order_price);
+        $data->payment_method  = Helpers::formatPaymentMethod($data->payment_method);
+
+        return $data;
     }
 }
