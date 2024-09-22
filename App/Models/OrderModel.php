@@ -88,7 +88,6 @@ class OrderModel extends Model
         $data['order_price'] = Helpers::orderPriceSaveDb($data['order_price']);
         $data['payment_installments'] = Helpers::paymentInstallmentsSaveDb($data['payment_method'], $data['payment_installments']);
         $data['completion_date'] = Helpers::dateSaveDb($data['completion_date']);
-        $data['is_completed'] = Helpers::checkRadioButton($data['is_completed']);
 
         $stmt = $this->pdo->prepare(
             "UPDATE orders SET
