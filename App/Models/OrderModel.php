@@ -139,7 +139,7 @@ class OrderModel extends Model
      * @param integer $orderId ID da encomenda a ser buscada.
      * @return object|null Objeto representando a encomenda ou null se não encontrar.
      */
-    public function fetchOrder(int $orderId): ?object
+    public function fetchOrderById(int $orderId): ?object
     {
         $stmt = $this->pdo->prepare("SELECT * FROM orders WHERE order_id = :order_id");
         $stmt->execute([':order_id' => $orderId]);

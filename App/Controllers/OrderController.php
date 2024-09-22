@@ -71,7 +71,7 @@ class OrderController extends View
     public function edit(int $id): void
     {
         $orderModel = new OrderModel();
-        $data = $orderModel->fetchOrder($id);
+        $data = $orderModel->fetchOrderById($id);
 
         View::render('order/edit', $data);
     }
