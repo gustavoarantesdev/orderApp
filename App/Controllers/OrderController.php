@@ -10,13 +10,13 @@ class OrderController extends View
     /**
      * Página inicial com todos os pedidos.
      */
-    public function index()
+    public function index(): void
     {
         $orderModel = new OrderModel;
 
         $data = $orderModel->getOrders();
 
-        View::render('index', $data);
+        View::render('order/index', $data);
     }
 
     /**
@@ -24,13 +24,13 @@ class OrderController extends View
      */
     public function create()
     {
-        View::render('newOrder');
+        View::render('order/create');
     }
 
     /**
      * Armazena um novo pedido.
      */
-    public function store()
+    public function store(): void
     {
         if (!isset($_POST['order_title'])) {
             header('Location:' . BASE_URL . '/create' );
@@ -57,29 +57,29 @@ class OrderController extends View
     /**
      * Exibe todos os pedidos.
      */
-    public function show()
+    public function show(): void
     {
         $orderModel = new OrderModel();
         $data = $orderModel->getAllOrders();
 
-        View::render('allOrders', $data);
+        View::render('order/show', $data);
     }
 
     /**
      * Exibe um formulário para edição de um pedido.
      */
-    public function edit(string $id)
+    public function edit(int $id): void
     {
         $orderModel = new OrderModel();
         $data = $orderModel->fetchOrder($id);
 
-        View::render('editOrder', $data);
+        View::render('order/edit', $data);
     }
 
     /**
      * Atualiza um pedido no banco de dados.
      */
-    public function update()
+    public function update(): void
     {
         if (!isset($_POST['order_title'])) {
             header('Location:' . BASE_URL);
@@ -109,12 +109,9 @@ class OrderController extends View
     /**
      * Delete um pedido no banco de dados.
      */
-    public function delete(string $id)
+    public function delete(int $id): void
     {
-        echo "Delete id $id";
         $orderModel = new OrderModel();
-        $data = $orderModel->deleteOrder($id);
-
-        
+        $orderModel->deleteOrder($id);
     }
 }
