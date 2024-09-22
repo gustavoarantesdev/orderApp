@@ -199,15 +199,4 @@ abstract class Helpers
 
         return (int) $paymentInstallments;
     }
-
-    // Corrigi o padrão para salvar no banco de dados.
-    public static function checkRadioButton(string $isChecked): int 
-    {
-        if ($isChecked  == 't') {
-            return $isChecked = 1;
-        } else {
-
-        }
-        return $isChecked = 0;
-    }
 }
