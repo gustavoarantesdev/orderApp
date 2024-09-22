@@ -42,7 +42,7 @@
                                     <p class="card-text text-secondary"><small><?= $order->days_count ?></small></p>
 
                                     <!-- Botão editar encomenda -->
-                                    <button class="btn bg-body-secondary p-3 lh-1 rounded-5" type="button" onclick="window.location='<?= BASE_URL ?>/edit/<?= $order->order_id ?>'">
+                                    <button class="btn bg-body-secondary p-3 lh-1 rounded-5" type="button" onclick="window.location='<?= BASE_URL . '/edit/' . $order->order_id?>'">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
                                             <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3" />
                                         </svg>
