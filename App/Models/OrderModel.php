@@ -8,7 +8,13 @@ use PDO;
 
 /**
  * Classe OrderModel
- * Para gerenciar operações relacionadas a encomendas no banco de dados.
+ *
+ * Modelo responsável por gerenciar operações relacionadas às encomendas no banco de dados.
+ *
+ * Este modelo encapsula a lógica de acesso a dados para as encomendas,
+ * incluindo a criação, leitura, atualização e exclusão (CRUD) de registros.
+ * Também fornece métodos para filtrar e formatar os dados das encomendas
+ * antes de apresentá-los na aplicação.
  */
 class OrderModel extends Model
 {
