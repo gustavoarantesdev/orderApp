@@ -2,8 +2,8 @@
 
 namespace App\Controllers;
 
-use App\Core\View;
 use App\Models\OrderModel;
+use App\Core\View;
 
 class OrderController extends View
 {
@@ -22,7 +22,7 @@ class OrderController extends View
     /**
      * Exibe o formulário para cadastro de novo pedido.
      */
-    public function create()
+    public function create(): void
     {
         View::render('order/create');
     }
@@ -32,21 +32,12 @@ class OrderController extends View
      */
     public function store(): void
     {
-        if (!isset($_POST['order_title'])) {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['order_title'])) {
             header('Location:' . BASE_URL . '/create' );
             exit;
         }
 
-        $data = [
-            'order_title'          => $_POST['order_title'],
-            'client_name'          => $_POST['client_name'],
-            'completion_date'      => $_POST['completion_date'],
-            'completion_time'      => $_POST['completion_time'],
-            'order_price'          => $_POST['order_price'],
-            'payment_method'       => $_POST['payment_method'],
-            'payment_installments' => $_POST['payment_installments'],
-            'order_description'    => $_POST['order_description'],
-        ];
+        $data = $this->extractOrderData($_POST);
 
         $orderModel = new OrderModel();
         $orderModel->createOrder($data);
@@ -81,23 +72,12 @@ class OrderController extends View
      */
     public function update(): void
     {
-        if (!isset($_POST['order_title'])) {
-            header('Location:' . BASE_URL);
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['order_title'])) {
+            header('Location: ' . BASE_URL);
             exit;
         }
 
-        $data = [
-            'order_id'             => $_POST['order_id'],
-            'order_title'          => $_POST['order_title'],
-            'client_name'          => $_POST['client_name'],
-            'completion_date'      => $_POST['completion_date'],
-            'completion_time'      => $_POST['completion_time'],
-            'order_price'          => $_POST['order_price'],
-            'payment_method'       => $_POST['payment_method'],
-            'payment_installments' => $_POST['payment_installments'],
-            'order_description'    => $_POST['order_description'],
-            'is_completed'         => $_POST['is_completed']
-        ];
+        $data = $this->extractOrderData($_POST);
 
         $orderModel = new OrderModel();
         $orderModel->updateOrder($data);
@@ -120,5 +100,21 @@ class OrderController extends View
         }
 
         header('Location:' . BASE_URL);
+    }
+
+    private function extractOrderData(array $postData): array
+    {
+        return [
+            'order_id'             => $postData['order_id'] ?? null,
+            'order_title'          => $postData['order_title'],
+            'client_name'          => $postData['client_name'],
+            'completion_date'      => $postData['completion_date'],
+            'completion_time'      => $postData['completion_time'],
+            'order_price'          => $postData['order_price'],
+            'payment_method'       => $postData['payment_method'],
+            'payment_installments' => $postData['payment_installments'],
+            'order_description'    => $postData['order_description'],
+            'is_completed'         => $postData['is_completed'] ?? false,
+        ];
     }
 }
