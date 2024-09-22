@@ -64,6 +64,11 @@ class OrderController extends View
         $orderModel = new OrderModel();
         $data = $orderModel->fetchOrderById($id);
 
+        if ($data == null) {
+            header('Location:' . BASE_URL);
+            exit;
+        }
+
         View::render('order/edit', $data);
     }
 

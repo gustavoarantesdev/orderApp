@@ -145,10 +145,9 @@ class OrderModel extends Model
         $stmt->execute([':order_id' => $orderId]);
         $data = $stmt->fetch() ?: null;
 
-        // Redireciona se a encomenda não for encontrada. 
+        // Se a encomenda não for encontrada retorna null.
         if (is_null($data)) {
-            header('Location:' . BASE_URL);
-            exit;
+            return $data;
         }
 
         // Formata os dados para impressão.
