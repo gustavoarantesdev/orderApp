@@ -2,7 +2,7 @@
     <article>
         <div class="container mt-3 mb-3">
             <div class="p-3">
-                <h4 class="card-title mb-4 text-center">Todas Encomendas</h4>
+                <h4 class="mb-4 text-center">Todas Encomendas</h4>
             </div>
             <div class="card p-3 rounded-5 shadow">
                 <div class="card-body table-responsive">
