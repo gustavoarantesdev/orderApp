@@ -4,8 +4,7 @@ namespace App\Core;
 
 use App\Routes\Routes;
 use App\Core\Uri;
-use App\Exceptions\MethodNotAllowedException;
-use App\Exceptions\NotFoundException;
+use App\Exceptions\ApplicationException;
 
 /**
  * Classe Router que gerencia o sistema de rotas da aplicação.
@@ -27,7 +26,17 @@ class Application
         $this->uri = Uri::getUri();
 
         // Executa o sistema de roteamento com as rotas e URI carregadas.
-        $this->run();
+        $this->handleException();
+    }
+
+    private function handleException()
+    {
+        try {
+            $this->run();
+        } catch (ApplicationException $e) {
+            http_response_code($e->getCode());
+            require __DIR__ . '/../Views/errors/404.php';
+        }
     }
 
     /**
@@ -58,7 +67,7 @@ class Application
 
                 // Verifica se o controlador existe, caso contrário lança uma exceção.
                 if (!class_exists($controllerNamespace)) {
-                    // throw new NotFoundException('<center><h1>404 - Controller not found!</h1></center>');
+                    throw ApplicationException::controllerNotFound($controllerName);
                 }
 
                 // Instancia o controlador.
@@ -66,7 +75,7 @@ class Application
 
                 // Verifica se o método do controlador existe, caso contrário lança uma exceção.
                 if (!method_exists($controllerInstance, $methodName)) {
-                    // throw new MethodNotAllowedException('<center><h1>405 - Method not found!</h1></center>');
+                    throw ApplicationException::methodNotFound($methodName, $controllerName);
                 }
 
                 // Verifica se há parâmetros capturados na rota.
@@ -88,7 +97,7 @@ class Application
         }
 
         // Se nenhuma rota corresponder, lança uma exceção de rota não encontrada.
-        // throw new NotFoundException('<center><h1>404 - Route not found!</h1></center>');
+        throw ApplicationException::routeNotFound($this->uri);
     }
 
     /**
@@ -101,7 +110,7 @@ class Application
 
         // Verifica se o parâmetro 'id' está presente na QueryString
         if (!isset($_GET['id'])) {
-            // throw new NotFoundException('<center><h1>404 - Route parameter not found!</h1></center>');
+            throw ApplicationException::queryStringId();
         }
 
         // Armazena o valor do parâmetro 'id'.
