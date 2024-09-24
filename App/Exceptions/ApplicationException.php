@@ -5,9 +5,7 @@ namespace App\Exceptions;
 use Exception;
 
 /**
- * Classe ApplicationException
- *
- * Responsável por gerenciar as exeções da classe Application.
+ * Classe Responsável por gerenciar as exeções da classe Application.
  */
 class ApplicationException extends Exception
 {

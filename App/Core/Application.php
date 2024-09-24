@@ -7,7 +7,7 @@ use App\Core\Uri;
 use App\Exceptions\ApplicationException;
 
 /**
- * Classe Router que gerencia o sistema de rotas da aplicação.
+ * Classe responsável por gerenciar o sistema de rotas da aplicação.
  */
 class Application
 {
