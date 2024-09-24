@@ -25,13 +25,19 @@ class Application
         // Obtém e armazena as rotas definidas.
         $this->uri = Uri::getUri();
 
-        // Executa o sistema de roteamento com as rotas e URI carregadas.
+        // Inicia o tratamento de exceções.
         $this->handleException();
     }
 
-    private function handleException()
+    /**
+     * Exeucuta a aplicação e trata exceções durante a execução.
+     *
+     * @return void
+     */
+    private function handleException(): void
     {
         try {
+            // Inicia o sistema de rotas.
             $this->run();
         } catch (ApplicationException $e) {
             http_response_code($e->getCode());
