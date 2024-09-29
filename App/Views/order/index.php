@@ -1,8 +1,15 @@
 <!-- Pagina inicial com todos os pedios disponiveis -->
+<?php
+
+use App\Helpers\FlashMessage;
+
+FlashMessage::render()
+
+?>
 <main>
     <article>
         <div class="container mt-3 mb-3">
-            <div class="p-3">
+            <div class="">
                 <h4 class="mb-4 text-center">Suas Encomendas</h4>
                 <div class="row row-cols-1 row-cols-md-3 g-3">
 

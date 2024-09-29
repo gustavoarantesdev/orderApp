@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\OrderModel;
 use App\Core\View;
+use App\Helpers\FlashMessage;
 
 /**
  * Class OrderController
@@ -69,7 +70,8 @@ class OrderController extends View
         // Registra uma nova encomenda.
         $orderModel->createOrder($data);
 
-        // Redireciona para a página inicial.
+        // Define a flash message e redireciona para a página inicial.
+        FlashMessage::set(FLASH_SUCCESS, 'Encomenda <b>cadastrada</b> com sucesso!');
         header('Location:' . BASE_URL);
     }
 
@@ -102,8 +104,9 @@ class OrderController extends View
         // Armazena os dados do retorno da model.
         $data = $orderModel->fetchOrderById($id);
 
-        // Se a encomenda não for encontrada, redireciona.
-        if ($data == null) {
+        // Se a encomenda não for encontrada, define a flash message e redireciona para a página inicial.
+        if (is_null($data)) {
+            FlashMessage::set(FLASH_ERROR, 'Encomenda não foi <b>econtrada</b>!');
             header('Location:' . BASE_URL);
             exit;
         }
@@ -136,14 +139,11 @@ class OrderController extends View
         // Armazena os dados do retorno da model.
         $orderModel->updateOrder($data);
 
-        // Redireciona para a página de edição.
+        // Define a flash message e redireciona para a página inicial.
+        FlashMessage::set(FLASH_INFO, 'Encomenda <b>editada</b> com sucesso!');
         header('Location:' . BASE_URL . '/edit/' . $_POST['order_id']);
         exit;
     }
-
-    /**
-     * Delete um pedido no banco de dados.
-     */
 
     /**
      * Remove uma encomenda do banco de dados.
@@ -161,13 +161,15 @@ class OrderController extends View
         // Deleta uma encomenda no banco de dados.
         $data = $orderModel->deleteOrder($id);
 
-        // Se a encomenda não for encontrada, redireciona.
-        if (is_null($data)) {
+        // Se a encomenda não for encontrada, define a flash message e redireciona para a página inicial.
+        if ($data != true) {
+            FlashMessage::set(FLASH_ERROR, 'Encomenda não foi <b>econtrada</b>!');
             header('Location:' . BASE_URL);
             exit;
         }
 
-        // Redireciona para a página inicial.
+        // Define a flash message e redireciona para a página inicial.
+        FlashMessage::set(FLASH_WARNING, 'Encomenda <b>excluída</b> com sucesso!');
         header('Location:' . BASE_URL);
     }
 

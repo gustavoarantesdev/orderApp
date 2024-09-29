@@ -1,3 +1,10 @@
+<?php
+
+use App\Helpers\FlashMessage;
+
+FlashMessage::render()
+
+?>
 <main>
     <article>
         <div class="container mt-3 mb-3">

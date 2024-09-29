@@ -172,8 +172,9 @@ class OrderModel extends Model
     public function deleteOrder(int $orderId): bool
     {
         $stmt = $this->pdo->prepare("DELETE FROM orders WHERE order_id = :order_id");
+        $stmt->execute([':order_id' => $orderId]);
 
-        return $stmt->execute([':order_id' => $orderId]);
+        return $stmt->rowCount() > 0;
     }
 
     /**

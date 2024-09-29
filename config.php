@@ -1,9 +1,16 @@
 <?php
 
-define('BASE_URL', '/orderApp');
+// URL base do projeto.
+const BASE_URL = '/orderApp';
 
 // Credenciais do banco de dados
-define('DB_HOST', '127.0.0.1');
-define('DB_NAME', 'candydb');
-define('DB_USER', 'gustavoarantes');
-define('DB_PASS', '');
+const DB_HOST =  '127.0.0.1';
+const DB_NAME = 'candydb';
+const DB_USER = 'gustavoarantes';
+const DB_PASS = '';
+
+// Tipos das flash messages.
+const FLASH_ERROR = 'error';
+const FLASH_WARNING = 'warning';
+const FLASH_INFO = 'info';
+const FLASH_SUCCESS = 'success';
