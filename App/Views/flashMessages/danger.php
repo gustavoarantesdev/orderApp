@@ -10,7 +10,7 @@
             <!-- Texto -->
             <div class="flex-column">
                 <h3 class="mb-0 text-danger"><b>Alerta!</b></h3>
-                <p class="mb-0 text-danger-emphasis">Encomenda não foi <b>econtrada</b>!</p>
+                <p class="mb-0 text-danger-emphasis"><?= $message ?></p>
             </div>
 
             <!-- Botão fechar -->

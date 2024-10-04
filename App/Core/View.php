@@ -16,7 +16,7 @@ abstract class View
      * @param [type] $data Dados para a view.
      * @return void
      */
-    protected static function render(string $viewName, $data = null): void
+    public static function render(string $viewName, $data = null): void
     {
         // Caminho base pasta App/.
         $baseDir = dirname(__DIR__, 1);

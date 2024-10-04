@@ -2,9 +2,11 @@
 
 namespace App\Controllers;
 
-use App\Models\OrderModel;
 use App\Core\View;
+use App\Models\OrderModel;
 use App\Helpers\FlashMessage;
+use App\Services\Authenticator;
+use App\Helpers\RedirectWithMessage;
 
 /**
  * Class OrderController
@@ -18,6 +20,16 @@ use App\Helpers\FlashMessage;
  */
 class OrderController extends View
 {
+    /**
+     * Verifica se o usuário está logado.
+     */
+    public function __construct()
+    {
+        if (!Authenticator::isAuthenticated()) {
+            RedirectWithMessage::redirect(BASE_URL, FLASH_ERROR, 'Faça login para acessar.');
+        }
+    }
+
     /**
      * Exibe a lista de todas as encomendas disponíveis na página inicial.
      *
