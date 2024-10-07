@@ -1,5 +1,5 @@
 <main>
-    <article>
+    <section>
         <div class="container mt-3 mb-3">
             <div class="p-3">
                 <h4 class="mb-4 text-center">Todas Encomendas</h4>
@@ -31,9 +31,12 @@
                                     <td><?= $order->payment_method ?></td>
                                     <td><?= $order->order_status ?></td>
                                     <td>
-                                        <button class="btn bg-primary-subtle p-2 lh-1 rounded-5" type="button" onclick="window.location='<?= BASE_URL . '/edit/' . $order->order_id ?>'">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
-                                                <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3" />
+                                        <button class="btn bg-primary-subtle p-2 lh-1 rounded-5" type="button"
+                                            onclick="window.location='<?= BASE_URL . '/order/edit/' . $order->order_id ?>'">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3" />
                                             </svg>
                                         </button>
                                     </td>
@@ -45,12 +48,14 @@
             </div>
         </div>
 
-        <div class="position-fixed bottom-0 end-0 m-5">
-            <button class="btn bg-info-subtle text-info-emphasis rounded-5 p-3 lh-1 shadow" type="button" onclick="window.location='/orderApp/create'" alt="Nova encomenda">
-                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                </svg>
+        <!-- Botão nova encomenda -->
+        <div class="position-fixed bottom-0 end-0 m-4">
+            <button
+                class="btn bg-info-subtle text-info-emphasis rounded-5 p-3 shadow d-flex align-items-center justify-content-center"
+                type="button" onclick="window.location='<?= BASE_URL . '/order/create' ?>'" alt="Nova encomenda"
+                style="width: 4rem; height: 4rem;">
+                <i class="bi bi-plus" style="font-size: 2rem;"></i>
             </button>
         </div>
-    </article>
+        </sectio>
 </main>
