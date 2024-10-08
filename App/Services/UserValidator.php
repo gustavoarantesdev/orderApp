@@ -12,6 +12,22 @@ namespace App\Services;
 abstract class UserValidator
 {
     /**
+     * Extrai os dados do array recebidos via POST.
+     *
+     * @param array $formUserData
+     * @return object
+     */
+    public static function extractData(array $formUserData): object
+    {
+        return (object) [
+            'user_name'      => $formUserData['user_name'] ?? null,
+            'user_email'     => $formUserData['user_email'],
+            'user_password'  => $formUserData['user_password'],
+            'user_password2' => $formUserData['user_password2']?? null,
+        ];
+    }
+
+    /**
      * Verifia se o formulário está vazio.
      *
      * @param object $formInput
