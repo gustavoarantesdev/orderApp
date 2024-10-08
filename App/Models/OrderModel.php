@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Core\Model;
-use App\Helpers\Helpers;
 use PDO;
+use App\Core\Model;
+use App\Services\OrderValidator;
 
 /**
  * Classe OrderModel
@@ -18,9 +18,6 @@ use PDO;
  */
 class OrderModel extends Model
 {
-    /**
-     * @var PDO Conexão com o banco de dados.
-     */
     private PDO $pdo;
 
     /**
@@ -35,42 +32,37 @@ class OrderModel extends Model
     /**
      * Retorna as encomendas disponíveis (não concluídas).
      *
-     * @return array Array de objetos representando encomendas disponíveis.
+     * @return object
      */
-    public function getOrders(): array
+    public function getOrders(): object
     {
-        $query = ("SELECT * FROM orders WHERE is_completed = false ORDER BY completion_date");
-
-        return $this->fetchOrders($query);
+        return $this->fetchOrders("SELECT * FROM orders WHERE is_completed = false ORDER BY completion_date");
     }
 
     /**
      * Retorna todas as encomendas, ordenadas pela data de conclusão.
      *
-     * @return array Array de objetos representando todas as encomendas.
+     * @return object
      */
-    public function getAllOrders(): array
+    public function getAllOrders(): object
     {
-        $query = ("SELECT * FROM orders ORDER BY completion_date DESC");
-
-        return $this->fetchOrders($query);
+        return $this->fetchOrders("SELECT * FROM orders ORDER BY completion_date DESC");
     }
 
     /**
      * Registra uma nova encomenda no banco de dados.
      *
-     * @param array $data Dados da encomenda a ser registrada.
+     * @param object $orderData
      * @return void
      */
-    public function createOrder(array $data): void
+    public function createOrder(object $orderData): void
     {
         // Prepara os dados antes de armazenar.
-        $data = $this->prepareDataToSaveDb($data);
+        $orderData = OrderValidator::prepareOrderDataToSaveDb($orderData);
 
         $stmt = $this->pdo->prepare(
             "INSERT INTO orders (
-                order_title,
-                client_name,
+                order_title, client_name,
                 completion_date,
                 completion_time,
                 order_price,
@@ -89,14 +81,14 @@ class OrderModel extends Model
         )");
 
         $stmt->execute([
-            ':order_title'          => $data['order_title'],
-            ':client_name'          => $data['client_name'],
-            ':completion_date'      => $data['completion_date'],
-            ':completion_time'      => $data['completion_time'],
-            ':order_price'          => $data['order_price'],
-            ':payment_method'       => $data['payment_method'],
-            ':payment_installments' => $data['payment_installments'],
-            ':order_description'    => $data['order_description'],
+            ':order_title'          => $orderData->order_title,
+            ':client_name'          => $orderData->client_name,
+            ':completion_date'      => $orderData->completion_date,
+            ':completion_time'      => $orderData->completion_time,
+            ':order_price'          => $orderData->order_price,
+            ':payment_method'       => $orderData->payment_method,
+            ':payment_installments' => $orderData->payment_installments,
+            ':order_description'    => $orderData->order_description
         ]);
     }
 
@@ -106,10 +98,10 @@ class OrderModel extends Model
      * @param array $data Dados da encomenda a ser atualizada.
      * @return void
      */
-    public function updateOrder(array $data): void
+    public function updateOrder(object $orderData): void
     {
         // Prepara os dados antes de armazenar.
-        $data = $this->prepareDataToSaveDb($data);
+        $orderData = OrderValidator::prepareOrderDataToSaveDb($orderData);
 
         $stmt = $this->pdo->prepare(
             "UPDATE orders SET
@@ -126,48 +118,61 @@ class OrderModel extends Model
         );
 
         $stmt->execute([
-            ':order_id'             => $data['order_id'],
-            ':order_title'          => $data['order_title'],
-            ':client_name'          => $data['client_name'],
-            ':completion_date'      => $data['completion_date'],
-            ':completion_time'      => $data['completion_time'],
-            ':order_price'          => $data['order_price'],
-            ':payment_method'       => $data['payment_method'],
-            ':payment_installments' => $data['payment_installments'],
-            ':order_description'    => $data['order_description'],
-            ':is_completed'         => $data['is_completed']
+            ':order_id'             => $orderData->order_id,
+            ':order_title'          => $orderData->order_title,
+            ':client_name'          => $orderData->client_name,
+            ':completion_date'      => $orderData->completion_date,
+            ':completion_time'      => $orderData->completion_time,
+            ':order_price'          => $orderData->order_price,
+            ':payment_method'       => $orderData->payment_method,
+            ':payment_installments' => $orderData->payment_installments,
+            ':order_description'    => $orderData->order_description,
+            ':is_completed'         => $orderData->is_completed
         ]);
     }
 
     /**
-     * Busca uma encomenda pelo ID informado.
+     * Executa uma consulta com base na query informada, e retorna
+     * ás encomendas formatas.
      *
-     * @param integer $orderId ID da encomenda a ser buscada.
-     * @return object|null Objeto representando a encomenda ou null se não encontrar.
+     * @param string $query Query SQL a ser executada.
+     * @return object
+     */
+    private function fetchOrders(string $query): object
+    {
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        $ordersData = $stmt->fetchAll();
+
+        // Aplica formatação aos dados das encomendas.
+        foreach ($ordersData as $orderData) {
+            $orderData = OrderValidator::formatOrderDataToPrint($orderData);
+        }
+
+        return (object) $ordersData;
+    }
+
+    /**
+     * Busca uma encomenda pelo ID informado.
+     * Se não for encontrada retorna null.
+     *
+     * @param integer $orderId
+     * @return object|null
      */
     public function fetchOrderById(int $orderId): ?object
     {
         $stmt = $this->pdo->prepare("SELECT * FROM orders WHERE order_id = :order_id");
         $stmt->execute([':order_id' => $orderId]);
-        $data = $stmt->fetch() ?: null;
+        $orderData = $stmt->fetch();
 
-        // Se a encomenda não for encontrada retorna null.
-        if (is_null($data)) {
-            return $data;
-        }
-
-        // Formata os dados para impressão.
-        $data->completion_date = Helpers::dateFormat($data->completion_date, false);
-        $data->created_at = Helpers::dateFormat($data->created_at, false);
-
-        return $data;
+        return $orderData ? OrderValidator::formatOrderDataToPrint($orderData) : null;
     }
 
     /**
      * Deleta uma encomenda pelo ID informado.
      *
-     * @param integer $orderId ID da encomenda a ser deletada.
-     * @return bool Retorna true em caso de sucesso ou false em caso de falha.
+     * @param integer $orderId
+     * @return bool
      */
     public function deleteOrder(int $orderId): bool
     {
@@ -175,59 +180,5 @@ class OrderModel extends Model
         $stmt->execute([':order_id' => $orderId]);
 
         return $stmt->rowCount() > 0;
-    }
-
-    /**
-     * Executa uma consulta e retorna as encomendas formatas.
-     *
-     * @param string $query Query SQL a ser executada.
-     * @return array Array de objetos representando as encomendas.
-     */
-    private function fetchOrders(string $query): array
-    {
-        $stmt = $this->pdo->prepare($query);
-        $stmt->execute();
-        $orders = $stmt->fetchAll();
-
-        // Aplica formatação aos dados das encomendas.
-        foreach ($orders as $order) {
-            $order = $this->formatOrderDataToPrint($order);
-        }
-
-        return $orders;
-    }
-
-    /**
-     * Prepara os dados da encomenda para armazenamento no banco de dados.
-     *
-     * @param array $data Dados da encomenda.
-     * @return array Dados formatados prontos para inserção.
-     */
-    private function prepareDataToSaveDb(array $data): array
-    {
-        $data['order_price']          = Helpers::orderPriceSaveDb($data['order_price']);
-        $data['payment_installments'] = Helpers::paymentInstallmentsSaveDb($data['payment_method'], $data['payment_installments']);
-        $data['completion_date']      = Helpers::dateSaveDb($data['completion_date']);
-
-        return $data;
-    }
-
-    /**
-     * Formata os dados da encomenda para exibição.
-     *
-     * @param object $data Dados da encomenda.
-     * @return object Dados formatados para impressão.
-     */
-    private function formatOrderDataToPrint(object $data): object
-    {
-        $data->order_status    = Helpers::orderStatus($data->is_completed, $data->completion_date);
-        $data->order_title     = Helpers::cutTitle($data->order_title);
-        $data->client_name     = Helpers::formatClient($data->client_name);
-        $data->days_count      = Helpers::daysCount($data->completion_date);
-        $data->completion_date = Helpers::dateFormat($data->completion_date, $data->completion_time);
-        $data->order_price     = Helpers::priceFormat($data->order_price);
-        $data->payment_method  = Helpers::formatPaymentMethod($data->payment_method);
-
-        return $data;
     }
 }

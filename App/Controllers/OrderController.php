@@ -4,9 +4,10 @@ namespace App\Controllers;
 
 use App\Core\View;
 use App\Models\OrderModel;
-use App\Helpers\FlashMessage;
 use App\Services\Authenticator;
 use App\Helpers\RedirectWithMessage;
+use App\Helpers\ValidateRequest;
+use App\Services\OrderValidator;
 
 /**
  * Class OrderController
@@ -18,7 +19,7 @@ use App\Helpers\RedirectWithMessage;
  * interagir com o modelo de encomendas (OrderModel) e renderizar as
  * respectivas views.
  */
-class OrderController extends View
+class OrderController
 {
     /**
      * Verifica se o usuário está logado.
@@ -26,7 +27,7 @@ class OrderController extends View
     public function __construct()
     {
         if (!Authenticator::isAuthenticated()) {
-            RedirectWithMessage::redirect(BASE_URL, FLASH_ERROR, 'Faça login para acessar.');
+            RedirectWithMessage::handle(BASE_URL, FLASH_ERROR, 'Faça login para acessar.');
         }
     }
 
@@ -41,10 +42,10 @@ class OrderController extends View
         $orderModel = new OrderModel;
 
         // Armazena os dados do retorno da model.
-        $data = $orderModel->getOrders();
+        $orderData = $orderModel->getOrders();
 
         // Renderiza a view passando os dados.
-        View::render('order/index', $data);
+        View::render('/order/index', $orderData);
     }
 
     /**
@@ -55,7 +56,7 @@ class OrderController extends View
     public function create(): void
     {
         // Renderiza a view.
-        View::render('order/create');
+        View::render('/order/create');
     }
 
     /**
@@ -68,23 +69,19 @@ class OrderController extends View
     public function store(): void
     {
         // Verifica se a requisição é valida.
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['order_title'])) {
-            header('Location:' . BASE_URL . '/create' );
-            exit;
-        }
+        ValidateRequest::handle('/order/create');
 
         // Armazena os dados da superglobal $_POST.
-        $data = $this->extractOrderData($_POST);
+        $orderData = OrderValidator::extractData($_POST);
 
         // Instância a model.
         $orderModel = new OrderModel();
 
         // Registra uma nova encomenda.
-        $orderModel->createOrder($data);
+        $orderModel->createOrder($orderData);
 
-        // Define a flash message e redireciona para a página inicial.
-        FlashMessage::set(FLASH_SUCCESS, 'Encomenda <b>cadastrada</b> com sucesso!');
-        header('Location:' . BASE_URL);
+        // Redireciona e exibe a flash message.
+        RedirectWithMessage::handle(BASE_URL . '/order/home', FLASH_SUCCESS, 'Encomenda <b>cadastrada</b> com sucesso!');
     }
 
     /**
@@ -99,7 +96,7 @@ class OrderController extends View
         $data = $orderModel->getAllOrders();
 
         // Renderiza a view, passando os dados.
-        View::render('order/show', $data);
+        View::render('/order/show', $data);
     }
 
     /**
@@ -114,17 +111,15 @@ class OrderController extends View
         $orderModel = new OrderModel();
 
         // Armazena os dados do retorno da model.
-        $data = $orderModel->fetchOrderById($id);
+        $orderData = $orderModel->fetchOrderById($id);
 
-        // Se a encomenda não for encontrada, define a flash message e redireciona para a página inicial.
-        if (is_null($data)) {
-            FlashMessage::set(FLASH_ERROR, 'Encomenda não foi <b>econtrada</b>!');
-            header('Location:' . BASE_URL);
-            exit;
+        // Se a encomenda não for encontrada, redireciona e exibe a flash message.
+        if (is_null($orderData)) {
+            RedirectWithMessage::handle(BASE_URL . '/order/home', FLASH_ERROR, 'Encomenda não foi <b>econtrada</b>!');
         }
 
         // Renderiza a view, passando os dados.
-        View::render('order/edit', $data);
+        View::render('/order/edit', $orderData);
     }
 
     /**
@@ -137,73 +132,43 @@ class OrderController extends View
     public function update(): void
     {
         // Verifica se a requisição é valida.
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['order_title'])) {
-            header('Location: ' . BASE_URL);
-            exit;
-        }
+        ValidateRequest::handle(BASE_URL . '/order/home');
 
         // Armazena os dados da superglobal $_POST.
-        $data = $this->extractOrderData($_POST);
+        $orderData = OrderValidator::extractData($_POST);
 
         // Instância a model.
         $orderModel = new OrderModel();
 
         // Armazena os dados do retorno da model.
-        $orderModel->updateOrder($data);
+        $orderModel->updateOrder($orderData);
 
-        // Define a flash message e redireciona para a página inicial.
-        FlashMessage::set(FLASH_INFO, 'Encomenda <b>editada</b> com sucesso!');
-        header('Location:' . BASE_URL . '/edit/' . $_POST['order_id']);
-        exit;
+        // Redireciona e exibe a flash message.
+        RedirectWithMessage::handle(BASE_URL . "/order/edit/$orderData->order_id", FLASH_INFO, 'Encomenda <b>editada</b> com sucesso!');
     }
 
     /**
      * Remove uma encomenda do banco de dados.
-     * 
+     *
      * Redireciona para a página inicial após a exclusão.
      *
-     * @param integer $id ID da encomenda a ser deletada.
+     * @param integer $orderId
      * @return void
      */
-    public function delete(int $id): void
+    public function delete(int $orderId): void
     {
         // Instância a model.
         $orderModel = new OrderModel();
 
         // Deleta uma encomenda no banco de dados.
-        $data = $orderModel->deleteOrder($id);
+        $result = $orderModel->deleteOrder($orderId);
 
-        // Se a encomenda não for encontrada, define a flash message e redireciona para a página inicial.
-        if ($data != true) {
-            FlashMessage::set(FLASH_ERROR, 'Encomenda não foi <b>econtrada</b>!');
-            header('Location:' . BASE_URL);
-            exit;
+        // Se a encomenda não for encontrada, redireciona e exibe a flash message.
+        if ($result != true) {
+            RedirectWithMessage::handle(BASE_URL . '/order/home', FLASH_ERROR, 'Encomenda não foi <b>econtrada</b>!');
         }
 
-        // Define a flash message e redireciona para a página inicial.
-        FlashMessage::set(FLASH_WARNING, 'Encomenda <b>excluída</b> com sucesso!');
-        header('Location:' . BASE_URL);
-    }
-
-    /**
-     * Extrai os dados da encomenda do array de dados recebidos via POST.
-     *
-     * @param array $postData Dados da encomenda recebidos.
-     * @return array Dados da encomenda extraídos e organizados.
-     */
-    private function extractOrderData(array $postData): array
-    {
-        return [
-            'order_id'             => $postData['order_id'] ?? null,
-            'order_title'          => $postData['order_title'],
-            'client_name'          => $postData['client_name'],
-            'completion_date'      => $postData['completion_date'],
-            'completion_time'      => $postData['completion_time'],
-            'order_price'          => $postData['order_price'],
-            'payment_method'       => $postData['payment_method'],
-            'payment_installments' => $postData['payment_installments'],
-            'order_description'    => $postData['order_description'],
-            'is_completed'         => $postData['is_completed'] ?? false,
-        ];
+        // Redireciona e exibe a flash message.
+        RedirectWithMessage::handle(BASE_URL . '/order/home', FLASH_WARNING, 'Encomenda <b>excluída</b> com sucesso!');
     }
 }

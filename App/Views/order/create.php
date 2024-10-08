@@ -161,9 +161,7 @@
             }
 
             if (isValid) {
-                if (confirm('Cadastro realizado com sucesso!')) {
-                    form.submit();
-                }
+                form.submit();
             }
         }
 
