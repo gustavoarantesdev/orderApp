@@ -1,5 +1,5 @@
 <main>
-    <article>
+    <section>
         <div class="container mt-3 mb-3">
             <h4 class="mb-4 text-center">Nova Encomenda</h4>
             <div class="card rounded-5 shadow col-md-8 mx-auto">
@@ -113,7 +113,7 @@
                 <i class="bi bi-check-lg" style="font-size: 1.5rem;"></i>
             </button>
         </div>
-    </article>
+    </section>
 </main>
 
 <script>
