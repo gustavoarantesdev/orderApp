@@ -162,7 +162,7 @@ abstract class OrderValidator
     {
         $timestamp = strtotime($completionDate);
 
-        $formattedDate = date('d/m/y', $timestamp);
+        $formattedDate = date('d/m/Y', $timestamp);
 
         // Dias da semana em pt-br 
         $daysOfWeek = [
@@ -244,9 +244,10 @@ abstract class OrderValidator
         $orderData->order_title     = OrderValidator::formatOrderTitleShow($orderData->order_title);
         $orderData->client_name     = OrderValidator::formatClientNameShow($orderData->client_name);
         $orderData->days_count      = OrderValidator::daysCountShow($orderData->completion_date);
-        $orderData->completion_date = OrderValidator::formatOrderDateShow($orderData->completion_date, $orderData->completion_time);
+        $orderData->completion_date = OrderValidator::formatOrderDateShow($orderData->completion_date, $orderData->completion_time, true);
         $orderData->order_price     = OrderValidator::formatOrderPrice($orderData->order_price);
         $orderData->payment_method  = OrderValidator::formatPaymentMethod($orderData->payment_method);
+        $orderData->created_at      = OrderValidator::formatOrderDateShow($orderData->created_at, false);
 
         return $orderData;
     }
