@@ -40,7 +40,7 @@ abstract class View
             require "{$baseDir}/Views/partials/footer.php";
         } catch (ViewException $e) {
             http_response_code($e->getCode());
-            require __DIR__ . '/../Views/errors/404.php';
+            View::render('errors/pageNotFound');
         }
     }
 }

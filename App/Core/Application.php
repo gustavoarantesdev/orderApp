@@ -41,7 +41,7 @@ class Application
             $this->run();
         } catch (ApplicationException $e) {
             http_response_code($e->getCode());
-            require __DIR__ . '/../Views/errors/404.php';
+            View::render('errors/pageNotFound');
         }
     }
 

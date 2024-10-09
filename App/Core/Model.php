@@ -58,7 +58,7 @@ abstract class Model
             self::$conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
         } catch (PDOException) {
             http_response_code(500);
-            require __DIR__ . '/../Views/errors/500.php';
+            View::render('errors/internalServerError');
             exit;
         }
 
