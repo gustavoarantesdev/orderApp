@@ -128,14 +128,14 @@ abstract class OrderValidator
     }
 
     /**
-     * Corta o título da encomenda se ele exceder 20 caracteres.
+     * Corta o título da encomenda se ele exceder 50 caracteres.
      *
      * @param string $orderTitle
      * @return string
      */
     private static function formatOrderTitleShow(string $orderTitle): string
     {
-        return (strlen($orderTitle) <= 20) ? $orderTitle : substr($orderTitle, 0, 20) . '...';
+        return (strlen($orderTitle) <= 50) ? $orderTitle : substr($orderTitle, 0, 20) . '...';
     }
 
     /**

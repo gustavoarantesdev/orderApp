@@ -29,35 +29,35 @@ FlashMessage::render()
                             <label for="order_title" class="form-label"><strong>ENCOMENDA</strong></label>
                             <input type="text" name="order_title"
                                 class="form-control text-black border border-dark-subtle rounded-4 p-3"
-                                placeholder="Festa na Caixa" value="<?= $data->order_title ?>"></input>
+                                placeholder="Festa na Caixa" value="<?= $data->order_title ?>" required></input>
                         </div>
 
                         <div class="mb-4">
                             <label for="client_name" class="form-label"><strong>CLIENTE</strong></label>
                             <input type="text" name="client_name"
                                 class="form-control text-black border-dark-subtle rounded-4 p-3"
-                                placeholder="Lívia Couto" value="<?= $data->client_name ?>"></input>
+                                placeholder="Lívia Couto" value="<?= $data->client_name ?>" required></input>
                         </div>
 
                         <div class="mb-4">
                             <label for="completion_date" class="form-label"><strong>ENTREGA</strong></label>
                             <input type="text" name="completion_date" id="completion_date"
                                 class="completion_date form-control text-black border-dark-subtle rounded-4 p-3"
-                                placeholder="01/06/2024" value="<?= $data->completion_date ?>"></input>
+                                placeholder="01/06/2024" value="<?= $data->completion_date ?>" required></input>
                         </div>
 
                         <div class="mb-4">
                             <label for="completion_time" class="form-label"><strong>HORARIO</strong></label>
                             <input type="text" name="completion_time" id="completion_time"
                                 class="completion_time form-control text-black border-dark-subtle rounded-4 p-3"
-                                placeholder="20:30" value="<?= $data->completion_time ?>"></input>
+                                placeholder="20:30" value="<?= $data->completion_time ?> required"></input>
                         </div>
 
                         <div class="mb-4">
                             <label for="order_price" class="form-label"><strong>PREÇO</strong></label>
                             <input type="text" name="order_price"
                                 class="order_price form-control text-black border-dark-subtle rounded-4 p-3"
-                                placeholder="250,00" value="<?= $data->order_price ?>"></input>
+                                placeholder="250,00" value="<?= $data->order_price ?>" required></input>
                         </div>
 
                         <div class="mb-4">
