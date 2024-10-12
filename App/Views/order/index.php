@@ -1,77 +1,88 @@
-<!-- Pagina inicial com todos os pedios disponiveis -->
+<!-- Pagina inicial com todos as encomendas disponíveis -->
 <?php
 
 use App\Helpers\FlashMessage;
 
-FlashMessage::render()
+FlashMessage::render();
 
-    ?>
-<main>
-    <section>
-        <div class="container mt-3 mb-3">
-            <h4 class="mb-4 text-center">Suas Encomendas</h4>
-            <div class="row row-cols-1 row-cols-md-3 g-3">
+?>
 
-                <?php foreach ($data as $order) { ?>
-                    <!-- Card encomenda -->
-                    <div class="col ">
-                        <div class="card rounded-5 shadow">
-                            <div class="card-body text-center">
-                                <p hidden><?= $order->order_id ?></p>
+<main style="margin-bottom: 7rem;">
+    <section class="container my-3">
+        <h1 class="my-4 text-center" style="font-size: 1.8rem;">Suas Encomendas</h1>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 d-flex justify-content-center">
+            <?php foreach ($ordersData as $orderData) { ?>
+                <!-- Encomenda -->
+                <div class="col mt-5" style="min-width: 22rem;">
+                    <div class="position-relative rounded-5 p-3 border shadow">
+                        <p hidden><?= $orderData->order_id ?></p>
 
-                                <div class="mb-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor"
-                                        class="bi bi-bag-heart" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd"
-                                            d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0M14 14V5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1M8 7.993c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132" />
-                                    </svg>
+                        <!-- Icone da div -->
+                        <div class="d-flex justify-content-center" style="margin: -50px auto 10px;">
+                            <div class="bg-info-subtle d-flex justify-content-center align-items-center shadow"
+                                style="width: 4rem; height: 4rem; border-radius: 100%;">
+                                <i class="bi bi-bag-heart text-info-emphasis" style="font-size: 1.8rem;"></i>
+                            </div>
+                        </div>
+
+                        <!-- Alerta da encomenda -->
+                        <div class="position-absolute end-0 top-0 mt-3 me-3">
+                            <div class="bg-danger-subtle text-danger border border-danger-subtle rounded-5 text-center py-2"
+                                style="width: 7rem; height: 2.rem;">
+                                <span><strong>Atrasada!</strong></span>
+                            </div>
+                        </div>
+
+                        <div class="row text-center mt-4 mb-4">
+                            <!-- Informações da encomenda -->
+                            <div class="row">
+                                <div class="col pe-0 mt-3">
+
+                                    <p class="mb-1" style="font-size: 1.1rem;"><strong>Encomenda</strong></p>
+                                    <p class="mb-3"><?= $orderData->order_title ?></p>
+
+                                    <div class="px-5">
+                                        <hr>
+                                    </div>
+
+                                    <p class="mb-1" style="font-size: 1.1rem;"><strong>Entrega</strong></p>
+                                    <p class="mb-3"><?= $orderData->completion_date ?></p>
+
+                                    <div class="px-5">
+                                        <hr>
+                                    </div>
+
+                                    <p class="mb-1" style="font-size: 1.1rem;"><strong>Cliente</strong></p>
+                                    <p class="mb-3"><?= $orderData->client_name ?></p>
+
                                 </div>
+                            </div>
+                        </div>
 
-                                <p class="card-title">ENCOMENDA</p>
-                                <p class="card-text"><strong><?= $order->order_title ?></strong></p>
-                                <hr>
-
-                                <p class="card-title">CLIENTE</p>
-                                <p class="card-text"><strong><?= $order->client_name ?></strong></p>
-                                <hr>
-
-                                <p class="card-title">ENTREGA</p>
-                                <p class="card-text"><strong><?= $order->completion_date ?></strong></p>
-                                <hr>
-
-                                <p class="card-title">PREÇO</p>
-                                <p class="card-text"><strong><?= "R$ $order->order_price" ?></strong></p>
-                                <hr>
-
-                                <p class="card-title">PAGAMENTO</p>
-                                <p class="card-text"><strong><?= $order->payment_method ?></strong></p>
-                                <hr>
-
-                                <p class="card-text text-secondary"><small><?= $order->days_count ?></small></p>
-
-                                <!-- Botão editar encomenda -->
-                                <button class="btn bg-body-secondary p-3 lh-1 rounded-5" type="button"
-                                    onclick="window.location='<?= BASE_URL . '/order/edit/' . $order->order_id ?>'">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor"
-                                        class="bi bi-three-dots" viewBox="0 0 16 16">
-                                        <path
-                                            d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3" />
-                                    </svg>
+                        <!-- Botao editar encomenda -->
+                        <div class="position-absolute end-0 bottom-0 me-3 mb-3">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <button class="btn bg-body-secondary p-2 lh-1 rounded-5" type="button"
+                                    title="Editar Encomenda"
+                                    onclick="window.location='<?= BASE_URL . '/order/edit/' . $orderData->order_id ?>'"
+                                    style="width: 3.5rem; height: 3.5rem;">
+                                    <i class="bi bi-three-dots-vertical" style="font-size: 1.3em;"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
-                <?php } ?>
-            </div>
+                </div>
+            <?php } ?>
+        </div>
 
-            <!-- Botão nova encomenda -->
-            <div class="position-fixed bottom-0 end-0 m-4">
-                <button
-                    class="btn bg-info-subtle text-info-emphasis rounded-5 p-3 shadow d-flex align-items-center justify-content-center"
-                    type="button" onclick="window.location='<?= BASE_URL . '/order/create' ?>'" alt="Nova encomenda"
-                    style="width: 4rem; height: 4rem;">
-                    <i class="bi bi-plus" style="font-size: 2rem;"></i>
-                </button>
-            </div>
+        <!-- Botão nova encomenda -->
+        <div class="position-fixed bottom-0 end-0 m-4">
+            <button
+                class="btn bg-success-subtle text-success-emphasis rounded-5 p-3 shadow d-flex align-items-center justify-content-center"
+                type="button" title="Nova Encomenda" onclick="window.location='<?= BASE_URL . '/order/create' ?>'"
+                style="width: 4rem; height: 4rem;">
+                <i class="bi bi-plus" style="font-size: 2rem;"></i>
+            </button>
+        </div>
     </section>
 </main>

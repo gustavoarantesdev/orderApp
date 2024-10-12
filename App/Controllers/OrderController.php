@@ -42,10 +42,10 @@ class OrderController
         $orderModel = new OrderModel;
 
         // Armazena os dados do retorno da model.
-        $orderData = $orderModel->getOrders();
+        $ordersData = $orderModel->getOrders();
 
         // Renderiza a view passando os dados.
-        View::render('/order/index', $orderData);
+        View::render('/order/index', $ordersData);
     }
 
     /**
