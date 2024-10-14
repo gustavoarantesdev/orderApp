@@ -8,13 +8,13 @@ FlashMessage::render();
 ?>
 
 <main style="margin-bottom: 7rem;">
-    <section class="container my-3">
+    <section class="container">
         <h1 class="my-4 text-center" style="font-size: 1.8rem;">Suas Encomendas</h1>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 d-flex justify-content-center">
+        <div class="row row-cols-sm-2 row-cols-md-3 g-3 d-flex justify-content-center">
             <?php foreach ($ordersData as $orderData) { ?>
                 <!-- Encomenda -->
                 <div class="col mt-5" style="min-width: 22rem;">
-                    <div class="position-relative rounded-5 p-3 border shadow">
+                    <div class="bg-body position-relative rounded-5 p-3 border shadow">
                         <p hidden><?= $orderData->order_id ?></p>
 
                         <!-- Icone da div -->
@@ -46,14 +46,14 @@ FlashMessage::render();
                                     </div>
 
                                     <p class="mb-1" style="font-size: 1.1rem;"><strong>Entrega</strong></p>
-                                    <p class="mb-3"><?= $orderData->completion_date ?></p>
+                                    <p class="mb-3"><?= $orderData->order_completion_date ?></p>
 
                                     <div class="px-5">
                                         <hr>
                                     </div>
 
                                     <p class="mb-1" style="font-size: 1.1rem;"><strong>Cliente</strong></p>
-                                    <p class="mb-3"><?= $orderData->client_name ?></p>
+                                    <p class="mb-3"><?= $orderData->order_client_name ?></p>
 
                                 </div>
                             </div>
