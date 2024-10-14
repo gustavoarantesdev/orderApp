@@ -5,7 +5,7 @@ const BASE_URL = '/orderApp';
 
 // Credenciais do banco de dados
 const DB_HOST =  '127.0.0.1';
-const DB_NAME = 'candydb';
+const DB_NAME = 'order_app_db';
 const DB_USER = 'gustavoarantes';
 const DB_PASS = '';
 
