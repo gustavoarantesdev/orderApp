@@ -36,7 +36,7 @@ class OrderModel extends Model
      */
     public function getOrders(): object
     {
-        return $this->fetchOrders("SELECT * FROM orders WHERE is_completed = false ORDER BY completion_date");
+        return $this->fetchOrders("SELECT * FROM orders WHERE order_completed = false ORDER BY order_completion_date");
     }
 
     /**
@@ -62,33 +62,46 @@ class OrderModel extends Model
 
         $stmt = $this->pdo->prepare(
             "INSERT INTO orders (
-                order_title, client_name,
-                completion_date,
-                completion_time,
+                user_id,
+                order_title,
+                order_quantity,
+                order_client_name,
+                order_withdraw,
+                order_completion_date,
+                order_completion_time,
+                order_delivery_address,
                 order_price,
-                payment_method,
-                payment_installments,
+                order_payment_method,
+                order_payment_installments,
                 order_description
             ) VALUES (
+                :user_id,
                 :order_title,
-                :client_name,
-                :completion_date,
-                :completion_time,
+                :order_quantity,
+                :order_client_name,
+                :order_withdraw,
+                :order_completion_date,
+                :order_completion_time,
+                :order_delivery_address,
                 :order_price,
-                :payment_method,
-                :payment_installments,
+                :order_payment_method,
+                :order_payment_installments,
                 :order_description
         )");
 
         $stmt->execute([
-            ':order_title'          => $orderData->order_title,
-            ':client_name'          => $orderData->client_name,
-            ':completion_date'      => $orderData->completion_date,
-            ':completion_time'      => $orderData->completion_time,
-            ':order_price'          => $orderData->order_price,
-            ':payment_method'       => $orderData->payment_method,
-            ':payment_installments' => $orderData->payment_installments,
-            ':order_description'    => $orderData->order_description
+            ':user_id'                    => $_SESSION['user_id'],
+            ':order_title'                => $orderData->order_title,
+            ':order_quantity'             => $orderData->order_quantity,
+            ':order_client_name'          => $orderData->order_client_name,
+            ':order_withdraw'             => $orderData->order_withdraw,
+            ':order_completion_date'      => $orderData->order_completion_date,
+            ':order_completion_time'      => $orderData->order_completion_time,
+            ':order_delivery_address'     => $orderData->order_delivery_address,
+            ':order_price'                => $orderData->order_price,
+            ':order_payment_method'       => $orderData->order_payment_method,
+            ':order_payment_installments' => $orderData->order_payment_installments,
+            ':order_description'          => $orderData->order_description
         ]);
     }
 

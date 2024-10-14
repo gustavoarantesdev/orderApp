@@ -12,22 +12,25 @@ abstract class OrderValidator
     /**
      * Extrai os dados do array recebidos via POST.
      *
-     * @param array $postData Dados do formulário.
+     * @param array $formData Dados do formulário.
      * @return object
      */
-    public static function extractData(array $postData): object
+    public static function extractData(array $formData): object
     {
         return (object) [
-            'order_id'             => $postData['order_id'] ?? null,
-            'order_title'          => $postData['order_title'],
-            'client_name'          => $postData['client_name'],
-            'completion_date'      => $postData['completion_date'],
-            'completion_time'      => $postData['completion_time'],
-            'order_price'          => $postData['order_price'],
-            'payment_method'       => $postData['payment_method'],
-            'payment_installments' => $postData['payment_installments'],
-            'order_description'    => $postData['order_description'],
-            'is_completed'         => $postData['is_completed'] ?? false,
+            'order_id'                   => $formData['order_id'] ?? null,
+            'order_title'                => $formData['order_title'],
+            'order_quantity'             => $formData['order_quantity'],
+            'order_client_name'          => $formData['order_client_name'],
+            'order_withdraw'             => $formData['order_withdraw'],
+            'order_completion_date'      => $formData['order_completion_date'],
+            'order_completion_time'      => $formData['order_completion_time'],
+            'order_delivery_address'     => $formData['order_delivery_address'],
+            'order_price'                => $formData['order_price'],
+            'order_payment_method'       => $formData['order_payment_method'],
+            'order_payment_installments' => $formData['order_payment_installments'],
+            'order_description'          => $formData['order_description'],
+            'order_completed'            => $formData['order_completed'] ?? false,
         ];
     }
 
@@ -226,8 +229,8 @@ abstract class OrderValidator
     public static function prepareOrderDataToSaveDb(object $orderData): object
     {
         $orderData->order_price = OrderValidator::priceFormatSaveDb($orderData->order_price);
-        $orderData->payment_installments = OrderValidator::paymentInstallmentsFormatSaveDb($orderData->payment_method, $orderData->payment_installments);
-        $orderData->completion_date = OrderValidator::dateFormatSaveDb($orderData->completion_date);
+        // $orderData->payment_installments = OrderValidator::paymentInstallmentsFormatSaveDb($orderData->payment_method, $orderData->payment_installments);
+        // $orderData->completion_date = OrderValidator::dateFormatSaveDb($orderData->completion_date);
 
         return $orderData;
     }
@@ -240,14 +243,14 @@ abstract class OrderValidator
      */
     public static function formatOrderDataToPrint(object $orderData): object
     {
-        $orderData->order_status    = OrderValidator::formatOrderStatusShow($orderData->is_completed, $orderData->completion_date);
-        $orderData->order_title     = OrderValidator::formatOrderTitleShow($orderData->order_title);
-        $orderData->client_name     = OrderValidator::formatClientNameShow($orderData->client_name);
-        $orderData->days_count      = OrderValidator::daysCountShow($orderData->completion_date);
-        $orderData->completion_date = OrderValidator::formatOrderDateShow($orderData->completion_date, $orderData->completion_time, true);
-        $orderData->order_price     = OrderValidator::formatOrderPrice($orderData->order_price);
-        $orderData->payment_method  = OrderValidator::formatPaymentMethod($orderData->payment_method);
-        $orderData->created_at      = OrderValidator::formatOrderDateShow($orderData->created_at, false);
+        // $orderData->order_status    = OrderValidator::formatOrderStatusShow($orderData->is_completed, $orderData->completion_date);
+        // $orderData->order_title     = OrderValidator::formatOrderTitleShow($orderData->order_title);
+        // $orderData->client_name     = OrderValidator::formatClientNameShow($orderData->client_name);
+        // $orderData->days_count      = OrderValidator::daysCountShow($orderData->completion_date);
+        // $orderData->completion_date = OrderValidator::formatOrderDateShow($orderData->completion_date, $orderData->completion_time, true);
+        // $orderData->order_price     = OrderValidator::formatOrderPrice($orderData->order_price);
+        // $orderData->payment_method  = OrderValidator::formatPaymentMethod($orderData->payment_method);
+        // $orderData->created_at      = OrderValidator::formatOrderDateShow($orderData->created_at, false);
 
         return $orderData;
     }
