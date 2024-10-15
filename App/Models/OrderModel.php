@@ -118,29 +118,35 @@ class OrderModel extends Model
 
         $stmt = $this->pdo->prepare(
             "UPDATE orders SET
-                order_title          = :order_title,
-                client_name          = :client_name,
-                completion_date      = :completion_date,
-                completion_time      = :completion_time,
-                order_price          = :order_price,
-                payment_method       = :payment_method,
-                payment_installments = :payment_installments,
-                order_description    = :order_description,
-                is_completed         = :is_completed
+                order_title                = :order_title,
+                order_quantity             = :order_quantity,
+                order_client_name          = :order_client_name,
+                order_withdraw             = :order_withdraw,
+                order_completion_date      = :order_completion_date,
+                order_completion_time      = :order_completion_time,
+                order_delivery_address     = :order_delivery_address,
+                order_price                = :order_price,
+                order_payment_method       = :order_payment_method,
+                order_payment_installments = :order_payment_installments,
+                order_description          = :order_description,
+                order_completed            = :order_completed
             WHERE order_id = :order_id"
         );
 
         $stmt->execute([
-            ':order_id'             => $orderData->order_id,
-            ':order_title'          => $orderData->order_title,
-            ':client_name'          => $orderData->client_name,
-            ':completion_date'      => $orderData->completion_date,
-            ':completion_time'      => $orderData->completion_time,
-            ':order_price'          => $orderData->order_price,
-            ':payment_method'       => $orderData->payment_method,
-            ':payment_installments' => $orderData->payment_installments,
-            ':order_description'    => $orderData->order_description,
-            ':is_completed'         => $orderData->is_completed
+            ':order_id'                   => $orderData->order_id,
+            ':order_title'                => $orderData->order_title,
+            ':order_quantity'             => $orderData->order_quantity,
+            ':order_client_name'          => $orderData->order_client_name,
+            ':order_withdraw'             => $orderData->order_withdraw,
+            ':order_completion_date'      => $orderData->order_completion_date,
+            ':order_completion_time'      => $orderData->order_completion_time,
+            ':order_delivery_address'     => $orderData->order_delivery_address,
+            ':order_price'                => $orderData->order_price,
+            ':order_payment_method'       => $orderData->order_payment_method,
+            ':order_payment_installments' => $orderData->order_payment_installments,
+            ':order_description'          => $orderData->order_description,
+            ':order_completed'            => $orderData->order_completed
         ]);
     }
 
@@ -178,7 +184,9 @@ class OrderModel extends Model
         $stmt->execute([':order_id' => $orderId]);
         $orderData = $stmt->fetch();
 
-        return $orderData ? OrderValidator::formatOrderDataToPrint($orderData) : null;
+        return $orderData;
+
+        // return $orderData ? OrderValidator::formatOrderDataToPrint($orderData) : null;
     }
 
     /**
