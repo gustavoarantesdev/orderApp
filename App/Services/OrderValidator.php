@@ -46,40 +46,30 @@ abstract class OrderValidator
     }
 
     /**
-     * Converte o número de parcelas para o valor inteiro, e se a forma
-     * de pagamento for diferente de crédito retorna 0.
+     * Converte o número de parcelas para 0 se a forma de pagamento for diferente
+     * de Cartão de Crédito.
      *
-     * @param string $paymentMethod
-     * @param string $paymentInstallments
+     * @param string $orderPaymentMethod
+     * @param string $orderPaymentInstallments
      * @return int
      */
-    private static function paymentInstallmentsFormatSaveDb(string $paymentMethod, string $paymentInstallments): int
+    private static function paymentInstallmentsFormatSaveDb(string $orderPaymentMethod, string $orderPaymentInstallments): int
     {
-        $invalidInstallments = 'Selecione...';
-        $nonCreditMethods = [
-            'Cartão de Débito',
-            'Dinheiro',
-            'Pix'
-        ];
-
-        if ($paymentInstallments === $invalidInstallments || in_array($paymentMethod, $nonCreditMethods, true)) {
-            return 0;
-        }
-
-        return (int) $paymentInstallments;
+        return $orderPaymentMethod != 1 ? 1 : $orderPaymentInstallments;
     }
 
     /**
-     * Converte o formatado da data de BR para o formato US.
+     * Prepara os dados da encomenda para armazenamento no banco de dados.
      *
-     * @param string $completionDate
-     * @return string
+     * @param object $orderData
+     * @return object
      */
-    private static function dateFormatSaveDb(string $completionDate): string
+    public static function prepareOrderDataToSaveDb(object $orderData): object
     {
-        $orderDate = DateTime::createFromFormat('d/m/Y', $completionDate);
+        $orderData->order_price = OrderValidator::priceFormatSaveDb($orderData->order_price);
+        $orderData->order_payment_installments = OrderValidator::paymentInstallmentsFormatSaveDb($orderData->order_payment_method, $orderData->order_payment_installments);
 
-        return $orderDate->format('Y-m-d');
+        return $orderData;
     }
 
 
@@ -220,20 +210,7 @@ abstract class OrderValidator
         };
     }
 
-    /**
-     * Prepara os dados da encomenda para armazenamento no banco de dados.
-     *
-     * @param object $orderData
-     * @return object
-     */
-    public static function prepareOrderDataToSaveDb(object $orderData): object
-    {
-        $orderData->order_price = OrderValidator::priceFormatSaveDb($orderData->order_price);
-        // $orderData->payment_installments = OrderValidator::paymentInstallmentsFormatSaveDb($orderData->payment_method, $orderData->payment_installments);
-        // $orderData->completion_date = OrderValidator::dateFormatSaveDb($orderData->completion_date);
 
-        return $orderData;
-    }
 
     /**
      * Formata os dados da encomenda para exibição.
