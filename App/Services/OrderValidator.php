@@ -66,8 +66,8 @@ abstract class OrderValidator
      */
     public static function prepareOrderDataToSaveDb(object $orderData): object
     {
-        $orderData->order_price = OrderValidator::priceFormatSaveDb($orderData->order_price);
-        $orderData->order_payment_installments = OrderValidator::paymentInstallmentsFormatSaveDb($orderData->order_payment_method, $orderData->order_payment_installments);
+        $orderData->order_price = self::priceFormatSaveDb($orderData->order_price);
+        $orderData->order_payment_installments = self::paymentInstallmentsFormatSaveDb($orderData->order_payment_method, $orderData->order_payment_installments);
 
         return $orderData;
     }
@@ -82,80 +82,108 @@ abstract class OrderValidator
      * @param string $completionDate
      * @return string
      */
-    private static function formatOrderStatusShow(int $isCompleted, string $completionDate): string
+    private static function formatOrderStatusShow(int $orderCompleted, string $orderCompletionDate): string
     {
-        $status = [
-            'completed' => '<span class="p-2 badge bg-success-subtle border border-success-subtle text-success-emphasis rounded-pill">FINALIZADA</span>',
-            'overdue'   => '<span class="p-2 badge bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-pill">ATRASADA</span>',
-            'open'      => '<span class="p-2 badge bg-warning-subtle border border-warning-subtle text-warning-emphasis rounded-pill">ABERTA</span>'
+        $currentDate = date('Y-m-d');
+        $daysCounted = self::daysCountShow((string) $orderCompletionDate);
+
+        $orderStatus = [
+            'completed' => '<div class="bg-success-subtle text-success border border-success-subtle rounded-5 text-center py-2" style="width: 7rem; height: 2.rem;"><span><strong>Finalizada</strong></span></div>',
+            'overdue'   => '<div class="bg-danger-subtle text-danger border border-danger-subtle rounded-5 text-center py-2" style="width: 7rem; height: 2.rem;"><span><strong>Atrasada!</strong></span></div>',
+            'today'     => '<div class="bg-warning-subtle text-warning-emphasis border border-warning-subtle rounded-5 text-center py-2" style="width: 7rem; height: 2.rem;"><span><strong>Hoje!</strong></span></div>',
+            'tomorrow'  => '<div class="bg-primary-subtle text-primary border border-primary-subtle rounded-5 text-center py-2" style="width: 7rem; height: 2.rem;"><span><strong>Amanhã</strong></span></div>',
+            'open'      => '<div class="bg-body-tertiary text-body-secondary border border-tertiary-subtle rounded-5 text-center py-2" style="width: 7rem; height: 2.rem;"><strong>' . $daysCounted . ' Dias</strong></span></div>',
         ];
 
-        if ($isCompleted == '1') {
-            return $status['completed'];
+        if ($orderCompleted == 1) {
+            return $orderStatus['completed'];
         }
 
-        $completionDate = new DateTime($completionDate);
-        $currentDate = new DateTime();
+        if ($orderCompletionDate == $currentDate) {
+            return $orderStatus['today'];
+        }
 
-        return $completionDate <= $currentDate
-            ? $status['overdue']
-            : $status['open'];
+        if ( $daysCounted == '0') {
+            return $orderStatus['tomorrow'];
+        }
+
+        if ($orderCompletionDate < $currentDate) {
+            return $orderStatus['overdue'];
+        }
+
+        return $orderStatus['open'];
     }
 
     /**
-     * Calcula a diferença entre os dias da entrega com o dia atual.
-     * E formata a saída indicando quantos dias que está atrasada.
+     * Calcula a diferença entre a data de entrega com a data atual.
      *
-     * @param string $completionDate
+     * @param string $orderCompletionDate
      * @return string
      */
-    private static function daysCountShow(string $completionDate): string
+    private static function daysCountShow(string $orderCompletionDate): string
     {
-        $completionDate = new DateTime($completionDate);
+        $orderCompletionDate = new DateTime($orderCompletionDate);
         $currentDate = new DateTime();
-        $dateDifference = $currentDate->diff($completionDate);
+        $orderDateDifference = $currentDate->diff($orderCompletionDate);
 
-        return $dateDifference->invert
-            ? "<p class=\"card-text text-danger rounded-5\"><strong>ATRASADA $dateDifference->days DIAS!</strong></p>" 
-            : "FALTAM $dateDifference->days DIAS.";
+        return $orderDateDifference->days;
     }
 
     /**
-     * Corta o título da encomenda se ele exceder 50 caracteres.
+     * Corta uma string se ele houver mais de 20 caracteres.
+     * @param string $name
+     * @return string
+     */
+    private static function cutName(string $name): string
+    {
+        return (strlen($name) <= 20) ? $name : substr($name, 0, 20) . '...';
+    }
+
+    /**
+     * Formata título da encomenda limitando em 20 caracteres.
      *
      * @param string $orderTitle
      * @return string
      */
     private static function formatOrderTitleShow(string $orderTitle): string
     {
-        return (strlen($orderTitle) <= 50) ? $orderTitle : substr($orderTitle, 0, 20) . '...';
+        return self::cutName($orderTitle);
     }
 
     /**
-     * Corta o nome do cliente no primeiro espaço econtrado.
+     * Formata o nome do cliente para apresentar somente primeiro e último nome.
+     * Se houver somente um nome e ele for maior que 20 caracteres limita.
      *
-     * @param string $clientName 
+     * @param string $orderClientName
      * @return string
      */
-    private static function formatClientNameShow(string $clientName): string
+    private static function formatClientNameShow(string $orderClientName): string
     {
-        return strstr($clientName, ' ', true) ?: $clientName;
+        $orderClientName = explode(' ', $orderClientName);
+
+        if (count($orderClientName) > 1) {
+            $firstName = reset($orderClientName);
+            $lastName = end($orderClientName);
+            return $orderClientName = "$firstName $lastName";
+        }
+
+        return self::cutName($orderClientName[0]);
     }
 
     /**
      * Formata a data para exibição, convertendo do formato US para BR, podendo
      * ser com horas ou não.
      *
-     * @param string $completionDate
-     * @param string $completionTime
+     * @param string $orderDate
+     * @param string $orderTime
      * @param bool $withTime
      * @return string
      */
-    private static function formatOrderDateShow(string $completionDate, string $completionTime, bool $withTime = false): string
+    public static function formatOrderDateShow(string $orderDate, string $orderTime, bool $withTime = false): string
     {
-        $timestamp = strtotime($completionDate);
+        $timestamp = strtotime($orderDate);
 
-        $formattedDate = date('d/m/Y', $timestamp);
+        $formattedDate = date('d/m/y', $timestamp);
 
         // Dias da semana em pt-br 
         $daysOfWeek = [
@@ -174,11 +202,11 @@ abstract class OrderValidator
         $dayOfWeekPt = $daysOfWeek[$dayOfWeek];
 
         // Adiciona o dia da semana na data.
-        $formattedDateWithDay = "$dayOfWeekPt $formattedDate";
+        $formattedDateWithDay = "$dayOfWeekPt - $formattedDate";
 
         if ($withTime) {
-            $formattedTime = date('H:i', strtotime($completionTime));
-            return "$formattedDateWithDay $formattedTime";
+            $formattedTime = date('H:i', strtotime($orderTime));
+            return "$formattedDateWithDay - $formattedTime";
         }
 
         return $formattedDateWithDay;
@@ -196,21 +224,31 @@ abstract class OrderValidator
     }
 
     /**
-     * Formata o tipo de pagamento abreviando.
+     * Formata se a encomenda tem retirada colocando Retirada no lugar do true.
      *
-     * @param string $paymentMethod
+     * @param string $orderWithdraw
      * @return string
      */
-    private static function formatPaymentMethod(string $paymentMethod): string
+    private static function formatOrderWithdraw(string $orderWithdraw): string
     {
-        return match ($paymentMethod) {
-            'Cartão de Crédito' => 'Crédito',
-            'Cartão de Débito' => 'Débito',
-            default => $paymentMethod,
-        };
+        return $orderWithdraw ? ' - Retirada' : '';
     }
 
-
+    /**
+     * Formata a forma de pagamento.
+     *
+     * @param int $orderPaymentMethod
+     * @return string
+     */
+    private static function formatPaymentMethod(int $orderPaymentMethod)
+    {
+        return match ($orderPaymentMethod) {
+            1 => 'C. Crédito',
+            2 => 'C. Débito',
+            3 => 'Dinheiro',
+            4 => 'PIX'
+        };
+    }
 
     /**
      * Formata os dados da encomenda para exibição.
@@ -220,14 +258,13 @@ abstract class OrderValidator
      */
     public static function formatOrderDataToPrint(object $orderData): object
     {
-        // $orderData->order_status    = OrderValidator::formatOrderStatusShow($orderData->is_completed, $orderData->completion_date);
-        // $orderData->order_title     = OrderValidator::formatOrderTitleShow($orderData->order_title);
-        // $orderData->client_name     = OrderValidator::formatClientNameShow($orderData->client_name);
-        // $orderData->days_count      = OrderValidator::daysCountShow($orderData->completion_date);
-        // $orderData->completion_date = OrderValidator::formatOrderDateShow($orderData->completion_date, $orderData->completion_time, true);
-        // $orderData->order_price     = OrderValidator::formatOrderPrice($orderData->order_price);
-        // $orderData->payment_method  = OrderValidator::formatPaymentMethod($orderData->payment_method);
-        // $orderData->created_at      = OrderValidator::formatOrderDateShow($orderData->created_at, false);
+        $orderData->order_status          = self::formatOrderStatusShow($orderData->order_completed, $orderData->order_completion_date);
+        $orderData->order_title           = self::formatOrderTitleShow($orderData->order_title);
+        $orderData->order_client_name     = self::formatClientNameShow($orderData->order_client_name);
+        $orderData->order_withdraw        = self::formatOrderWithdraw($orderData->order_withdraw);
+        $orderData->order_completion_date = self::formatOrderDateShow($orderData->order_completion_date, $orderData->order_completion_time, true);
+        $orderData->order_payment_method  = self::formatPaymentMethod($orderData->order_payment_method);
+        $orderData->order_price           = self::formatOrderPrice($orderData->order_price);
 
         return $orderData;
     }
