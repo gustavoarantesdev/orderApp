@@ -118,6 +118,9 @@ class OrderController
             RedirectWithMessage::handle(BASE_URL . '/order/home', FLASH_ERROR, 'Encomenda não foi <b>econtrada</b>!');
         }
 
+        // Formata a data de quando foi cadastrada a encomenda.
+        $orderData->order_created_at = OrderValidator::formatOrderDateShow($orderData->order_created_at, false, false);
+
         // Renderiza a view, passando os dados.
         View::render('/order/edit', $orderData);
     }
