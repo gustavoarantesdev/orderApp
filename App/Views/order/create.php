@@ -81,7 +81,7 @@
 
                 <!-- Endereço -->
                 <div class="mb-3">
-                    <label for="order_delivery_address" class="form-label">Endereço da Entrega <span
+                    <label for="order_delivery_address" class="form-label">Endereço da entrega <span
                             class="text-danger"><strong>*</strong></span></label>
                     <input type="text" name="order_delivery_address" class="form-control rounded-4 p-3" required>
                     <div class="invalid-feedback">
@@ -107,7 +107,7 @@
                                 class="text-danger"><strong>*</strong></span></label>
                         <select name="order_payment_method" id="order_payment_method" class="form-select rounded-4 p-3"
                             required>
-                            <option selected value="" hidden>Selecione...</option>
+                            <option hidden>Selecione...</option>
                             <option value="1">Cartão de Crédito</option>
                             <option value="2">Cartão de Débito</option>
                             <option value="3">Dinheiro</option>
@@ -153,7 +153,7 @@
                             <button
                                 class="btn bg-body-secondary rounded-5 d-flex align-items-center justify-content-center"
                                 type="button" style="width: 9rem;" onclick="window.location='<?= BASE_URL ?>'">
-                                <p class="m-0"><strong>Retorne</strong></p>
+                                <p class="m-0"><strong>Retornar</strong></p>
                                 <i class="bi bi-arrow-left ms-3" style="font-size: 1.5rem;"></i>
                             </button>
                         </div>
