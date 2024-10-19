@@ -36,7 +36,7 @@ class OrderModel extends Model
      */
     public function getOrders(): object
     {
-        return $this->fetchOrders("SELECT * FROM orders WHERE order_completed = false ORDER BY order_completion_date, order_completion_time");
+        return $this->fetchOrders("SELECT * FROM orders WHERE user_id = :user_id AND order_completed = false ORDER BY order_completion_date, order_completion_time");
     }
 
     /**
@@ -46,7 +46,7 @@ class OrderModel extends Model
      */
     public function getAllOrders(): object
     {
-        return $this->fetchOrders("SELECT * FROM orders ORDER BY order_completion_date");
+        return $this->fetchOrders("SELECT * FROM orders WHERE user_id = :user_id ORDER BY order_completion_date");
     }
 
     /**
@@ -160,7 +160,7 @@ class OrderModel extends Model
     private function fetchOrders(string $query): object
     {
         $stmt = $this->pdo->prepare($query);
-        $stmt->execute();
+        $stmt->execute([':user_id' => $_SESSION['user_id']]);
         $ordersData = $stmt->fetchAll();
 
         // Aplica formatação aos dados das encomendas.
@@ -176,12 +176,15 @@ class OrderModel extends Model
      * Se não for encontrada retorna null.
      *
      * @param integer $orderId
-     * @return object|null
+     * @return mixed
      */
-    public function fetchOrderById(int $orderId): ?object
+    public function fetchOrderById(int $orderId): mixed
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM orders WHERE order_id = :order_id");
-        $stmt->execute([':order_id' => $orderId]);
+        $stmt = $this->pdo->prepare("SELECT * FROM orders WHERE user_id = :user_id AND order_id = :order_id");
+        $stmt->execute([
+            ':order_id' => $orderId,
+            'user_id' => $_SESSION['user_id']
+        ],);
         $orderData = $stmt->fetch();
 
         return $orderData;

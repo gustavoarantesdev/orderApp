@@ -114,7 +114,7 @@ class OrderController
         $orderData = $orderModel->fetchOrderById($id);
 
         // Se a encomenda não for encontrada, redireciona e exibe a flash message.
-        if (is_null($orderData)) {
+        if (is_null($orderData) || $orderData == false) {
             RedirectWithMessage::handle(BASE_URL . '/order/home', FLASH_ERROR, 'Encomenda não foi <b>econtrada</b>!');
         }
 
