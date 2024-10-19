@@ -185,8 +185,6 @@ class OrderModel extends Model
         $orderData = $stmt->fetch();
 
         return $orderData;
-
-        // return $orderData ? OrderValidator::formatOrderDataToPrint($orderData) : null;
     }
 
     /**
