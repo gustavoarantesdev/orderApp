@@ -36,7 +36,7 @@ class OrderModel extends Model
      */
     public function getOrders(): object
     {
-        return $this->fetchOrders("SELECT * FROM orders WHERE order_completed = false ORDER BY order_completion_date");
+        return $this->fetchOrders("SELECT * FROM orders WHERE order_completed = false ORDER BY order_completion_date, order_completion_time");
     }
 
     /**
