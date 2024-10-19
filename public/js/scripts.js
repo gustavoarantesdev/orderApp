@@ -24,12 +24,24 @@ $(document).ready(function () {
     $('.order_price').mask('0.000,00', { reverse: true });
 });
 
-// Exibe o input de parcelas se o pagamento for Cartão de Crédito.
-$('#order_payment_method').on('change', function () {
+// Função para exibir ou ocultar o input de parcelas
+function toggleInstallments() {
     const order_payment_installments_div = $('#order_payment_installments_div');
-    if (this.value === '1') { // '1' é o valor para "Cartão de Crédito"
+    const paymentMethod = $('#order_payment_method').val();
+    
+    if (paymentMethod === '1') { // '1' é o valor para "Cartão de Crédito"
         order_payment_installments_div.removeClass('d-none');
     } else {
-            order_payment_installments_div.addClass('d-none');
+        order_payment_installments_div.addClass('d-none');
     }
+}
+
+// Verifica o método de pagamento ao carregar a página
+$(document).ready(function() {
+    toggleInstallments(); // Executa a função quando a página carrega
+
+    // Exibe o input de parcelas se o pagamento for Cartão de Crédito ao alterar o método de pagamento
+    $('#order_payment_method').on('change', function () {
+        toggleInstallments(); // Executa a função sempre que o método de pagamento é alterado
+    });
 });
