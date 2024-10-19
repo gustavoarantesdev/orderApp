@@ -46,7 +46,7 @@ class OrderModel extends Model
      */
     public function getAllOrders(): object
     {
-        return $this->fetchOrders("SELECT * FROM orders ORDER BY completion_date DESC");
+        return $this->fetchOrders("SELECT * FROM orders ORDER BY order_completion_date");
     }
 
     /**
