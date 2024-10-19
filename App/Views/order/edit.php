@@ -175,7 +175,7 @@ FlashMessage::render()
                 </div>
 
                 <!-- Botões -->
-                <div class="row mb-3">
+                <div class="row">
                     <div class="col d-flex align-items-center justify-content-center">
                         <!-- Retornar -->
                         <div class="text-center mt-3">
@@ -210,6 +210,9 @@ FlashMessage::render()
                                 <i class="bi bi-check-lg ms-2" style="font-size: 1.5rem;"></i>
                             </button>
                         </div>
+                    </div>
+                    <div class="text-body-tertiary text-center mt-3">
+                        <?= "Códito: $ordersData->order_id - Cadastrada em: $ordersData->order_created_at" ?>
                     </div>
             </form>
         </div>

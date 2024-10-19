@@ -27,10 +27,7 @@ FlashMessage::render();
 
                         <!-- Alerta da encomenda -->
                         <div class="position-absolute end-0 top-0 mt-3 me-3">
-                            <div class="bg-danger-subtle text-danger border border-danger-subtle rounded-5 text-center py-2"
-                                style="width: 7rem; height: 2.rem;">
-                                <span><strong>Atrasada!</strong></span>
-                            </div>
+                            <?= $orderData->order_status ?>
                         </div>
 
                         <div class="row text-center mt-4 mb-4">
@@ -39,14 +36,14 @@ FlashMessage::render();
                                 <div class="col pe-0 mt-3">
 
                                     <p class="mb-1" style="font-size: 1.1rem;"><strong>Encomenda</strong></p>
-                                    <p class="mb-3"><?= $orderData->order_title ?></p>
+                                    <p class="mb-3"><?= $orderData->order_quantity . 'x ' .$orderData->order_title ?></p>
 
                                     <div class="px-5">
                                         <hr>
                                     </div>
 
                                     <p class="mb-1" style="font-size: 1.1rem;"><strong>Entrega</strong></p>
-                                    <p class="mb-3"><?= $orderData->order_completion_date ?></p>
+                                    <p class="mb-3"><?= $orderData->order_completion_date ?><span class="text-danger-emphasis"><strong><?= $orderData->order_withdraw ?></strong></span></p>
 
                                     <div class="px-5">
                                         <hr>
@@ -66,7 +63,7 @@ FlashMessage::render();
                                     title="Editar Encomenda"
                                     onclick="window.location='<?= BASE_URL . '/order/edit/' . $orderData->order_id ?>'"
                                     style="width: 3.5rem; height: 3.5rem;">
-                                    <i class="bi bi-three-dots-vertical" style="font-size: 1.3em;"></i>
+                                    <i class="bi bi-three-dots-vertical" style="font-size: 1.5em;"></i>
                                 </button>
                             </div>
                         </div>
