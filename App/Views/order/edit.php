@@ -21,14 +21,14 @@ FlashMessage::render()
             </div>
 
             <form action="<?= BASE_URL . '/order/update/' ?>" method="POST" class="needs-validation" novalidate>
-                <input type="hidden" name="order_id" value="<?= $ordersData->order_id ?>"></input>
+                <input type="hidden" name="order_id" value="<?= htmlspecialchars($ordersData->order_id) ?>"></input>
                 <div class="row g-3 mb-3">
                     <!-- Encomenda -->
                     <div class="col-8">
                         <label for="order_title" class="form-label">Encomenda <span
                                 class="text-danger">*</strong></span></label>
                         <input type="text" name="order_title" class="form-control rounded-4 p-3"
-                            value="<?= $ordersData->order_title ?>" required>
+                            value="<?= htmlspecialchars($ordersData->order_title) ?>" required>
                         <div class="invalid-feedback">
                             Informe o nome da encomenda.
                         </div>
@@ -39,7 +39,7 @@ FlashMessage::render()
                         <label for="order_quantity" class="form-label">Quantidade <span
                                 class="text-danger"><strong>*</strong></span></label>
                         <input type="text" name="order_quantity" class="order_quantity form-control rounded-4 p-3"
-                            inputmode="numeric" value="<?= $ordersData->order_quantity ?>" required>
+                            inputmode="numeric" value="<?= htmlspecialchars($ordersData->order_quantity) ?>" required>
                         <div class="invalid-feedback">
                             Informe a quantidade.
                         </div>
@@ -52,7 +52,7 @@ FlashMessage::render()
                         <label for="order_client_name" class="form-label">Cliente <span
                                 class="text-danger"><strong>*</strong></span></label>
                         <input type="text" name="order_client_name" class="form-control rounded-4 p-3"
-                            value="<?= $ordersData->order_client_name ?>" required>
+                            value="<?= htmlspecialchars($ordersData->order_client_name) ?>" required>
                         <div class="invalid-feedback">
                             Informe o nome do cliente.
                         </div>
@@ -63,8 +63,8 @@ FlashMessage::render()
                         <label for="order_withdraw" class="form-label">Retirada? <span
                                 class="text-danger"><strong>*</strong></span></label>
                         <select name="order_withdraw" class="form-select rounded-4 p-3" required>
-                            <option value="f" <?= $ordersData->order_withdraw == 'f' ? 'selected' : '' ?>>Não</option>
-                            <option value="t" <?= $ordersData->order_withdraw == 't' ? 'selected' : '' ?>>Sim</option>
+                            <option value="f" <?= htmlspecialchars($ordersData->order_withdraw) == 'f' ? 'selected' : '' ?>>Não</option>
+                            <option value="t" <?= htmlspecialchars($ordersData->order_withdraw) == 't' ? 'selected' : '' ?>>Sim</option>
                         </select>
                     </div>
                 </div>
@@ -75,7 +75,7 @@ FlashMessage::render()
                         <label for="order_completion_date" class="form-label">Data da entrega <span
                                 class="text-danger"><strong>*</strong></span></label>
                         <input type="date" min="2023-12-31" name="order_completion_date"
-                            class="form-control rounded-4 p-3" value="<?= $ordersData->order_completion_date ?>"
+                            class="form-control rounded-4 p-3" value="<?= htmlspecialchars($ordersData->order_completion_date) ?>"
                             required>
                         <div class="invalid-feedback">
                             Informe a data da entrega.
@@ -87,7 +87,7 @@ FlashMessage::render()
                         <label for="order_completion_time" class="form-label">Hora <span
                                 class="text-danger"><strong>*</strong></span></label>
                         <input type="time" name="order_completion_time" class="form-control rounded-4 p-3"
-                            value="<?= $ordersData->order_completion_time ?>" required>
+                            value="<?= htmlspecialchars($ordersData->order_completion_time) ?>" required>
                         <div class="invalid-feedback">
                             Informe o horário da entrega.
                         </div>
@@ -99,7 +99,7 @@ FlashMessage::render()
                     <label for="order_delivery_address" class="form-label">Endereço da entrega <span
                             class="text-danger"><strong>*</strong></span></label>
                     <input type="text" name="order_delivery_address" class="form-control rounded-4 p-3"
-                        value="<?= $ordersData->order_delivery_address ?>" required>
+                        value="<?= htmlspecialchars($ordersData->order_delivery_address) ?>" required>
                     <div class="invalid-feedback">
                         Informe o endereço da entrega.
                     </div>
@@ -111,7 +111,7 @@ FlashMessage::render()
                         <label for="order_price" class="form-label">Preço <span
                                 class="text-danger"><strong>*</strong></span></label>
                         <input type="text" name="order_price" class="order_price form-control rounded-4 p-3"
-                            inputmode="numeric" value="<?= $ordersData->order_price ?>" required>
+                            inputmode="numeric" value="<?= htmlspecialchars($ordersData->order_price) ?>" required>
                         <div class="invalid-feedback">
                             Informe o preço da encomanda.
                         </div>
@@ -124,13 +124,13 @@ FlashMessage::render()
                         <select name="order_payment_method" id="order_payment_method" class="form-select rounded-4 p-3"
                             required>
                             <option hidden>Selecione...</option>
-                            <option value="1" <?= $ordersData->order_payment_method == 1 ? 'selected' : '' ?>>Cartão de
+                            <option value="1" <?= htmlspecialchars($ordersData->order_payment_method) == 1 ? 'selected' : '' ?>>Cartão de
                                 Crédito</option>
-                            <option value="2" <?= $ordersData->order_payment_method == 2 ? 'selected' : '' ?>>Cartão de
+                            <option value="2" <?= htmlspecialchars($ordersData->order_payment_method) == 2 ? 'selected' : '' ?>>Cartão de
                                 Débito</option>
-                            <option value="3" <?= $ordersData->order_payment_method == 3 ? 'selected' : '' ?>>Dinheiro
+                            <option value="3" <?= htmlspecialchars($ordersData->order_payment_method) == 3 ? 'selected' : '' ?>>Dinheiro
                             </option>
-                            <option value="4" <?= $ordersData->order_payment_method == 4 ? 'selected' : '' ?>>PIX</option>
+                            <option value="4" <?= htmlspecialchars($ordersData->order_payment_method) == 4 ? 'selected' : '' ?>>PIX</option>
                         </select>
                         <div class="invalid-feedback">
                             Selecione a forma de pagamento.
@@ -141,18 +141,18 @@ FlashMessage::render()
                     <div class="col-3 d-none" id="order_payment_installments_div">
                         <label for="order_payment_installments" class="form-label">Parcelas</label>
                         <select name="order_payment_installments" class="form-select rounded-4 p-3" required>
-                            <option value="1" <?= $ordersData->order_payment_installments == 1 ? 'selected' : '' ?>>1</option>
-                            <option value="2" <?= $ordersData->order_payment_installments == 2 ? 'selected' : '' ?>>2</option>
-                            <option value="3" <?= $ordersData->order_payment_installments == 3 ? 'selected' : '' ?>>3</option>
-                            <option value="4" <?= $ordersData->order_payment_installments == 4 ? 'selected' : '' ?>>4</option>
-                            <option value="5" <?= $ordersData->order_payment_installments == 5 ? 'selected' : '' ?>>5</option>
-                            <option value="6" <?= $ordersData->order_payment_installments == 6 ? 'selected' : '' ?>>6</option>
-                            <option value="7" <?= $ordersData->order_payment_installments == 7 ? 'selected' : '' ?>>7</option>
-                            <option value="8" <?= $ordersData->order_payment_installments == 8 ? 'selected' : '' ?>>8</option>
-                            <option value="9" <?= $ordersData->order_payment_installments == 9 ? 'selected' : '' ?>>9</option>
-                            <option value="10" <?= $ordersData->order_payment_installments == 10 ? 'selected' : '' ?>>10</option>
-                            <option value="11" <?= $ordersData->order_payment_installments == 11 ? 'selected' : '' ?>>11</option>
-                            <option value="12" <?= $ordersData->order_payment_installments == 12 ? 'selected' : '' ?>>12</option>
+                            <option value="1" <?= htmlspecialchars($ordersData->order_payment_installments) == 1 ? 'selected' : '' ?>>1</option>
+                            <option value="2" <?= htmlspecialchars($ordersData->order_payment_installments) == 2 ? 'selected' : '' ?>>2</option>
+                            <option value="3" <?= htmlspecialchars($ordersData->order_payment_installments) == 3 ? 'selected' : '' ?>>3</option>
+                            <option value="4" <?= htmlspecialchars($ordersData->order_payment_installments) == 4 ? 'selected' : '' ?>>4</option>
+                            <option value="5" <?= htmlspecialchars($ordersData->order_payment_installments) == 5 ? 'selected' : '' ?>>5</option>
+                            <option value="6" <?= htmlspecialchars($ordersData->order_payment_installments) == 6 ? 'selected' : '' ?>>6</option>
+                            <option value="7" <?= htmlspecialchars($ordersData->order_payment_installments) == 7 ? 'selected' : '' ?>>7</option>
+                            <option value="8" <?= htmlspecialchars($ordersData->order_payment_installments) == 8 ? 'selected' : '' ?>>8</option>
+                            <option value="9" <?= htmlspecialchars($ordersData->order_payment_installments) == 9 ? 'selected' : '' ?>>9</option>
+                            <option value="10" <?= htmlspecialchars($ordersData->order_payment_installments) == 10 ? 'selected' : '' ?>>10</option>
+                            <option value="11" <?= htmlspecialchars($ordersData->order_payment_installments) == 11 ? 'selected' : '' ?>>11</option>
+                            <option value="12" <?= htmlspecialchars($ordersData->order_payment_installments) == 12 ? 'selected' : '' ?>>12</option>
                         </select>
                     </div>
                 </div>
@@ -161,15 +161,15 @@ FlashMessage::render()
                 <div class="mb-3">
                     <label for="order_description" class="form-label">Observação</label>
                     <textarea type="text" name="order_description" rows="3"
-                        class="form-control rounded-4 p-3"><?= $ordersData->order_description ?></textarea>
+                        class="form-control rounded-4 p-3"><?= htmlspecialchars($ordersData->order_description) ?></textarea>
                 </div>
 
                 <!-- Status -->
                 <div class="mb-3">
                     <label for="order_completed" class="form-label">Encomenda finalizada?</label>
                     <select name="order_completed" class="form-select rounded-4 p-3" required>
-                        <option value="f" <?= $ordersData->order_completed == 'f' ? 'selected' : '' ?>>Não</option>
-                        <option value="t" <?= $ordersData->order_completed == 't' ? 'selected' : '' ?>>Sim</option>
+                        <option value="f" <?= htmlspecialchars($ordersData->order_completed) == 'f' ? 'selected' : '' ?>>Não</option>
+                        <option value="t" <?= htmlspecialchars($ordersData->order_completed) == 't' ? 'selected' : '' ?>>Sim</option>
                     </select>
                     </input>
                 </div>
@@ -212,7 +212,7 @@ FlashMessage::render()
                         </div>
                     </div>
                     <div class="text-body-tertiary text-center mt-3">
-                        <?= "Códito: $ordersData->order_id - Cadastrada em: $ordersData->order_created_at" ?>
+                        <?= 'Códito: ' . htmlspecialchars($ordersData->order_id) . ' - Cadastrada em: ' . htmlspecialchars($ordersData->order_created_at) ?>
                     </div>
             </form>
         </div>
@@ -223,7 +223,7 @@ FlashMessage::render()
     // Exibe um alerta para o usuário confirmar antes de excluir
     $('#deleteButton').on('click', function () {
         if (confirm("Tem certeza de que deseja excluir?")) {
-            window.location.href = "<?= BASE_URL . "/order/delete/$ordersData->order_id" ?>";
+            window.location.href = "<?= BASE_URL . '/order/delete/' . htmlspecialchars($ordersData->order_id) ?>";
         }
     });
 </script>

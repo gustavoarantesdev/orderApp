@@ -21,16 +21,16 @@
                     <tbody>
                         <?php foreach ($ordersData as $orderData) { ?>
                             <tr>
-                                <td><?= $orderData->order_id ?></td>
-                                <td><?= $orderData->order_title ?></td>
-                                <td><?= $orderData->order_client_name ?></td>
-                                <td><?= $orderData->order_completion_date ?></td>
-                                <td><?= "R$ $orderData->order_price" ?></td>
-                                <td><?= $orderData->order_payment_method ?></td>
+                                <td><?= htmlspecialchars($orderData->order_id) ?></td>
+                                <td><?= htmlspecialchars($orderData->order_title) ?></td>
+                                <td><?= htmlspecialchars($orderData->order_client_name) ?></td>
+                                <td><?= htmlspecialchars($orderData->order_completion_date) ?></td>
+                                <td><?= 'R$' . htmlspecialchars($orderData->order_price) ?></td>
+                                <td><?= htmlspecialchars($orderData->order_payment_method) ?></td>
                                 <td><?= $orderData->order_status ?></td>
                                 <td>
                                     <button class="btn bg-body-secondary p-2 lh-1 rounded-5" type="button"
-                                        onclick="window.location='<?= BASE_URL . '/order/edit/' . $orderData->order_id ?>'">
+                                        onclick="window.location='<?= BASE_URL . '/order/edit/' . htmlspecialchars($orderData->order_id) ?>'">
                                         <i class="bi bi-three-dots-vertical" style="font-size: 1.3em;"></i>
                                     </button>
                                 </td>

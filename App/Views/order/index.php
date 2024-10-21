@@ -15,7 +15,7 @@ FlashMessage::render();
                 <!-- Encomenda -->
                 <div class="col mt-5" style="min-width: 22rem;">
                     <div class="bg-body position-relative rounded-5 p-3 border shadow">
-                        <p hidden><?= $orderData->order_id ?></p>
+                        <p hidden><?= htmlspecialchars($orderData->order_id) ?></p>
 
                         <!-- Icone da div -->
                         <div class="d-flex justify-content-center" style="margin: -50px auto 10px;">
@@ -36,21 +36,21 @@ FlashMessage::render();
                                 <div class="col pe-0 mt-3">
 
                                     <p class="mb-1" style="font-size: 1.1rem;"><strong>Encomenda</strong></p>
-                                    <p class="mb-3"><?= $orderData->order_quantity . 'x ' .$orderData->order_title ?></p>
+                                    <p class="mb-3"><?= htmlspecialchars($orderData->order_quantity) . 'x ' . htmlspecialchars($orderData->order_title) ?></p>
 
                                     <div class="px-5">
                                         <hr>
                                     </div>
 
                                     <p class="mb-1" style="font-size: 1.1rem;"><strong>Entrega</strong></p>
-                                    <p class="mb-3"><?= $orderData->order_completion_date ?><span class="text-danger-emphasis"><strong><?= $orderData->order_withdraw ?></strong></span></p>
+                                    <p class="mb-3"><?= htmlspecialchars($orderData->order_completion_date) ?><span class="text-danger-emphasis"><strong><?= htmlspecialchars($orderData->order_withdraw) ?></strong></span></p>
 
                                     <div class="px-5">
                                         <hr>
                                     </div>
 
                                     <p class="mb-1" style="font-size: 1.1rem;"><strong>Cliente</strong></p>
-                                    <p class="mb-3"><?= $orderData->order_client_name ?></p>
+                                    <p class="mb-3"><?= htmlspecialchars($orderData->order_client_name) ?></p>
 
                                 </div>
                             </div>
@@ -61,7 +61,7 @@ FlashMessage::render();
                             <div class="d-flex justify-content-center align-items-center">
                                 <button class="btn bg-body-secondary p-2 lh-1 rounded-5" type="button"
                                     title="Editar Encomenda"
-                                    onclick="window.location='<?= BASE_URL . '/order/edit/' . $orderData->order_id ?>'"
+                                    onclick="window.location='<?= BASE_URL . '/order/edit/' . htmlspecialchars($orderData->order_id) ?>'"
                                     style="width: 3.5rem; height: 3.5rem;">
                                     <i class="bi bi-three-dots-vertical" style="font-size: 1.5em;"></i>
                                 </button>
