@@ -130,10 +130,11 @@ class OrderModel extends Model
                 order_payment_installments = :order_payment_installments,
                 order_description          = :order_description,
                 order_completed            = :order_completed
-            WHERE order_id = :order_id"
+            WHERE user_id = :user_id AND order_id = :order_id"
         );
 
         $stmt->execute([
+            ':user_id'                    => $_SESSION['user_id'],
             ':order_id'                   => $orderData->order_id,
             ':order_title'                => $orderData->order_title,
             ':order_quantity'             => $orderData->order_quantity,
@@ -180,14 +181,16 @@ class OrderModel extends Model
      */
     public function fetchOrderById(int $orderId): mixed
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM orders WHERE user_id = :user_id AND order_id = :order_id");
+        $stmt = $this->pdo->prepare(
+            "SELECT * FROM orders WHERE user_id = :user_id AND order_id = :order_id"
+        );
+
         $stmt->execute([
             ':order_id' => $orderId,
             'user_id' => $_SESSION['user_id']
         ],);
-        $orderData = $stmt->fetch();
 
-        return $orderData;
+        return $stmt->fetch();
     }
 
     /**
@@ -198,8 +201,14 @@ class OrderModel extends Model
      */
     public function deleteOrder(int $orderId): bool
     {
-        $stmt = $this->pdo->prepare("DELETE FROM orders WHERE order_id = :order_id");
-        $stmt->execute([':order_id' => $orderId]);
+        $stmt = $this->pdo->prepare(
+            "DELETE FROM orders WHERE user_id = :user_id AND order_id = :order_id"
+        );
+
+        $stmt->execute([
+            ':user_id' => $_SESSION['user_id'],
+            ':order_id' => $orderId
+        ]);
 
         return $stmt->rowCount() > 0;
     }
