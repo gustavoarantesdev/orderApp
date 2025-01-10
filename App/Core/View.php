@@ -12,11 +12,11 @@ abstract class View
     /**
      * Renderiza uma view com base no nome do arquivo fornecido.
      *
-     * @param string $viewName Nome da view.
-     * @param [type] $data Dados para a view.
+     * @param string $viewName Nome do arquivo da view.
+     * @param string $viewData Informação que será apresentada na view.
      * @return void
      */
-    public static function render(string $viewName, $ordersData = null): void
+    public static function render(string $viewName, $viewData = null): void
     {
         // Caminho base pasta App/.
         $baseDir = dirname(__DIR__, 1);
