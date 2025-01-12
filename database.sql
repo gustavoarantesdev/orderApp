@@ -4,12 +4,13 @@ psql -d order_app_db
 
 SET timezone TO 'America/Sao_Paulo';
 
+-- Tabela de usuários do sistema.
 CREATE TABLE users (
-    user_id            SERIAL PRIMARY KEY,
-    user_name          VARCHAR(150) NOT NULL,
-    user_email         VARCHAR(150) NOT NULL UNIQUE,
-    user_password_hash TEXT         NOT NULL,
-    user_created_at    TIMESTAMP    DEFAULT CURRENT_TIMESTAMP
+    id            SERIAL       PRIMARY KEY,
+    name          VARCHAR(150) NOT NULL,
+    email         VARCHAR(150) NOT NULL UNIQUE,
+    password_hash TEXT         NOT NULL,
+    created_at    TIMESTAMP    DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE orders (
