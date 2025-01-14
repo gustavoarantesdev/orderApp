@@ -20,10 +20,10 @@ abstract class UserValidator
     public static function extractData(array $formUserData): object
     {
         return (object) [
-            'user_name'      => $formUserData['user_name'] ?? null,
-            'user_email'     => $formUserData['user_email'],
-            'user_password'  => $formUserData['user_password'],
-            'user_password2' => $formUserData['user_password2']?? null,
+            'name'      => $formUserData['name'] ?? null,
+            'email'     => $formUserData['email'],
+            'password'  => $formUserData['password'],
+            'password2' => $formUserData['password2']?? null,
         ];
     }
 
@@ -35,9 +35,9 @@ abstract class UserValidator
      */
     public static function isFormInputEmpty(object $formInput): bool
     {
-        return empty($formInput->user_name) && $formInput->user_name !== null
-            || empty($formInput->user_email) || empty($formInput->user_password)
-            || empty($formInput->user_password2) && $formInput->user_password2 !== null;
+        return empty($formInput->name) && $formInput->name !== null
+            || empty($formInput->email) || empty($formInput->password)
+            || empty($formInput->password2) && $formInput->password2 !== null;
     }
 
     /**
@@ -46,14 +46,14 @@ abstract class UserValidator
      * Verifica se o nome do usuário é menor que 3 caracteres, se é diferente
      * do padrão do RegEx, e se é maior que 150 caracteres.
      *
-     * @param string $userName
+     * @param string $name nome do usuário
      * @return bool
      */
-    public static function isInvalidUserName(string $userName): bool
+    public static function isInvalidUserName(string $name): bool
     {
-        return strlen($userName) < 3
-            || !preg_match("/^[A-Za-z .'-]+$/", $userName)
-            || strlen($userName) > 150;
+        return strlen($name) < 3
+            || !preg_match("/^[A-Za-z .'-]+$/", $name)
+            || strlen($name) > 150;
     }
 
     /**
@@ -62,35 +62,35 @@ abstract class UserValidator
      * Verifica se o e-mail é diferente do padrão do RegEx, e se é maior
      * que 150 caracteres.
      *
-     * @param string $userEmail O e-mail do usuário.
+     * @param string $email E-mail do usuário
      * @return bool
      */
-    public static function isInvalidUserEmail(string $userEmail): bool
+    public static function isInvalidUserEmail(string $email): bool
     {
-        return !preg_match("/^[a-z0-9.]+@[a-z0-9]+\.[a-z]{2,4}$/", $userEmail)
-            || strlen($userEmail) > 150;
+        return !preg_match("/^[a-z0-9.]+@[a-z0-9]+\.[a-z]{2,4}$/", $email)
+            || strlen($email) > 150;
     }
 
     /**
      * Verifica se a senha do usuáro está no tamanho correto.
      *
-     * @param string $userPassword
+     * @param string $password Senha do usuário.
      * @return bool
      */
-    public static function isInvalidUserPassword(string $userPassword): bool
+    public static function isInvalidUserPassword(string $password): bool
     {
-        return strlen($userPassword) < 5;
+        return strlen($password) < 5;
     }
 
     /**
      * Verifica se as senhas do usuário são iguais.
      *
-     * @param string $userPassword
-     * @param string $userPassword2
+     * @param string $password Senha do usuário.
+     * @param string $password2 Senha de confirmação do usuário.
      * @return bool
      */
-    public static function areUserPasswordEqual(string $userPassword, string $userPassword2)
+    public static function areUserPasswordEqual(string $password, string $password2)
     {
-        return $userPassword === $userPassword2;
+        return $password === $password2;
     }
 }

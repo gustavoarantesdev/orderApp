@@ -10,6 +10,10 @@ use App\Services\UserValidator;
 use App\Helpers\RedirectWithMessage;
 use App\Helpers\RedirectIfAuthenticated;
 
+/**
+ * Classe controladora responsável por gerênciar as operações relacionadas ao
+ * login do usuário.
+ */
 class LoginController
 {
     /**
@@ -45,17 +49,17 @@ class LoginController
         }
 
         // Verifica se o e-mail é inválido.
-        if (UserValidator::isInvalidUserEmail($userData->user_email)) {
+        if (UserValidator::isInvalidUserEmail($userData->email)) {
             RedirectWithMessage::handle(BASE_URL, FLASH_ERROR, 'E-mail inválido. Tente novamente.');
         }
 
         // Verifica se a senha é inválida.
-        if (UserValidator::isInvalidUserPassword($userData->user_password)) {
+        if (UserValidator::isInvalidUserPassword($userData->password)) {
             RedirectWithMessage::handle(BASE_URL, FLASH_ERROR, 'Senha inválida. Tente novamente.');
         }
 
         // Verifica se foi possível fazer login.
-        if (Authenticator::authenticate($userData->user_email, $userData->user_password)) {
+        if (Authenticator::authenticate($userData->email, $userData->password)) {
             RedirectWithMessage::handle(BASE_URL . '/order/home', FLASH_INFO, 'Login realizado com sucesso!');
         }
 
@@ -86,7 +90,7 @@ class LoginController
     }
 
     /**
-     * Armazena um novo usuario no banco de dados validando os dados.
+     * Registra um novo usuario no banco de dados validando os dados.
      *
      * @return void
      */
@@ -100,36 +104,36 @@ class LoginController
         // Armazena os dados da superglobal $_POST.
         $userData = UserValidator::extractData($_POST);
 
-        // Instância a model.
-        $userModel = new UserModel();
-
         // Verifica se o formulário está vazio.
         if (UserValidator::isFormInputEmpty($userData)) {
             RedirectWithMessage::handle(BASE_URL . '/login/create', FLASH_ERROR, 'Preencha o formulário.');
         }
 
         // Verifica se o nome do usuário é inválido.
-        if (UserValidator::isInvalidUserName($userData->user_name)) {
+        if (UserValidator::isInvalidUserName($userData->name)) {
             RedirectWithMessage::handle(BASE_URL . '/login/create', FLASH_ERROR, 'Nome de usuário inválido. Tente novamente.');
         }
 
         // Verifica se o e-mail é inválido.
-        if (UserValidator::isInvalidUserEmail($userData->user_email)) {
+        if (UserValidator::isInvalidUserEmail($userData->email)) {
             RedirectWithMessage::handle(BASE_URL . '/login/create', FLASH_ERROR, 'E-mail inválido. Tente novamente.');
         }
 
         // Verifica se a senha é inválida.
-        if (UserValidator::isInvalidUserPassword($userData->user_password)) {
+        if (UserValidator::isInvalidUserPassword($userData->password)) {
             RedirectWithMessage::handle(BASE_URL . '/login/create', FLASH_ERROR, 'Senha inválida. Tente novamente.');
         }
 
         // Verifica se as senhas são iguais.
-        if (!UserValidator::areUserPasswordEqual($userData->user_password, $userData->user_password2)) {
+        if (!UserValidator::areUserPasswordEqual($userData->password, $userData->password2)) {
             RedirectWithMessage::handle(BASE_URL . '/login/create', FLASH_ERROR, 'Senhas não sao iguais. Tente novamente.');
         }
 
+        // Instância a model.
+        $userModel = new UserModel();
+
         // Verifica se o e-mail já foi cadastrado.
-        if ($userModel->getUserByEmail($userData->user_email)) {
+        if ($userModel->getUserByEmail($userData->email)) {
             RedirectWithMessage::handle(BASE_URL . '/login/create', FLASH_ERROR, 'Este e-mail já está em uso. Tente outro.');
         }
 

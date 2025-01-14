@@ -1,10 +1,10 @@
 <?php
-use App\Helpers\FlashMessage; 
+use App\Helpers\FlashMessage;
 
-FlashMessage::render(); 
+FlashMessage::render();
 ?>
 
-<main  style="margin-top: 100px">
+<main style="margin-top: 100px">
     <section class="container">
         <div class="bg-body rounded-5 p-3 shadow border col-md-8 col-lg-6 mx-auto">
             <!-- Icone -->
@@ -22,8 +22,8 @@ FlashMessage::render();
 
             <form action="<?= BASE_URL . '/login/store' ?>" method="POST" class="needs-validation" novalidate>
                 <div class="mb-3">
-                    <label for="user_name" class="form-label">Nome de usuário <span class="text-danger"><strong>*</strong></span></label>
-                    <input type="text" name="user_name" class="form-control rounded-4 p-3"
+                    <label for="name" class="form-label">Nome de usuário <span class="text-danger"><strong>*</strong></span></label>
+                    <input type="text" name="name" class="form-control rounded-4 p-3"
                     placeholder="Seu nome" minlength="3" required>
                         <div class="invalid-feedback">
                             Informe seu nome de usuário!
@@ -32,8 +32,8 @@ FlashMessage::render();
                 </div>
 
                 <div class="mb-3">
-                    <label for="user_email" class="form-label">E-mail <span class="text-danger"><strong>*</strong></span></label>
-                    <input type="email" name="user_email" class="form-control rounded-4 p-3"
+                    <label for="email" class="form-label">E-mail <span class="text-danger"><strong>*</strong></span></label>
+                    <input type="email" name="email" class="form-control rounded-4 p-3"
                     placeholder="Seu e-mail" required>
                         <div class="invalid-feedback">
                             Informe seu e-mail!
@@ -42,8 +42,8 @@ FlashMessage::render();
                 </div>
 
                 <div class="mb-3">
-                    <label for="user_password" class="form-label">Senha <span class="text-danger"><strong>*</strong></span></label>
-                    <input type="password" name="user_password" class="form-control rounded-4 p-3"
+                    <label for="password" class="form-label">Senha <span class="text-danger"><strong>*</strong></span></label>
+                    <input type="password" name="password" class="form-control rounded-4 p-3"
                     placeholder="Sua senha" minlength="5" required>
                         <div class="invalid-feedback">
                             Informe sua senha. A senha deve ter no mínimo 5 caracteres!
@@ -52,8 +52,8 @@ FlashMessage::render();
                 </div>
 
                 <div class="mb-3">
-                    <label for="user_password2" class="form-label">Confirme a senha <span class="text-danger"><strong>*</strong></span></label>
-                    <input type="password" name="user_password2" class="form-control rounded-4 p-3"
+                    <label for="password2" class="form-label">Confirme a senha <span class="text-danger"><strong>*</strong></span></label>
+                    <input type="password" name="password2" class="form-control rounded-4 p-3"
                     placeholder="Confirme sua senha" required>
                         <div class="invalid-feedback">
                             Confirme sua senha!
@@ -77,24 +77,4 @@ FlashMessage::render();
     </section>
 </main>
 
-<script>
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (() => {
-        'use strict'
-
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        const forms = document.querySelectorAll('.needs-validation')
-
-        // Loop over them and prevent submission
-        Array.from(forms).forEach(form => {
-            form.addEventListener('submit', event => {
-                if (!form.checkValidity()) {
-                    event.preventDefault()
-                    event.stopPropagation()
-                }
-
-                form.classList.add('was-validated')
-            }, false)
-        })
-    })()
-</script>
+<script src="<?= BASE_URL . '/public/js/checkEmptyForm.js' ?>"></script>

@@ -14,20 +14,20 @@ abstract class Authenticator
     /**
      * Autentica o usuário utilizando o e-mail e senha informados.
      *
-     * @param string $userEmail
-     * @param string $userPassword
+     * @param string $email E-mail do usuário.
+     * @param string $password Senha do usuário.
      * @return bool
      */
-    public static function authenticate(string $userEmail, string $userPassword): bool
+    public static function authenticate(string $email, string $password): bool
     {
         $userModel = new UserModel();
 
         // Armazena os dados do usuário encontrado.
-        $userData = $userModel->getUserByEmail($userEmail);
+        $userData = $userModel->getUserByEmail($email);
 
         // Verifica se o usuário foi encontrado e compara a senha.
-        if ($userData && password_verify($userPassword, $userData->user_password_hash)) {
-            $_SESSION['user_id'] = $userData->user_id;
+        if ($userData && password_verify($password, $userData->password_hash)) {
+            $_SESSION['user_id'] = $userData->id;
             return true;
         }
 

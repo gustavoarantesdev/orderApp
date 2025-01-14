@@ -15,6 +15,10 @@ use PDO;
  */
 class UserModel extends Model
 {
+    /**
+     * O objeto do PDO
+     * @var PDO
+     */
     private PDO $pdo;
 
     /**
@@ -31,41 +35,41 @@ class UserModel extends Model
      * Se encontrar retorna os dados do usuário econtrado, se não econtrar
      * retorna false.
      *
-     * @param string $userEmail
+     * @param string $email E-mail do usuário.
      * @return mixed
      */
-    public function getUserByEmail(string $userEmail): mixed
+    public function getUserByEmail(string $email): mixed
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE user_email = :user_email");
-        $stmt->execute([':user_email' => $userEmail]);
+        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE email = :email");
+        $stmt->execute([':email' => $email]);
         return $stmt->fetch();
     }
 
     /**
      * Registra um novo usuário no banco de dados.
      *
-     * @param object $userData
+     * @param object $userData Todos os dados do usuário.
      * @return bool
      */
     public function createUser(object $userData): bool
     {
-        $userData->user_password = password_hash($userData->user_password, PASSWORD_DEFAULT);
+        $userData->password = password_hash($userData->password, PASSWORD_DEFAULT);
 
         $stmt = $this->pdo->prepare(
             "INSERT INTO users (
-                user_name,
-                user_email,
-                user_password_hash
+                name,
+                email,
+                password_hash
             ) VALUES (
-                :user_name,
-                :user_email,
-                :user_password
+                :name,
+                :email,
+                :password
             )");
 
         return $stmt->execute([
-            ':user_name'     => $userData->user_name,
-            ':user_email'    => $userData->user_email,
-            ':user_password' => $userData->user_password
+            ':name'     => $userData->name,
+            ':email'    => $userData->email,
+            ':password' => $userData->password
         ]);
     }
 }
