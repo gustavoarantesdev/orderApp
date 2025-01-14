@@ -20,10 +20,18 @@ abstract class Routes
             '/login/store'     => 'LoginController@store',
             '/logout'          => 'LoginController@logout',
 
+            // Rotas de Clientes
+            '/cliente/cadastrar'    => 'CustomerController@create',
+            '/cliente/store'        => 'CustomerController@store',
+            '/cliente/todos'        => 'CustomerController@show',
+            '/cliente/editar/{id}'  => 'CustomerController@edit',
+            '/cliente/update'       => 'CustomerController@update',
+            '/cliente/deletar/{id}' => 'CustomerController@delete',
+
             // Rota de Encomendas.
             '/home'                   => 'OrderController@index',
             '/encomenda/cadastrar'    => 'OrderController@create',
-            '/order/store'            => 'OrderController@store',
+            '/encomenda/store'        => 'OrderController@store',
             '/encomenda/todas'        => 'OrderController@show',
             '/encomenda/editar/{id}'  => 'OrderController@edit',
             '/encomenda/update'       => 'OrderController@update',
