@@ -51,7 +51,7 @@ FlashMessage::render();
                 </div>
 
                 <div class="text-center mt-3">
-                    <p class="m-0">Não tem uma conta? <a href="<?= BASE_URL . '/login/create' ?>">Criar Conta</a></p>
+                    <p class="m-0">Não tem uma conta? <a href="<?= BASE_URL . '/login/cadastrar' ?>">Criar Conta</a></p>
                 </div>
             </form>
         </div>
