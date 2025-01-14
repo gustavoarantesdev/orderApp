@@ -13,6 +13,24 @@ CREATE TABLE users (
     created_at    TIMESTAMP    DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Tabela de clientes.
+CREATE TABLE customers (
+    id          SERIAL       PRIMARY KEY,
+    user_id     INT          NOT NULL,
+    name        VARCHAR(150) NOT NULL,
+    person_type CHAR(2)      NOT NULL, -- PF para pessoa Física e PJ para Jurídica.
+    cpf         VARCHAR(11)  DEFAULT NULL,
+    cnpj        VARCHAR(14)  DEFAULT NULL,
+    phone       VARCHAR(12)  NOT NULL,
+    gender      CHAR(1)      DEFAULT NULL, -- F feminino e M masculino.
+    birth_date  DATE         DEFAULT NULL,
+    address     VARCHAR(255) NOT NULL,
+    description VARCHAR(255) DEFAULT NULL,
+    created_at  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
 CREATE TABLE orders (
     order_id                   SERIAL        PRIMARY KEY,
     user_id                    INTEGER       NOT NULL,
