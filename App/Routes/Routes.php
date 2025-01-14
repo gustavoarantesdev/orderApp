@@ -13,19 +13,21 @@ abstract class Routes
     public static function getRoutes(): array
     {
         return [
-            '/'                  => 'LoginController@index',
-            '/login'             => 'LoginController@login',
-            '/login/create'      => 'LoginController@create',
-            '/login/store'       => 'LoginController@store',
-            '/logout'            => 'LoginController@logout',
+            // Rotas de Login.
+            '/'                => 'LoginController@index',
+            '/login'           => 'LoginController@login',
+            '/login/cadastrar' => 'LoginController@create',
+            '/login/store'     => 'LoginController@store',
+            '/logout'          => 'LoginController@logout',
 
-            '/order/home'        => 'OrderController@index',
-            '/order/create'      => 'OrderController@create',
-            '/order/store'       => 'OrderController@store',
-            '/order/show'        => 'OrderController@show',
-            '/order/edit/{id}'   => 'OrderController@edit',
-            '/order/update'      => 'OrderController@update',
-            '/order/delete/{id}' => 'OrderController@delete',
+            // Rota de Encomendas.
+            '/home'                   => 'OrderController@index',
+            '/encomenda/cadastrar'    => 'OrderController@create',
+            '/order/store'            => 'OrderController@store',
+            '/encomenda/todas'        => 'OrderController@show',
+            '/encomenda/editar/{id}'  => 'OrderController@edit',
+            '/encomenda/update'       => 'OrderController@update',
+            '/encomenda/deletar/{id}' => 'OrderController@delete',
         ];
     }
 }
