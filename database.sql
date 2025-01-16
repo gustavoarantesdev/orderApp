@@ -31,6 +31,18 @@ CREATE TABLE customers (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
+-- Tabela de produtos.
+CREATE TABLE products (
+    id          SERIAL         PRIMARY KEY,
+    user_id     INT            NOT NULL,
+    name        VARCHAR(150)   NOT NULL,
+    sell_price  NUMERIC(10, 2) NOT NULL,
+    cost_price  NUMERIC(10, 2) NOT NULL,
+    status      BOOLEAN        DEFAULT TRUE, -- ativo ou desativo para venda.
+    description VARCHAR(255)   DEFAULT NULL,
+    created_at  TIMESTAMP      DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE orders (
     order_id                   SERIAL        PRIMARY KEY,
     user_id                    INTEGER       NOT NULL,
