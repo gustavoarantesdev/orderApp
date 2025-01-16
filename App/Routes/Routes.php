@@ -28,6 +28,14 @@ abstract class Routes
             '/cliente/update'       => 'CustomerController@update',
             '/cliente/deletar/{id}' => 'CustomerController@delete',
 
+            // Rotas de Produtos
+            '/produto/cadastrar'    => 'ProductController@create',
+            '/produto/store'        => 'ProductController@store',
+            '/produto/todos'        => 'ProductController@show',
+            '/produto/editar/{id}'  => 'ProductController@edit',
+            '/produto/update'       => 'ProductController@update',
+            '/produto/deletar/{id}' => 'ProductController@delete',
+
             // Rota de Encomendas.
             '/home'                   => 'OrderController@index',
             '/encomenda/cadastrar'    => 'OrderController@create',
