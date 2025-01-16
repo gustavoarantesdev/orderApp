@@ -82,7 +82,7 @@ class ProductController extends Controller
      */
     public function show(): void
     {
-        // Armazena os dados de todos clientes.
+        // Armazena os dados de todos produtos.
         $allData = $this->productModel->getAll();
 
         // Formata os dados para apresentação na view.
@@ -95,12 +95,12 @@ class ProductController extends Controller
     /**
      * Exibe o formulário para editar um produto pelo ID informado
      *
-     * @param integer $id ID do cliente.
+     * @param integer $id ID do produto.
      * @return void
      */
     public function edit(int $id): void
     {
-        // Armazena os dados do cliente encontrado.
+        // Armazena os dados do produto encontrado.
         $allData = $this->productModel->getById($id);
 
         // Se o produto não for encontrado, redireciona e exibe a flash message.
@@ -130,7 +130,7 @@ class ProductController extends Controller
         // Extrai e formata os dados do formulário.
         $productData = $this->processProductData($_POST);
 
-        // Atualiza os dados do cliente.
+        // Atualiza os dados do produto.
         $this->productModel->update($productData);
 
         RedirectWithMessage::handle(BASE_URL . "/produto/editar/{$productData->id}", FLASH_INFO, 'Produto <b>editado</b> com sucesso!');
@@ -141,15 +141,15 @@ class ProductController extends Controller
      *
      * Redireciona para a página todos os produtos após a exclusão.
      *
-     * @param integer $id ID do cliente.
+     * @param integer $id ID do produto.
      * @return void
      */
     public function delete(int $id): void
     {
-        // Deleta o cliente.
+        // Deleta o produto.
         $result = $this->productModel->delete($id);
 
-        // Se o cliente não for encontrado, redireciona e exibe a flash message.
+        // Se o produto não for encontrado, redireciona e exibe a flash message.
         if ($result != true) {
             RedirectWithMessage::handle(BASE_URL . '/produto/todos', FLASH_ERROR, 'Produto não foi <b>econtrado</b>!');
         }
