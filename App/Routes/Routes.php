@@ -44,6 +44,10 @@ abstract class Routes
             '/encomenda/editar/{id}'  => 'OrderController@edit',
             '/encomenda/update'       => 'OrderController@update',
             '/encomenda/deletar/{id}' => 'OrderController@delete',
+
+            // Rotas de API
+            '/encomenda/clientes' => 'CustomerController@customers',
+            '/encomenda/produtos' => 'ProductController@products',
         ];
     }
 }
