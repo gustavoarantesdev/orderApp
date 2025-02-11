@@ -189,4 +189,15 @@ class ProductController extends Controller
             }
         }
     }
+
+    /**
+     * Retorna todos os produtos para o Ajax de produtos.
+     * @return void
+     */
+    public function products(): void
+    {
+        $data = $this->productModel->getAll();
+        $data = (array) $data;
+        echo json_encode($data);
+    }
 }
