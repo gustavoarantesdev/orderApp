@@ -41,6 +41,8 @@ CREATE TABLE products (
     status      BOOLEAN        DEFAULT TRUE, -- ativo ou desativo para venda.
     description VARCHAR(255)   DEFAULT NULL,
     created_at  TIMESTAMP      DEFAULT CURRENT_TIMESTAMP
+
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 -- Tabela de pedidos
