@@ -9,6 +9,6 @@ class ConvertDate
 {
     public static function handle($date)
     {
-        return date("d/m/Y h:i", strtotime($date));
+        return date("d/m/y h:i", strtotime($date));
     }
 }
