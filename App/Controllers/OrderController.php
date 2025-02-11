@@ -3,11 +3,11 @@
 namespace App\Controllers;
 
 use App\Core\View;
+use App\Helpers\order\ExtractData;
 use App\Models\OrderModel;
 use App\Services\Authenticator;
 use App\Helpers\RedirectWithMessage;
 use App\Helpers\ValidateRequest;
-use App\Services\OrderValidator;
 
 /**
  * Class OrderController
@@ -68,17 +68,17 @@ class OrderController
      */
     public function store(): void
     {
-        // Verifica se a requisição é valida.
-        ValidateRequest::handle('/order/create');
+        // Verifica se a requisição é válida.
+        ValidateRequest::handle('/encomenda/store');
 
-        // Armazena os dados da superglobal $_POST.
-        $orderData = OrderValidator::extractData($_POST);
+        // Extrai os dados do formulário
+        $orderData = ExtractData::handle($_POST);
 
-        // Instância a model.
+        // Instância a model
         $orderModel = new OrderModel();
 
-        // Registra uma nova encomenda.
-        $orderModel->createOrder($orderData);
+        // Registra a encomenda
+        $orderModel->createOrderWithItems($orderData);
 
         // Redireciona e exibe a flash message.
         RedirectWithMessage::handle(BASE_URL . '/order/home', FLASH_SUCCESS, 'Encomenda <b>cadastrada</b> com sucesso!');
@@ -118,9 +118,6 @@ class OrderController
             RedirectWithMessage::handle(BASE_URL . '/order/home', FLASH_ERROR, 'Encomenda não foi <b>econtrada</b>!');
         }
 
-        // Formata a data de quando foi cadastrada a encomenda.
-        $orderData->order_created_at = OrderValidator::formatOrderDateShow($orderData->order_created_at, false, false);
-
         // Renderiza a view, passando os dados.
         View::render('/order/edit', $orderData);
     }
@@ -134,20 +131,20 @@ class OrderController
      */
     public function update(): void
     {
-        // Verifica se a requisição é valida.
-        ValidateRequest::handle(BASE_URL . '/order/home');
+        // Verifica se a requisição é válida.
+        ValidateRequest::handle(BASE_URL . '/encomenda/update');
 
-        // Armazena os dados da superglobal $_POST.
-        $orderData = OrderValidator::extractData($_POST);
+        // Extrai os dados do formulário
+        $orderData = ExtractData::handle($_POST);
 
         // Instância a model.
         $orderModel = new OrderModel();
 
         // Armazena os dados do retorno da model.
-        $orderModel->updateOrder($orderData);
+        $orderModel->updateOrderWithItems($orderData);
 
         // Redireciona e exibe a flash message.
-        RedirectWithMessage::handle(BASE_URL . "/order/edit/$orderData->order_id", FLASH_INFO, 'Encomenda <b>editada</b> com sucesso!');
+        RedirectWithMessage::handle(BASE_URL . "/encomenda/editar/$orderData->id", FLASH_INFO, 'Encomenda <b>editada</b> com sucesso!');
     }
 
     /**
