@@ -37,7 +37,8 @@ class OrderModel extends Model
      */
     public function getOrders(): object
     {
-        return $this->fetchOrders("SELECT * FROM orders WHERE user_id = :user_id AND order_completed = false ORDER BY order_completion_date, order_completion_time");
+        // return $this->fetchOrders("SELECT * FROM orders WHERE user_id = :user_id AND order_completed = false ORDER BY order_completion_date, order_completion_time");
+        return $this->fetchOrders("SELECT * FROM orders WHERE user_id = :user_id ORDER BY completion_date, completion_time");
     }
 
     /**
@@ -257,9 +258,9 @@ class OrderModel extends Model
         $ordersData = $stmt->fetchAll();
 
         // Aplica formatação aos dados das encomendas.
-        foreach ($ordersData as $orderData) {
-            $orderData = OrderValidator::formatOrderDataToPrint($orderData);
-        }
+        // foreach ($ordersData as $orderData) {
+        //     $orderData = OrderValidator::formatOrderDataToPrint($orderData);
+        // }
 
         return (object) $ordersData;
     }

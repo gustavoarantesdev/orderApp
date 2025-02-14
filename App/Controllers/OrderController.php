@@ -81,7 +81,7 @@ class OrderController
         $orderModel->createOrderWithItems($orderData);
 
         // Redireciona e exibe a flash message.
-        RedirectWithMessage::handle(BASE_URL . '/order/home', FLASH_SUCCESS, 'Encomenda <b>cadastrada</b> com sucesso!');
+        RedirectWithMessage::handle(BASE_URL . '/encomenda/home', FLASH_SUCCESS, 'Encomenda <b>cadastrada</b> com sucesso!');
     }
 
     /**
@@ -115,7 +115,7 @@ class OrderController
 
         // Se a encomenda não for encontrada, redireciona e exibe a flash message.
         if (is_null($orderData) || $orderData == false) {
-            RedirectWithMessage::handle(BASE_URL . '/order/home', FLASH_ERROR, 'Encomenda não foi <b>econtrada</b>!');
+            RedirectWithMessage::handle(BASE_URL . '/encomenda/home', FLASH_ERROR, 'Encomenda não foi <b>econtrada</b>!');
         }
 
         // Renderiza a view, passando os dados.
@@ -165,10 +165,10 @@ class OrderController
 
         // Se a encomenda não for encontrada, redireciona e exibe a flash message.
         if ($result != true) {
-            RedirectWithMessage::handle(BASE_URL . '/order/home', FLASH_ERROR, 'Encomenda não foi <b>econtrada</b>!');
+            RedirectWithMessage::handle(BASE_URL . '/encomenda/home', FLASH_ERROR, 'Encomenda não foi <b>econtrada</b>!');
         }
 
         // Redireciona e exibe a flash message.
-        RedirectWithMessage::handle(BASE_URL . '/order/home', FLASH_WARNING, 'Encomenda <b>excluída</b> com sucesso!');
+        RedirectWithMessage::handle(BASE_URL . '/encomenda/home', FLASH_WARNING, 'Encomenda <b>excluída</b> com sucesso!');
     }
 }

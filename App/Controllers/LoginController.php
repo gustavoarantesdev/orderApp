@@ -60,7 +60,7 @@ class LoginController
 
         // Verifica se foi possível fazer login.
         if (Authenticator::authenticate($userData->email, $userData->password)) {
-            RedirectWithMessage::handle(BASE_URL . '/order/home', FLASH_INFO, 'Login realizado com sucesso!');
+            RedirectWithMessage::handle(BASE_URL . '/encomenda/home', FLASH_INFO, 'Login realizado com sucesso!');
         }
 
         // Se não foi possível fazer login exibe essa mensagem.

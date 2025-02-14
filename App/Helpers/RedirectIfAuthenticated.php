@@ -17,7 +17,7 @@ abstract class RedirectIfAuthenticated
     public static function handle()
     {
         if (Authenticator::isAuthenticated()) {
-            header('Location:' . BASE_URL . '/order/home');
+            header('Location:' . BASE_URL . '/encomenda/home');
             exit;
         }
     }
