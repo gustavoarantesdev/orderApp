@@ -37,7 +37,7 @@ abstract class Routes
             '/produto/deletar/{id}' => 'ProductController@delete',
 
             // Rota de Encomendas.
-            '/home'                   => 'OrderController@index',
+            '/encomenda/home'         => 'OrderController@index',
             '/encomenda/cadastrar'    => 'OrderController@create',
             '/encomenda/store'        => 'OrderController@store',
             '/encomenda/todas'        => 'OrderController@show',
