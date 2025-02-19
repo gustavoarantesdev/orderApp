@@ -322,10 +322,10 @@ FlashMessage::render()
                             Status
                         </label>
                         <select name="order_status" class="form-select rounded-4 p-3" required>
-                            <option value="1" <?= htmlspecialchars($viewData->order_status) == '1' ? 'selected' : '' ?>>Pendente</option>
+                            <option value="1" <?= htmlspecialchars($viewData->order_status) == '1' ? 'selected' : '' ?>>Agendada</option>
                             <option value="2" <?= htmlspecialchars($viewData->order_status) == '2' ? 'selected' : '' ?>>Em produção</option>
-                            <option value="3" <?= htmlspecialchars($viewData->order_status) == '3' ? 'selected' : '' ?>>Finalizado/Entregue</option>
-                            <option value="4" <?= htmlspecialchars($viewData->order_status) == '4' ? 'selected' : '' ?>>Cancelado</option>
+                            <option value="3" <?= htmlspecialchars($viewData->order_status) == '3' ? 'selected' : '' ?>>Finalizada/Entregue</option>
+                            <option value="4" <?= htmlspecialchars($viewData->order_status) == '4' ? 'selected' : '' ?>>Cancelada</option>
                         </select>
                         <div class="invalid-feedback">
                             Selecione o status do pedido.

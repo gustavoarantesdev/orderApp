@@ -295,10 +295,10 @@
                             Status
                         </label>
                         <select name="order_status" class="form-select rounded-4 p-3" required>
-                            <option value="1">Pendente</option>
+                            <option value="1">Agendada</option>
                             <option value="2">Em produção</option>
-                            <option value="3">Finalizado/Entregue</option>
-                            <option value="4">Cancelado</option>
+                            <option value="3">Finalizada/Entregue</option>
+                            <option value="4">Cancelada</option>
                         </select>
                         <div class="invalid-feedback">
                             Selecione o status do pedido.
