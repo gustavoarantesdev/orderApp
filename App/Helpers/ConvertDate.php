@@ -7,7 +7,7 @@ namespace App\Helpers;
  */
 class ConvertDate
 {
-    public static function handle($date)
+    public static function handle(string $date): string
     {
         return date("d/m/y h:i", strtotime($date));
     }
