@@ -32,7 +32,7 @@ class OrderController
     }
 
     /**
-     * Exibe a lista de todas as encomendas disponíveis na página inicial.
+     * Exibe todas as encoendas que estão disponíveis.
      *
      * @return void
      */
@@ -42,7 +42,7 @@ class OrderController
         $orderModel = new OrderModel;
 
         // Armazena os dados do retorno da model.
-        $ordersData = $orderModel->getOrders();
+        $ordersData = $orderModel->getAvailableOrders();
 
         // Renderiza a view passando os dados.
         View::render('/order/index', $ordersData);
