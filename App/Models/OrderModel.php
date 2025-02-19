@@ -4,9 +4,9 @@ namespace App\Models;
 
 use App\Helpers\ConvertDate;
 use App\Helpers\ConvertPrice;
+use App\Helpers\order\formatDataToView;
 use PDO;
 use App\Core\Model;
-use App\Services\OrderValidator;
 
 /**
  * Classe OrderModel
@@ -35,10 +35,64 @@ class OrderModel extends Model
      *
      * @return object
      */
-    public function getOrders(): object
+    public function getAvailableOrders(): object
     {
-        // return $this->fetchOrders("SELECT * FROM orders WHERE user_id = :user_id AND order_completed = false ORDER BY order_completion_date, order_completion_time");
-        return $this->fetchOrders("SELECT * FROM orders WHERE user_id = :user_id ORDER BY completion_date, completion_time");
+        // Seleciona todos as encomendas
+        $stmt = $this->pdo->prepare("
+            SELECT
+                orders.id,
+                orders.order_number,
+                orders.subtotal,
+                orders.payment_value,
+                orders.payment_status,
+                orders.payment_method,
+                orders.completion_date,
+                orders.completion_time,
+                orders.withdraw,
+                orders.order_status,
+                customers.name as customer_name
+            FROM orders
+            INNER JOIN customers ON orders.customer_id = customers.id
+            WHERE orders.order_status != 3 AND orders.user_id = :user_id
+            ORDER BY order_status = 2 DESC, completion_date, completion_time;
+        ");
+
+        $stmt->execute([
+            'user_id' => $_SESSION['user_id']
+        ]);
+
+        $ordersData = $stmt->fetchAll();
+
+        /* Seleciona todos os itens da encomenda, adicionando os items em suas
+        respectivas encomendas.*/
+        foreach ($ordersData as $orderDataRow) {
+            // Busca os itens da encomenda
+            $stmt = $this->pdo->prepare("
+                SELECT
+                    order_items.quantity,
+                    products.name AS product_name
+                FROM order_items
+                INNER JOIN products ON order_items.product_id = products.id
+                WHERE order_items.order_id = :order_id AND order_items.user_id = :user_id
+            ");
+
+            $stmt->execute([
+                ':order_id' => $orderDataRow->id,
+                'user_id' => $_SESSION['user_id']
+            ]);
+
+            $items = $stmt->fetchAll();
+
+            // Adiciona os items da encomenda em cada encomenda.
+            $orderDataRow->items = $items;
+        }
+
+        $ordersData = (object) $ordersData;
+
+        // Aplica as formatações nos dados.
+        formatDataToView::handle($ordersData);
+
+        return $ordersData;
     }
 
     /**
@@ -48,7 +102,35 @@ class OrderModel extends Model
      */
     public function getAllOrders(): object
     {
-        return $this->fetchOrders("SELECT * FROM orders WHERE user_id = :user_id ORDER BY order_completion_date");
+        $stmt = $this->pdo->prepare("
+        SELECT
+            orders.id,
+            orders.order_number,
+            orders.subtotal,
+            orders.payment_value,
+            orders.payment_status,
+            orders.payment_method,
+            orders.completion_date,
+            orders.order_status,
+            customers.name AS customer_name
+        FROM orders
+        INNER JOIN customers ON orders.customer_id = customers.id
+        WHERE orders.user_id = :user_id
+        ORDER BY completion_date
+        ");
+
+        $stmt->execute([
+            'user_id' => $_SESSION['user_id']
+        ]);
+
+        $ordersData = $stmt->fetchAll();
+
+        $ordersData = (object) $ordersData;
+
+        // Aplica as formatações nos dados.
+        formatDataToView::handle($ordersData);
+
+        return $ordersData;
     }
 
     /**
@@ -242,27 +324,6 @@ class OrderModel extends Model
         $result = $stmt->fetch();
 
         return $result->order_number ? $result->order_number + 1 : $result->order_number = 1;
-    }
-
-    /**
-     * Executa uma consulta com base na query informada, e retorna
-     * ás encomendas formatas.
-     *
-     * @param string $query Query SQL a ser executada.
-     * @return object
-     */
-    private function fetchOrders(string $query): object
-    {
-        $stmt = $this->pdo->prepare($query);
-        $stmt->execute([':user_id' => $_SESSION['user_id']]);
-        $ordersData = $stmt->fetchAll();
-
-        // Aplica formatação aos dados das encomendas.
-        // foreach ($ordersData as $orderData) {
-        //     $orderData = OrderValidator::formatOrderDataToPrint($orderData);
-        // }
-
-        return (object) $ordersData;
     }
 
     /**
