@@ -87,7 +87,7 @@ class OrderModel extends Model
             $orderDataRow->items = $items;
         }
 
-        // Se o resultado da busca for vázio retorno o objeto vázio.
+        // Se o resultado da busca for vázio retorno o objeto vazio.
         if (empty($ordersData)) {
             return (object) $ordersData;
         }
@@ -130,7 +130,7 @@ class OrderModel extends Model
 
         $ordersData = $stmt->fetchAll();
 
-        // Se o resultado da busca for vázio retorno o objeto vázio.
+        // Se o resultado da busca for vázio retorno o objeto vazio.
         if (empty($ordersData)) {
             return (object) $ordersData;
         }
