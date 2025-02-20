@@ -10,13 +10,13 @@ abstract class ValidateRequest
     /**
      * Verifica se a requisição é válida e redireciona.
      *
-     * @param string $url
+     * @param string $urlToRedirect URL que o usuário será redirecionado.
      * @return void
      */
-    public static function handle(string $url): void
+    public static function handle(string $urlToRedirect): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header("Location: $url");
+            header("Location: $urlToRedirect");
             exit;
         }
     }

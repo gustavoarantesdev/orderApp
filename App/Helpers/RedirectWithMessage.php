@@ -10,15 +10,15 @@ abstract class RedirectWithMessage
     /**
      * Defini a flash message e redireciona o usuário.
      *
-     * @param string $url
-     * @param string $type
-     * @param string $message
+     * @param string $urlToRirect URL que o usuário será redirecionado.
+     * @param string $type Tipo da flashmessage.
+     * @param string $message Contéudo da flashmessage.
      * @return void
      */
-    public static function handle(string $url, string $type, string $message): void
+    public static function handle(string $urlToRedirect, string $type, string $message): void
     {
         FlashMessage::set($type, $message);
-        header("Location: $url");
+        header("Location: $urlToRedirect");
         exit;
     }
 }
