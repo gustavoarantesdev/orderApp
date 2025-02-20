@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-use App\Services\Authenticator;
+use App\Helpers\login\Authenticator;
 
 /**
  * Helper responável por redicionar caso o usuário esteja logado.
