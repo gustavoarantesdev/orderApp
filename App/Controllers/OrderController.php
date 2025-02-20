@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Core\View;
 use App\Helpers\order\ExtractData;
 use App\Models\OrderModel;
-use App\Services\Authenticator;
+use App\Helpers\login\Authenticator;
 use App\Helpers\RedirectWithMessage;
 use App\Helpers\ValidateRequest;
 
