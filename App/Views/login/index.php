@@ -1,7 +1,7 @@
 <?php
-use App\Helpers\FlashMessage; 
+use App\Helpers\FlashMessage;
 
-FlashMessage::render(); 
+FlashMessage::render();
 ?>
 
 <main  style="margin-top: 100px">
@@ -23,7 +23,9 @@ FlashMessage::render();
 
             <form action="<?= BASE_URL . '/login' ?>" method="POST" class="needs-validation" novalidate>
                 <div class="mb-3">
-                    <label for="email" class="form-label">E-mail <span class="text-danger"><strong>*</strong></span></label>
+                    <label class="form-label">
+                        E-mail <span class="text-danger"><b>*</b></span>
+                    </label>
                     <input type="email" name="email" class="form-control rounded-4 p-3"
                     placeholder="Digite seu e-mail" required>
                         <div class="invalid-feedback">
@@ -33,7 +35,9 @@ FlashMessage::render();
                 </div>
 
                 <div class="mb-3">
-                    <label for="password" class="form-label">Senha <span class="text-danger"><strong>*</strong></span></label>
+                    <label for="password" class="form-label">
+                        Senha <span class="text-danger"><b>*</b></span>
+                    </label>
                     <input type="password" name="password" class="form-control rounded-4 p-3"
                     placeholder="Digite sua senha" minlength="5" required>
                         <div class="invalid-feedback">
@@ -45,13 +49,13 @@ FlashMessage::render();
                 <!-- Botão Acessar -->
                 <div class="text-center">
                     <button class="btn bg-info-subtle text-info-emphasis p-3 lh-1 rounded-5" type="submit"
-                    style="width: 8rem;">
-                        <strong>Acessar</strong>
+                    style="width: 8rem;" title="Acesse">
+                        <b>Acessar</b>
                     </button>
                 </div>
 
                 <div class="text-center mt-3">
-                    <p class="m-0">Não tem uma conta? <a href="<?= BASE_URL . '/login/cadastrar' ?>">Criar Conta</a></p>
+                    <p class="m-0">Não tem uma conta? <a href="<?= BASE_URL . '/usuario/cadastrar' ?>">Criar Conta</a></p>
                 </div>
             </form>
         </div>
