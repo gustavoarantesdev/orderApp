@@ -2,7 +2,7 @@
 
 namespace App\Core;
 
-use App\Services\Authenticator;
+use App\Helpers\login\Authenticator;
 use App\Helpers\RedirectWithMessage;
 
 /**
