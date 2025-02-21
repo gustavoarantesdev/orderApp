@@ -90,7 +90,7 @@
 
                         <h2 class="fs-5 fw-bold">Conta</h2>
                         <li class="nav-item">
-                            <a class="nav-link fs-5" href="<?= BASE_URL . '/produto/todos' ?>">
+                            <a class="nav-link fs-5" href="<?= BASE_URL . "/usuario/editar/{$_SESSION['user_id']}" ?>">
                                 <i class="bi bi-person-circle"></i>
                                 Editar conta
                             </a>
