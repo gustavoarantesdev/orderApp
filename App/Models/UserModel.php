@@ -38,10 +38,44 @@ class UserModel extends Model
      * @param string $email E-mail do usuário.
      * @return mixed
      */
-    public function getUserByEmail(string $email): mixed
+    public function getByEmail(string $email): mixed
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE email = :email");
-        $stmt->execute([':email' => $email]);
+        $stmt = $this->pdo->prepare("
+            SELECT *
+            FROM users
+            WHERE email = :email
+        ");
+
+        $stmt->execute([
+            ':email' => $email
+        ]);
+
+        return $stmt->fetch();
+    }
+
+    /**
+     * Busca um usuário no banco de dados com base no ID.
+     *
+     * Se encontrar retorna os dados do usuário econtrado, se não econtrar
+     * retorna false.
+     *
+     * @param string $id ID do usuário.
+     * @return mixed
+     */
+    public function getById(string $id): mixed
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT *
+            FROM users
+            WHERE id = :id
+            AND id = :user_id
+        ");
+
+        $stmt->execute([
+            ':id'      => $id,
+            ':user_id' => $_SESSION['user_id'],
+        ]);
+
         return $stmt->fetch();
     }
 
@@ -51,12 +85,12 @@ class UserModel extends Model
      * @param object $userData Todos os dados do usuário.
      * @return bool
      */
-    public function createUser(object $userData): bool
+    public function create(object $data): bool
     {
-        $userData->password = password_hash($userData->password, PASSWORD_DEFAULT);
+        $data->password = password_hash($data->password, PASSWORD_DEFAULT);
 
-        $stmt = $this->pdo->prepare(
-            "INSERT INTO users (
+        $stmt = $this->pdo->prepare("
+            INSERT INTO users (
                 name,
                 email,
                 password_hash
@@ -64,12 +98,94 @@ class UserModel extends Model
                 :name,
                 :email,
                 :password
-            )");
+            )"
+        );
 
         return $stmt->execute([
-            ':name'     => $userData->name,
-            ':email'    => $userData->email,
-            ':password' => $userData->password
+            ':name'     => $data->name,
+            ':email'    => $data->email,
+            ':password' => $data->password
         ]);
+    }
+
+    /**
+     * Atualiza os dados de um usuário existente.
+     *
+     * @param object $data Dados do usuário.
+     * @return void
+     */
+    public function update(object $data): void
+    {
+        // Atualiza o nome
+        if ($data->name !== null) {
+            $stmt = $this->pdo->prepare("
+                UPDATE users
+                SET name = :name
+                WHERE id = :id
+                AND id = :user_id
+            ");
+
+            $stmt->execute([
+                ':id'      => $data->id,
+                ':user_id' => $_SESSION['user_id'],
+                ':name'    => $data->name
+            ]);
+        }
+
+        // Atualiza o e-mail
+        if ($data->email !== null) {
+            $stmt = $this->pdo->prepare("
+                UPDATE users
+                SET email = :email
+                WHERE id = :id
+                AND id = :user_id
+            ");
+
+            $stmt->execute([
+                ':id'      => $data->id,
+                ':user_id' => $_SESSION['user_id'],
+                ':email'   => $data->email
+            ]);
+        }
+
+        // Atualiza a senha
+        if ($data->password !== null) {
+            $data->password = password_hash($data->password, PASSWORD_DEFAULT);
+
+            $stmt = $this->pdo->prepare("
+                UPDATE users
+                SET password_hash = :password
+                WHERE id = :id
+                AND id = :user_id
+            ");
+
+            $stmt->execute([
+                ':id'       => $data->id,
+                ':user_id'  => $_SESSION['user_id'],
+                ':password' => $data->password
+            ]);
+        }
+    }
+
+    /**
+     * Deleta um usuário pelo ID informado.
+     *
+     * @param integer $id ID do usuário.
+     * @return bool
+     */
+    public function delete(int $id): bool
+    {
+        $stmt = $this->pdo->prepare("
+            DELETE FROM users
+            WHERE id = :id
+            AND id = :user_id
+        ");
+
+        $stmt->execute([
+            ':id'      => $id,
+            ':user_id' => $_SESSION['user_id']
+        ]);
+
+        return $stmt->rowCount() > 0;
     }
 }
