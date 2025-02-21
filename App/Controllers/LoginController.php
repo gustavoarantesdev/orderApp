@@ -3,10 +3,10 @@
 namespace App\Controllers;
 
 use App\Core\View;
-use App\Models\UserModel;
 use App\Helpers\ValidateRequest;
-use App\Services\Authenticator;
-use App\Services\UserValidator;
+use App\Helpers\login\Authenticator;
+use App\Helpers\user\ValidateData;
+use App\Helpers\user\ExtractData;
 use App\Helpers\RedirectWithMessage;
 use App\Helpers\RedirectIfAuthenticated;
 
@@ -40,21 +40,21 @@ class LoginController
         // Verifica se a requisição é valida.
         ValidateRequest::handle(BASE_URL);
 
-        // Armazena os dados da superglobal $_POST.
-        $userData = UserValidator::extractData($_POST);
+        // Extrai os dados do formulário
+        $userData = ExtractData::handle($_POST);
 
         // Verifica se o formulário está vazio.
-        if (UserValidator::isFormInputEmpty($userData)) {
+        if (ValidateData::isFormInputEmpty($userData)) {
             RedirectWithMessage::handle(BASE_URL, FLASH_ERROR, 'Preencha o formulário.');
         }
 
         // Verifica se o e-mail é inválido.
-        if (UserValidator::isInvalidUserEmail($userData->email)) {
+        if (ValidateData::isInvalidUserEmail($userData->email)) {
             RedirectWithMessage::handle(BASE_URL, FLASH_ERROR, 'E-mail inválido. Tente novamente.');
         }
 
         // Verifica se a senha é inválida.
-        if (UserValidator::isInvalidUserPassword($userData->password)) {
+        if (ValidateData::isInvalidUserPassword($userData->password)) {
             RedirectWithMessage::handle(BASE_URL, FLASH_ERROR, 'Senha inválida. Tente novamente.');
         }
 
@@ -64,7 +64,7 @@ class LoginController
         }
 
         // Se não foi possível fazer login exibe essa mensagem.
-        RedirectWithMessage::handle(BASE_URL, FLASH_ERROR, 'E-mail ou senha incorretos. Tente novamente.');
+        RedirectWithMessage::handle(BASE_URL, FLASH_ERROR, 'E-mail ou senha incorretos. <br> Tente novamente.');
     }
 
     /**
@@ -75,71 +75,5 @@ class LoginController
     public function logout(): void
     {
         Authenticator::logout();
-    }
-
-    /**
-     * Exibe o formulario para cadastro.
-     *
-     * @return void
-     */
-    public function create()
-    {
-        RedirectIfAuthenticated::handle();
-
-        View::render('login/create');
-    }
-
-    /**
-     * Registra um novo usuario no banco de dados validando os dados.
-     *
-     * @return void
-     */
-    public function store()
-    {
-        RedirectIfAuthenticated::handle();
-
-        // Verifica se a requisição é valida.
-        ValidateRequest::handle(BASE_URL . '/login/create');
-
-        // Armazena os dados da superglobal $_POST.
-        $userData = UserValidator::extractData($_POST);
-
-        // Verifica se o formulário está vazio.
-        if (UserValidator::isFormInputEmpty($userData)) {
-            RedirectWithMessage::handle(BASE_URL . '/login/create', FLASH_ERROR, 'Preencha o formulário.');
-        }
-
-        // Verifica se o nome do usuário é inválido.
-        if (UserValidator::isInvalidUserName($userData->name)) {
-            RedirectWithMessage::handle(BASE_URL . '/login/create', FLASH_ERROR, 'Nome de usuário inválido. Tente novamente.');
-        }
-
-        // Verifica se o e-mail é inválido.
-        if (UserValidator::isInvalidUserEmail($userData->email)) {
-            RedirectWithMessage::handle(BASE_URL . '/login/create', FLASH_ERROR, 'E-mail inválido. Tente novamente.');
-        }
-
-        // Verifica se a senha é inválida.
-        if (UserValidator::isInvalidUserPassword($userData->password)) {
-            RedirectWithMessage::handle(BASE_URL . '/login/create', FLASH_ERROR, 'Senha inválida. Tente novamente.');
-        }
-
-        // Verifica se as senhas são iguais.
-        if (!UserValidator::areUserPasswordEqual($userData->password, $userData->password2)) {
-            RedirectWithMessage::handle(BASE_URL . '/login/create', FLASH_ERROR, 'Senhas não sao iguais. Tente novamente.');
-        }
-
-        // Instância a model.
-        $userModel = new UserModel();
-
-        // Verifica se o e-mail já foi cadastrado.
-        if ($userModel->getUserByEmail($userData->email)) {
-            RedirectWithMessage::handle(BASE_URL . '/login/create', FLASH_ERROR, 'Este e-mail já está em uso. Tente outro.');
-        }
-
-        // Cadastra um novo usuário.
-        $userModel->createUser($userData);
-
-        RedirectWithMessage::handle(BASE_URL, FLASH_SUCCESS, 'Conta cadastrada com sucesso!');
     }
 }
