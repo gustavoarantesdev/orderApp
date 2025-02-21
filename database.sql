@@ -40,7 +40,7 @@ CREATE TABLE products (
     cost_price  NUMERIC(10, 2) NOT NULL,
     status      BOOLEAN        DEFAULT TRUE, -- ativo ou desativo para venda.
     description VARCHAR(255)   DEFAULT NULL,
-    created_at  TIMESTAMP      DEFAULT CURRENT_TIMESTAMP
+    created_at  TIMESTAMP      DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
@@ -67,8 +67,8 @@ CREATE TABLE orders (
     description          VARCHAR(255)  DEFAULT NULL,
     created_at           TIMESTAMP     DEFAULT CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (user_id)        REFERENCES users(id),
-    FOREIGN KEY (customer_id)    REFERENCES customers(id)
+    FOREIGN KEY (user_id)        REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (customer_id)    REFERENCES customers(id) ON DELETE CASCADE
 );
 
 -- Tabela de itens do pedido.
