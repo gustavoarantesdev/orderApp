@@ -15,10 +15,11 @@ abstract class ExtractData
     public static function handle(array $formUserData): object
     {
         return (object) [
-            'name'      => $formUserData['name'] ?? null,
-            'email'     => $formUserData['email'],
-            'password'  => $formUserData['password'],
-            'password2' => $formUserData['password2']?? null,
+            'id'        => $formUserData['id']        ?? null,
+            'name'      => $formUserData['name']      ?? null,
+            'email'     => $formUserData['email']     ?? null,
+            'password'  => $formUserData['password']  ?? null,
+            'password2' => $formUserData['password2'] ?? null
         ];
     }
 }
