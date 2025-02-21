@@ -13,12 +13,17 @@ abstract class Routes
     public static function getRoutes(): array
     {
         return [
-            // Rotas de Login.
-            '/'                => 'LoginController@index',
-            '/login'           => 'LoginController@login',
-            '/login/cadastrar' => 'LoginController@create',
-            '/login/store'     => 'LoginController@store',
-            '/logout'          => 'LoginController@logout',
+            // Rotas de Login
+            '/'                     => 'LoginController@index',
+            '/login'                => 'LoginController@login',
+            '/logout'               => 'LoginController@logout',
+
+            // Rotas de usuário
+            '/usuario/cadastrar'    => 'UserController@create',
+            '/usuario/store'        => 'UserController@store',
+            '/usuario/editar/{id}'  => 'UserController@edit',
+            '/usuario/update'       => 'UserController@update',
+            '/usuario/deletar/{id}' => 'UserController@delete',
 
             // Rotas de Clientes
             '/cliente/cadastrar'    => 'CustomerController@create',
