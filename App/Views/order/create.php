@@ -204,7 +204,7 @@
                         </label>
                         <select name="payment_method" id="paymentMethod" class="form-select rounded-4 p-3"
                             required>
-                            <option hidden>Selecione...</option>
+                            <option hidden value="">Selecione...</option>
                             <option value="1">Cartão de Crédito</option>
                             <option value="2">Cartão de Débito</option>
                             <option value="3">Dinheiro</option>
