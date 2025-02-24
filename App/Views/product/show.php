@@ -18,8 +18,8 @@ FlashMessage::render()
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Nome</th>
-                            <th scope="col">Valor de venda</th>
-                            <th scope="col">Valor de custo</th>
+                            <th scope="col">Preço de venda</th>
+                            <th scope="col">Preço de custo</th>
                             <th scope="col">Status</th>
                             <th scope="col">Editar</th>
                         </tr>
