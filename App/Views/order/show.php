@@ -1,6 +1,7 @@
 <main style="margin-bottom: 7rem;">
     <section class="container">
-        <h1 class="text-center" style="font-size: 1.8rem; margin-top: 1.5rem; margin-bottom: 3.5rem;">Todas Encomenda
+        <h1 class="text-center" style="font-size: 1.8rem; margin-top: 1.5rem; margin-bottom: 3.5rem;">
+            Todas Encomenda
         </h1>
         <div class="col mt-5 card p-3 rounded-5 shadow">
             <div class="card-body table-responsive">
@@ -14,7 +15,7 @@
                             <th scope="col">Situação Pagamento</th>
                             <th scope="col">Forma Pagamento</th>
                             <th scope="col">Status</th>
-                            <th scope="col"></th>
+                            <th scope="col">Editar</th>
                             </th>
                         </tr>
                     </thead>
