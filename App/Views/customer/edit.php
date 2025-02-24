@@ -5,6 +5,7 @@ use App\Helpers\FlashMessage;
 FlashMessage::render()
 
 ?>
+
 <main class="d-flex align-items-center justify-content-center" style="margin-bottom: 7rem;">
     <section class="container">
         <!-- Título -->
@@ -26,22 +27,24 @@ FlashMessage::render()
                 <div class="row g-3 mb-3">
                     <!-- Tipo cliente -->
                     <div class="col-4">
-                        <label for="person_type" class="form-label">
+                        <label class="form-label">
                             Tipo <b class="text-danger">*</b>
                         </label>
                         <select name="person_type" class="form-select rounded-4 p-3" id="person_type">
-                            <option value="PF" <?= htmlspecialchars($viewData->person_type) == 'PF' ? 'selected' : '' ?>>P. Física</option>
-                            <option value="PJ" <?= htmlspecialchars($viewData->person_type) == 'PJ' ? 'selected' : '' ?>>P. Jurídica</option>
+                            <option value="PF" <?= htmlspecialchars($viewData->person_type) == 'PF' ? 'selected' : '' ?>>P.
+                                Física</option>
+                            <option value="PJ" <?= htmlspecialchars($viewData->person_type) == 'PJ' ? 'selected' : '' ?>>P.
+                                Jurídica</option>
                         </select>
                     </div>
 
                     <!-- Nome -->
                     <div class="col-8">
-                        <label for="name" class="form-label">
+                        <label class="form-label">
                             Nome <b class="text-danger">*</b>
                         </label>
                         <input type="text" name="name" class="form-control rounded-4 p-3 to-uppercase" minlength="10"
-                            value="<?= htmlspecialchars($viewData->name) ?>" required>
+                            value="<?= htmlspecialchars($viewData->name) ?>" required autocomplete="off">
                         <div class="invalid-feedback">
                             Informe o nome.
                         </div>
@@ -51,7 +54,7 @@ FlashMessage::render()
                 <div class="row g-3 mb-3">
                     <!-- Gênero -->
                     <div class="col-5" id="gender_div">
-                        <label for="gender" class="form-label">
+                        <label class="form-label">
                             Gênero <b class="text-danger">*</b>
                         </label>
                         <select name="gender" class="form-select rounded-4 p-3" id="gender_input" required>
@@ -68,11 +71,12 @@ FlashMessage::render()
 
                     <!-- CPF -->
                     <div class="col" id="person_type_cpf_div">
-                        <label for="cpf" class="form-label">
+                        <label class="form-label">
                             CPF <b class="text-danger">*</b>
                         </label>
                         <input type="text" name="cpf" class="form-control rounded-4 p-3 cpf" id="person_type_cpf_input"
-                            inputmode="numeric" value="<?= htmlspecialchars($viewData->cpf) ?>" minlength="14" required>
+                            inputmode="numeric" value="<?= htmlspecialchars($viewData->cpf) ?>" minlength="14" 
+                            required autocomplete="off">
                         <div class="invalid-feedback">
                             Informe o CPF.
                         </div>
@@ -80,12 +84,13 @@ FlashMessage::render()
 
                     <!-- CNPJ -->
                     <div class="col d-none" id="person_type_cnpj_div">
-                        <label for="cnpj_number" class="form-label">
+                        <label class="form-label">
                             CNPJ <b class="text-danger">*</b>
                         </label>
                         <input type="text" name="cnpj" class="form-control rounded-4 p-3 cnpj"
                             id="person_type_cnpj_input" inputmode="numeric"
-                            value="<?= htmlspecialchars($viewData->cnpj) ?>" minlength="18" required>
+                            value="<?= htmlspecialchars($viewData->cnpj) ?>" minlength="18" required 
+                            autocomplete="off">
                         <div class="invalid-feedback">
                             Informe o CNPJ.
                         </div>
@@ -95,12 +100,12 @@ FlashMessage::render()
                 <div class="row g-3 mb-3">
                     <!-- Celular -->
                     <div class="col">
-                        <label for="phone" class="form-label">
+                        <label class="form-label">
                             Celular <b class="text-danger">*</b>
                         </label>
                         <input type="text" name="phone" class="form-control rounded-4 p-3 phone_with_ddd"
                             inputmode="numeric" value="<?= htmlspecialchars($viewData->phone) ?>" minlength="14"
-                            required>
+                            required autocomplete="off">
                         <div class="invalid-feedback">
                             Informe número de celular.
                         </div>
@@ -108,7 +113,7 @@ FlashMessage::render()
 
                     <!-- Data de aniversário -->
                     <div class="col" id="birth_date_div">
-                        <label for="birth_date" class="form-label">
+                        <label class="form-label">
                             Data de aniversário <b class="text-danger">*</b>
                         </label>
                         <input type="date" name="birth_date" class="form-control rounded-4 p-3" id="birth_date_input"
@@ -121,11 +126,11 @@ FlashMessage::render()
 
                 <!-- Endereço -->
                 <div class="mb-3">
-                    <label for="address" class="form-label">
+                    <label class="form-label">
                         Endereço <b class="text-danger">*</b>
                     </label>
                     <input type="text" name="address" class="form-control rounded-4 p-3 to-uppercase" minlength="5"
-                        value="<?= htmlspecialchars($viewData->address) ?>" required>
+                        value="<?= htmlspecialchars($viewData->address) ?>" required autocomplete="off">
                     <div class="invalid-feedback">
                         Informe o endereço de entrega.
                     </div>
@@ -133,7 +138,7 @@ FlashMessage::render()
 
                 <!-- Observação -->
                 <div class="mb-3">
-                    <label for="description" class="form-label">
+                    <label class="form-label">
                         Observação
                     </label>
                     <textarea type="text" name="description" rows="3"
