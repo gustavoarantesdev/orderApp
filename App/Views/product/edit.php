@@ -4,7 +4,8 @@ use App\Helpers\FlashMessage;
 
 FlashMessage::render()
 
-    ?>
+?>
+
 <main class="d-flex align-items-center justify-content-center" style="margin-bottom: 7rem;">
     <section class="container">
         <!-- Título -->
@@ -21,16 +22,16 @@ FlashMessage::render()
             </div>
 
             <form action="<?= BASE_URL . '/produto/update' ?>" method="POST" class="mt-3 needs-validation" novalidate>
-                <input type="hidden" name="id" value="<?= htmlspecialchars($viewData->id) ?>"></input>
+                <input type="hidden" name="id" value="<?= htmlspecialchars($viewData->id) ?>">
 
                 <div class="row g-3 mb-3">
                     <!-- Nome -->
                     <div class="col">
-                        <label for="name" class="form-label">
+                        <label class="form-label">
                             Nome <b class="text-danger">*</b>
                         </label>
                         <input type="text" name="name" class="form-control rounded-4 p-3 to-uppercase" minlength="10"
-                            value="<?= htmlspecialchars($viewData->name) ?>" required>
+                            value="<?= htmlspecialchars($viewData->name) ?>" required autocomplete="off">
                         <div class="invalid-feedback">
                             Informe o nome do produto.
                         </div>
@@ -40,8 +41,8 @@ FlashMessage::render()
                 <div class="row g-3 mb-3">
                     <!-- Preço de venda -->
                     <div class="col">
-                        <label for="sell_price" class="form-label">
-                            Preço de venda <span class="text-danger"><strong>*</strong></span>
+                        <label class="form-label">
+                            Preço de venda <span class="text-danger"><b>*</b></span>
                         </label>
                         <input type="text" name="sell_price" class="money form-control rounded-4 p-3"
                             inputmode="numeric" value="<?= htmlspecialchars($viewData->sell_price) ?>" required>
@@ -52,8 +53,8 @@ FlashMessage::render()
 
                     <!-- Preço de custo -->
                     <div class="col">
-                        <label for="cost_price" class="form-label">
-                            Preço de custo <span class="text-danger"><strong>*</strong></span>
+                        <label class="form-label">
+                            Preço de custo <span class="text-danger"><b>*</bn></span>
                         </label>
                         <input type="text" name="cost_price" class="money form-control rounded-4 p-3"
                             inputmode="numeric" value="<?= htmlspecialchars($viewData->cost_price) ?>" required>
@@ -66,13 +67,17 @@ FlashMessage::render()
                 <div class="row g-3 mb-3">
                     <!-- Status -->
                     <div class="col">
-                        <label for="status" class="form-label">
+                        <label class="form-label">
                             Status <b class="text-danger">*</b>
                         </label>
                         <select name="status" class="form-select rounded-4 p-3" required>
-                            <option value="1" <?= htmlspecialchars($viewData->status) == true ? 'selected' : '' ?>>Ativo
+                            <option value="1"
+                                <?= htmlspecialchars($viewData->status) == true ? 'selected' : '' ?>>
+                                Ativo
                             </option>
-                            <option value="0" <?= htmlspecialchars($viewData->status) == false ? 'selected' : '' ?>>Desativo
+                            <option value="0"
+                                <?= htmlspecialchars($viewData->status) == false ? 'selected' : '' ?>>
+                                Desativo
                             </option>
                         </select>
                         <div class="invalid-feedback">
@@ -83,7 +88,7 @@ FlashMessage::render()
 
                 <!-- Observação -->
                 <div class="mb-3">
-                    <label for="description" class="form-label">
+                    <label class="form-label">
                         Observação
                     </label>
                     <textarea type="text" name="description" rows="3"
