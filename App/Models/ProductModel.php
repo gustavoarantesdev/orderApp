@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Core\Model;
+use App\Helpers\product\FormatDataToView;
 use PDO;
 
 /**
@@ -24,21 +25,36 @@ class ProductModel extends Model
     }
 
     /**
-     * Retorna todos os produtos.
+     * Retorna todos os produtos, com a quantidade e total vendidos.
      *
      * @return object
      */
     public function getAll(): object
     {
-        $stmt = $this->pdo->prepare(
-            "SELECT * FROM products WHERE user_id = :user_id"
-        );
+        $stmt = $this->pdo->prepare("
+            SELECT
+                products.id,
+                products.name,
+                products.cost_price,
+                products.status,
+                COALESCE(SUM(order_items.quantity), 0) AS total_orders,
+                COALESCE(SUM(order_items.sell_price * order_items.quantity), 0.00) AS total_sales
+            FROM products
+            LEFT JOIN order_items ON order_items.product_id = products.id
+            WHERE products.user_id = :user_id
+            GROUP BY products.id
+        ");
 
         $stmt->execute([
             ':user_id' => $_SESSION['user_id']
         ]);
 
-        return (object) $stmt->fetchAll();
+        $productsData = (object) $stmt->fetchAll();
+
+        // Aplica as formatações nos dados.
+        FormatDataToView::handle($productsData);
+
+        return $productsData;
     }
 
     /**
