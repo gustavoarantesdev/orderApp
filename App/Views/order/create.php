@@ -24,10 +24,10 @@
                     <!-- Cliente -->
                     <div class="col-7">
                         <label class="form-label">
-                            Cliente <span class="text-danger"><strong>*</strong></span>
+                            Cliente <span class="text-danger"><b>*</b></span>
                         </label>
                         <input type="text" id="customerInput" list="customerDatalist"
-                            class="form-control rounded-4 p-3" autofocus required>
+                            class="form-control rounded-4 p-3" required autocomplete="off" autofocus>
                         <datalist id="customerDatalist"></datalist>
                         <div class="invalid-feedback">
                             Informe o nome do cliente.
@@ -46,10 +46,10 @@
                     <!-- Endereço -->
                     <div class="col">
                         <label class="form-label">
-                            Endereço da entrega <span class="text-danger"><strong>*</strong></span>
+                            Endereço da entrega <span class="text-danger"><b>*</b></span>
                         </label>
                         <input type="text" name="customer_address" id="customerAddress"
-                            class="form-control rounded-4 p-3" required>
+                            class="form-control rounded-4 p-3" required autocomplete="off">
                         <div class="invalid-feedback">
                             Informe o endereço da entrega.
                         </div>
@@ -73,10 +73,10 @@
                     <!-- Produto -->
                     <div class="col-4">
                         <label class="form-label">
-                            Produto <span class="text-danger">*</strong></span>
+                            Produto <span class="text-danger"><b>*</b></span>
                         </label>
                         <input type="text" list="productDatalist" id="productNameInput"
-                            class="form-control rounded-4 p-3">
+                            class="form-control rounded-4 p-3" autocomplete="off">
                         <datalist id="productDatalist"></datalist>
                         <div class="invalid-feedback">
                             Informe o nome do produto.
@@ -86,7 +86,7 @@
                     <!-- Valor unitário-->
                     <div class="col">
                         <label for="sell_price" class="form-label">
-                            V. Un. <span class="text-danger"><strong>*</strong></span>
+                            V. Un. <span class="text-danger"><b>*</b></span>
                         </label>
                         <input type="text" id="productSellPriceInput"
                             class="money form-control rounded-4 p-3" inputmode="numeric">
@@ -98,7 +98,7 @@
                     <!-- Quantidade -->
                     <div class="col">
                         <label class="form-label">
-                            Qtd. <span class="text-danger"><strong>*</strong></span>
+                            Qtd. <span class="text-danger"><b>*</b></span>
                         </label>
                         <input type="text" id="productQuantityInput" class="quantity form-control rounded-4 p-3"
                             inputmode="numeric">
@@ -183,7 +183,7 @@
                     <!-- Situação de pagamento -->
                     <div class="col">
                         <label class="form-label">
-                            Já foi Pago? <span class="text-danger"><strong>*</strong></span>
+                            Já foi Pago? <span class="text-danger"><b>*</b></span>
                         </label>
                         <select name="payment_status" class="form-select rounded-4 p-3" required>
                             <option value="1">Não</option>
@@ -200,7 +200,7 @@
                     <!-- Forma de Pagamento -->
                     <div class="col-6">
                         <label class="form-label">
-                            For. de Pagamento <span class="text-danger"><strong>*</strong></span>
+                            For. de Pagamento <span class="text-danger"><b>*</b></span>
                         </label>
                         <select name="payment_method" id="paymentMethod" class="form-select rounded-4 p-3"
                             required>
@@ -240,7 +240,7 @@
                     <!-- Data do pagamento -->
                     <div class="col">
                         <label class="form-label">
-                            Data Pagamento <span class="text-danger"><strong>*</strong></span>
+                            Data Pagamento <span class="text-danger"><b>*</b></span>
                         </label>
                         <input type="date" min="2023-12-31" name="payment_date"
                             class="form-control rounded-4 p-3" required>
@@ -257,7 +257,7 @@
                     <!-- Data de entrega -->
                     <div class="col-7">
                         <label class="form-label">Data da entrega <span
-                            class="text-danger"><strong>*</strong></span></label>
+                            class="text-danger"><b>*</b></span></label>
                         <input type="date" min="2023-12-31" name="completion_date"
                             class="form-control rounded-4 p-3" required>
                         <div class="invalid-feedback">
@@ -268,7 +268,7 @@
                     <!-- Horário de entrega -->
                     <div class="col">
                         <label class="form-label">Hora <span
-                            class="text-danger"><strong>*</strong></span>
+                            class="text-danger"><b>*</b></span>
                         </label>
                         <input type="time" name="completion_time" class="form-control rounded-4 p-3" required>
                         <div class="invalid-feedback">
@@ -279,7 +279,7 @@
                     <!-- Retirada -->
                     <div class="col">
                         <label class="form-label">Retirada? <span
-                            class="text-danger"><strong>*</strong></span>
+                            class="text-danger"><b>*</b></span>
                         </label>
                         <select name="withdraw" class="form-select rounded-4 p-3" required>
                             <option value="f">Não</option>
@@ -321,7 +321,7 @@
                             <button
                                 class="btn bg-body-secondary rounded-5 d-flex align-items-center justify-content-center"
                                 type="button" style="width: 9rem;" onclick="window.location='<?= BASE_URL ?>'">
-                                <p class="m-0"><strong>Retornar</strong></p>
+                                <p class="m-0"><b>Retornar</b></p>
                                 <i class="bi bi-arrow-left ms-3" style="font-size: 1.5rem;"></i>
                             </button>
                         </div>
@@ -333,7 +333,7 @@
                             <button
                                 class="btn bg-success-subtle text-success-emphasis rounded-5 d-flex align-items-center justify-content-center"
                                 type="submit" style="width: 9rem;">
-                                <p class="m-0"><strong>Cadastrar</strong></p>
+                                <p class="m-0"><b>Cadastrar</b></p>
                                 <i class="bi bi-plus ms-2" style="font-size: 1.5rem;"></i>
                             </button>
                         </div>

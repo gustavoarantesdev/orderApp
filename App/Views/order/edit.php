@@ -5,6 +5,7 @@ use App\Helpers\FlashMessage;
 FlashMessage::render()
 
 ?>
+
 <main class="d-flex align-items-center justify-content-center" style="margin-bottom: 7rem;">
     <section class="container">
         <!-- Título -->
@@ -29,12 +30,13 @@ FlashMessage::render()
 
                 <div class="row g-3 mb-3">
                     <!-- Id cliente -->
-                    <input type="hidden" name="customer_id" id="customerId" value="<?= htmlspecialchars($viewData->customer_id) ?>">
+                    <input type="hidden" name="customer_id" id="customerId"
+                        value="<?= htmlspecialchars($viewData->customer_id) ?>" autocomplete="off">
 
                     <!-- Cliente -->
                     <div class="col-7">
                         <label class="form-label">
-                            Cliente <span class="text-danger"><strong>*</strong></span>
+                            Cliente <span class="text-danger"><b>*</b></span>
                         </label>
                         <input type="text" id="customerInput" list="customerDatalist"
                             class="form-control rounded-4 p-3" value="<?= htmlspecialchars($viewData->customer_name) ?>" required>
@@ -56,7 +58,7 @@ FlashMessage::render()
                     <!-- Endereço -->
                     <div class="col">
                         <label class="form-label">
-                            Endereço da entrega <span class="text-danger"><strong>*</strong></span>
+                            Endereço da entrega <span class="text-danger"><b>*</b></span>
                         </label>
                         <input type="text" name="customer_address" id="customerAddress"
                             class="form-control rounded-4 p-3" value="<?= htmlspecialchars($viewData->delivery_address) ?>" required>
@@ -76,7 +78,7 @@ FlashMessage::render()
                     <!-- Produto -->
                     <div class="col-4">
                         <label class="form-label">
-                            Produto <span class="text-danger">*</strong></span>
+                            Produto <span class="text-danger"><b>*</b></span>
                         </label>
                         <input type="text" list="productDatalist" id="productNameInput"
                             class="form-control rounded-4 p-3">
@@ -89,7 +91,7 @@ FlashMessage::render()
                     <!-- Valor unitário-->
                     <div class="col">
                         <label for="sell_price" class="form-label">
-                            V. Un. <span class="text-danger"><strong>*</strong></span>
+                            V. Un. <span class="text-danger"><b>*</b></span>
                         </label>
                         <input type="text" id="productSellPriceInput"
                             class="money form-control rounded-4 p-3" inputmode="numeric">
@@ -101,7 +103,7 @@ FlashMessage::render()
                     <!-- Quantidade -->
                     <div class="col">
                         <label class="form-label">
-                            Qtd. <span class="text-danger"><strong>*</strong></span>
+                            Qtd. <span class="text-danger"><b>*</b></span>
                         </label>
                         <input type="text" id="productQuantityInput" class="quantity form-control rounded-4 p-3"
                             inputmode="numeric">
@@ -209,7 +211,7 @@ FlashMessage::render()
                     <!-- Situação de pagamento -->
                     <div class="col">
                         <label class="form-label">
-                            Já foi Pago? <span class="text-danger"><strong>*</strong></span>
+                            Já foi Pago? <span class="text-danger"><b>*</b></span>
                         </label>
                         <select name="payment_status" class="form-select rounded-4 p-3" required>
                             <option value="1" <?= htmlspecialchars($viewData->payment_status) == 0 ? 'selected' : '' ?>>Não</option>
@@ -226,7 +228,7 @@ FlashMessage::render()
                     <!-- Forma de Pagamento -->
                     <div class="col-6">
                         <label class="form-label">
-                            For. de Pagamento <span class="text-danger"><strong>*</strong></span>
+                            For. de Pagamento <span class="text-danger"><b>*</b></span>
                         </label>
                         <select name="payment_method" id="paymentMethod" class="form-select rounded-4 p-3"
                             required>
@@ -266,7 +268,7 @@ FlashMessage::render()
                     <!-- Data do pagamento -->
                     <div class="col">
                         <label class="form-label">
-                            Data Pagamento <span class="text-danger"><strong>*</strong></span>
+                            Data Pagamento <span class="text-danger"><b>*</b></span>
                         </label>
                         <input type="date" min="2023-12-31" name="payment_date"
                             class="form-control rounded-4 p-3" value="<?= htmlspecialchars($viewData->payment_date) ?>" required>
@@ -283,7 +285,7 @@ FlashMessage::render()
                     <!-- Data de entrega -->
                     <div class="col-7">
                         <label class="form-label">Data da entrega <span
-                            class="text-danger"><strong>*</strong></span></label>
+                            class="text-danger"><b>*</b></span></label>
                         <input type="date" min="2023-12-31" name="completion_date"
                             class="form-control rounded-4 p-3" value="<?= htmlspecialchars($viewData->completion_date) ?>" required>
                         <div class="invalid-feedback">
@@ -294,7 +296,7 @@ FlashMessage::render()
                     <!-- Horário de entrega -->
                     <div class="col">
                         <label class="form-label">Hora <span
-                            class="text-danger"><strong>*</strong></span>
+                            class="text-danger"><b>*</b></span>
                         </label>
                         <input type="time" name="completion_time" class="form-control rounded-4 p-3" value="<?= htmlspecialchars($viewData->completion_time) ?>" required>
                         <div class="invalid-feedback">
@@ -305,7 +307,7 @@ FlashMessage::render()
                     <!-- Retirada -->
                     <div class="col">
                         <label class="form-label">Retirada? <span
-                            class="text-danger"><strong>*</strong></span>
+                            class="text-danger"><b>*</b></span>
                         </label>
                         <select name="withdraw" class="form-select rounded-4 p-3" required>
                             <option value="f" <?= htmlspecialchars($viewData->withdraw) == false ? 'selected' : '' ?>>Não</option>
@@ -348,7 +350,7 @@ FlashMessage::render()
                             <button
                                 class="btn bg-body-secondary rounded-5 d-flex align-items-center justify-content-center"
                                 type="button" style="width: 9rem;" onclick="window.location='<?= BASE_URL ?>'">
-                                <p class="m-0"><strong>Retornar</strong></p>
+                                <p class="m-0"><b>Retornar</b></p>
                                 <i class="bi bi-arrow-left ms-3" style="font-size: 1.5rem;"></i>
                             </button>
                         </div>
@@ -360,7 +362,7 @@ FlashMessage::render()
                             <button id="deleteButton"
                                 class="btn bg-danger-subtle text-danger-emphasis rounded-5 d-flex align-items-center justify-content-center"
                                 type="button" style="width: 9rem;">
-                                <p class="m-0"><strong>Excluir</strong></p>
+                                <p class="m-0"><b>Excluir</b></p>
                                 <i class="bi bi-trash ms-2" style="font-size: 1.5rem;"></i>
                             </button>
                         </div>
@@ -372,7 +374,7 @@ FlashMessage::render()
                             <button
                                 class="btn bg-warning-subtle text-warning-emphasis rounded-5 d-flex align-items-center justify-content-center"
                                 type="submit" style="width: 9rem;">
-                                <p class="m-0"><strong>Salvar</strong></p>
+                                <p class="m-0"><b>Salvar</b></p>
                                 <i class="bi bi-check-lg ms-2" style="font-size: 1.5rem;"></i>
                             </button>
                         </div>
