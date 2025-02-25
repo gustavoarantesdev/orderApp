@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Core\Model;
+use App\Helpers\customer\FormatDataToView;
 use PDO;
 
 /**
@@ -26,23 +27,39 @@ class CustomerModel extends Model
     }
 
     /**
-     * Retorna todos os clientes.
+     * Retorna todos os clientes, com a quantidade de encomendas, total de vendido e pago.
      *
      * @return object
      */
     public function getAll(): object
     {
         $stmt = $this->pdo->prepare("
-            SELECT *
+            SELECT
+                customers.id,
+                customers.name,
+                customers.person_type,
+                customers.phone,
+                customers.gender,
+                customers.birth_date,
+                COALESCE(COUNT(orders.id), 0) AS total_orders,
+                COALESCE(SUM(orders.subtotal), 0.00) AS total_sales,
+                COALESCE(SUM(orders.payment_value), 0.00) AS total_paid
             FROM customers
-            WHERE user_id = :user_id
+            LEFT JOIN orders ON orders.customer_id = customers.id
+            WHERE customers.user_id = :user_id
+            GROUP BY customers.id
         ");
 
         $stmt->execute([
             ':user_id' => $_SESSION['user_id']
         ]);
 
-        return (object) $stmt->fetchAll();
+        $customersData = (object) $stmt->fetchAll();
+
+        // Aplica as formatações nos dados.
+        FormatDataToView::handle($customersData);
+
+        return $customersData;
     }
 
     /**
