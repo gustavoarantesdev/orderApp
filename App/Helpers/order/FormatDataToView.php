@@ -3,6 +3,7 @@
 namespace App\Helpers\order;
 
 use App\Helpers\ConvertPrice;
+use App\Helpers\FormatCustomerName;
 use DateTime;
 
 /**
@@ -20,7 +21,7 @@ class FormatDataToView
         foreach ($ordersData as $orderData) {
             $orderData->order_situation = self::formatOrderSituation($orderData->completion_date);
             $orderData->order_status    = self::formatOrderStatus($orderData->order_status);
-            $orderData->customer_name   = self::formatCustomerName($orderData->customer_name);
+            $orderData->customer_name   = FormatCustomerName::handle($orderData->customer_name);
             isset($orderData->withdraw) ? $orderData->withdraw = self::formatWithdraw($orderData->withdraw) : null;
             $orderData->completion_date = self::formatDate($orderData->completion_date);
             isset($orderData->completion_time) ? $orderData->completion_time = self::formatTime($orderData->completion_time) : null;
