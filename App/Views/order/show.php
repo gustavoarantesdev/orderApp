@@ -24,6 +24,7 @@ FlashMessage::render()
                             <th scope="col">Situação Pagamento</th>
                             <th scope="col">Forma Pagamento</th>
                             <th scope="col">Status</th>
+                            <th scope="col">Situação</th>
                             <th scope="col">Editar</th>
                             </th>
                         </tr>
@@ -39,6 +40,7 @@ FlashMessage::render()
                                 <td><?= $orderData->payment_status ?></td>
                                 <td><?= htmlspecialchars($orderData->payment_method) ?></td>
                                 <td><?= $orderData->order_status ?></td>
+                                <td><?= $orderData->order_situation ?></td>
                                 <td>
                                     <button class="btn bg-body-secondary p-2 lh-1 rounded-5" type="button"
                                         title="Editar Encomenda"
