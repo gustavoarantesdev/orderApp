@@ -32,9 +32,11 @@ class CustomerModel extends Model
      */
     public function getAll(): object
     {
-        $stmt = $this->pdo->prepare(
-            "SELECT * FROM customers WHERE user_id = :user_id"
-        );
+        $stmt = $this->pdo->prepare("
+            SELECT *
+            FROM customers
+            WHERE user_id = :user_id
+        ");
 
         $stmt->execute([
             ':user_id' => $_SESSION['user_id']
@@ -53,13 +55,14 @@ class CustomerModel extends Model
      */
     public function getById(int $id): mixed
     {
-        $stmt = $this->pdo->prepare(
-            "SELECT * FROM customers WHERE user_id = :user_id AND id = :id"
-        );
+        $stmt = $this->pdo->prepare("
+            SELECT * FROM customers
+            WHERE id = :id AND user_id = :user_id
+        ");
 
         $stmt->execute([
-            ':user_id' => $_SESSION['user_id'],
-            ':id' => $id
+            ':id'      => $id,
+            ':user_id' => $_SESSION['user_id']
         ]);
 
         return $stmt->fetch();
@@ -73,13 +76,29 @@ class CustomerModel extends Model
      */
     public function create(object $data): void
     {
-        $stmt = $this->pdo->prepare(
-            "INSERT INTO customers (
-                user_id, name, person_type, cpf, cnpj, phone, gender,
-                birth_date, address, description
+        $stmt = $this->pdo->prepare("
+            INSERT INTO customers (
+                user_id,
+                name,
+                person_type,
+                cpf,
+                cnpj,
+                phone,
+                gender,
+                birth_date,
+                address,
+                description
             ) VALUES (
-                :user_id, :name, :person_type, :cpf, :cnpj, :phone, :gender,
-                :birth_date, :address, :description
+                :user_id,
+                :name,
+                :person_type,
+                :cpf,
+                :cnpj,
+                :phone,
+                :gender,
+                :birth_date,
+                :address,
+                :description
         )");
 
         $stmt->execute([
@@ -104,8 +123,8 @@ class CustomerModel extends Model
      */
     public function update(object $data): void
     {
-        $stmt = $this->pdo->prepare(
-            "UPDATE customers SET
+        $stmt = $this->pdo->prepare("
+            UPDATE customers SET
                 name        = :name,
                 cpf         = :cpf,
                 cnpj        = :cnpj,
@@ -114,12 +133,12 @@ class CustomerModel extends Model
                 birth_date  = :birth_date,
                 address     = :address,
                 description = :description
-            WHERE user_id = :user_id AND id = :id"
+            WHERE id = :id AND user_id = :user_id"
         );
 
         $stmt->execute([
-            ':user_id'     => $_SESSION['user_id'],
             ':id'          => $data->id,
+            ':user_id'     => $_SESSION['user_id'],
             ':name'        => $data->name,
             ':cpf'         => $data->cpf,
             ':cnpj'        => $data->cnpj,
@@ -139,11 +158,15 @@ class CustomerModel extends Model
      */
     public function delete(int $id): bool
     {
-        $stmt = $this->pdo->prepare("DELETE FROM customers WHERE user_id = :user_id AND id = :id");
+        $stmt = $this->pdo->prepare("
+            DELETE FROM customers
+            WHERE id = :id AND user_id = :user_id
+        ");
+
         $stmt->execute([
-            ':user_id' => $_SESSION['user_id'],
-            ':id' => $id
-        ],);
+            ':id'      => $id,
+            ':user_id' => $_SESSION['user_id']
+        ]);
 
         return $stmt->rowCount() > 0;
     }
@@ -158,14 +181,16 @@ class CustomerModel extends Model
      */
     public function cpfExists(string $cpf): bool
     {
-        $stmt = $this->pdo->prepare(
-            "SELECT COUNT(*) FROM customers WHERE user_id = :user_id AND cpf = :cpf"
-        );
+        $stmt = $this->pdo->prepare("
+            SELECT COUNT(*)
+            FROM customers
+            WHERE cpf = :cpf AND user_id = :user_id
+        ");
 
         $stmt->execute([
-            ':user_id' => $_SESSION['user_id'],
-            ':cpf' => $cpf
-        ],);
+            ':cpf'     => $cpf,
+            ':user_id' => $_SESSION['user_id']
+        ]);
 
         return $stmt->fetchColumn() > 0;
     }
@@ -180,14 +205,16 @@ class CustomerModel extends Model
      */
     public function cnpjExists(string $cnpj): bool
     {
-        $stmt = $this->pdo->prepare(
-            "SELECT COUNT(*) FROM customers WHERE user_id = :user_id AND cnpj = :cnpj"
-        );
+        $stmt = $this->pdo->prepare("
+            SELECT COUNT(*)
+            FROM customers
+            WHERE cnpj = :cnpj AND user_id = :user_id
+        ");
 
         $stmt->execute([
-            ':user_id' => $_SESSION['user_id'],
-            ':cnpj' => $cnpj
-        ],);
+            ':cnpj'    => $cnpj,
+            ':user_id' => $_SESSION['user_id']
+        ]);
 
         return $stmt->fetchColumn() > 0;
     }
