@@ -33,7 +33,7 @@ FlashMessage::render();
 
                         <!-- Alerta da encomenda -->
                         <div class="position-absolute end-0 top-0 mt-3 me-3">
-                            <?= $orderData->order_status ?>
+                            <?= $orderData->order_situation ?>
                         </div>
 
                         <div class="row text-center mt-4 mb-4">
@@ -69,8 +69,9 @@ FlashMessage::render();
 
                                     <!-- Informaões auxiliares -->
                                     <div class="mb-5">
+                                        <?= $orderData->order_status ?>
                                         <span
-                                            class="badge bg-info-subtle border border-info-subtle text-info-emphasis rounded-pill text-center">
+                                            class="mb-1 badge bg-info-subtle border border-info-subtle text-info-emphasis rounded-pill text-center">
                                             Total R$ <?= $orderData->subtotal ?>
                                         </span>
                                         <?= $orderData->payment_status ?>
