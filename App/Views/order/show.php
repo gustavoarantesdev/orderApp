@@ -1,3 +1,11 @@
+<?php
+
+use App\Helpers\FlashMessage;
+
+FlashMessage::render()
+
+?>
+
 <main style="margin-bottom: 7rem;">
     <section class="container">
         <h1 class="text-center" style="font-size: 1.8rem; margin-top: 1.5rem; margin-bottom: 3.5rem;">
@@ -5,7 +13,7 @@
         </h1>
         <div class="col mt-5 card p-3 rounded-5 shadow">
             <div class="card-body table-responsive">
-                <table class="table align-middle table-responsive">
+                <table class="table align-middle text-nowrap">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -26,7 +34,7 @@
                                 <td><?= htmlspecialchars($orderData->order_number) ?></td>
                                 <td><?= htmlspecialchars($orderData->customer_name) ?></td>
                                 <td><?= htmlspecialchars($orderData->completion_date) ?></td>
-                                <td><?= 'R$ ' . htmlspecialchars($orderData->subtotal) ?></td>
+                                <td>R$ <?= htmlspecialchars($orderData->subtotal) ?></td>
                                 <td><?= $orderData->payment_status ?></td>
                                 <td><?= htmlspecialchars($orderData->payment_method) ?></td>
                                 <td><?= $orderData->order_status ?></td>
