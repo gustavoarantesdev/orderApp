@@ -63,6 +63,33 @@ class CustomerModel extends Model
     }
 
     /**
+     * Retorna todos os clientes, somente para o AJAX.
+     *
+     * @return array
+     */
+    public function getByAjax(): array
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT
+                id,
+                name,
+                phone,
+                address
+            FROM customers
+            WHERE user_id = :user_id
+            ORDER BY name ASC
+        ");
+
+        $stmt->execute([
+            ':user_id' => $_SESSION['user_id']
+        ]);
+
+        $customersData = $stmt->fetchAll();
+
+        return $customersData;
+    }
+
+    /**
      * Retorna um cliente pelo ID informado.
      *
      * Se não for encontrada retorna null.
