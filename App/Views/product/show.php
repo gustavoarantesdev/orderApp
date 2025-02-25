@@ -5,6 +5,7 @@ use App\Helpers\FlashMessage;
 FlashMessage::render()
 
 ?>
+
 <main style="margin-bottom: 7rem;">
     <section class="container">
         <!-- Título -->
@@ -18,8 +19,9 @@ FlashMessage::render()
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Nome</th>
-                            <th scope="col">Preço de venda</th>
-                            <th scope="col">Preço de custo</th>
+                            <th scope="col">Qtd. Vendido</th>
+                            <th scope="col">Total Vendido</th>
+                            <th scope="col">Preço de Custo</th>
                             <th scope="col">Status</th>
                             <th scope="col">Editar</th>
                         </tr>
@@ -30,8 +32,9 @@ FlashMessage::render()
                             <tr>
                                 <td><?= htmlspecialchars($data->id) ?></td>
                                 <td><?= htmlspecialchars($data->name) ?></td>
-                                <td><?= htmlspecialchars($data->sell_price) ?></td>
-                                <td><?= htmlspecialchars($data->cost_price) ?></td>
+                                <td><?= htmlspecialchars($data->total_orders) ?></td>
+                                <td>R$ <?= htmlspecialchars($data->total_sales) ?></td>
+                                <td>R$ <?= htmlspecialchars($data->cost_price) ?></td>
                                 <td><?= htmlspecialchars($data->status) ?></td>
                                 <td>
                                     <button class="btn bg-body-secondary p-2 lh-1 rounded-5" type="button"
