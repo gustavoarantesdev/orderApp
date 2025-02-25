@@ -60,7 +60,7 @@ class ProductModel extends Model
     /**
      * Retorna todos os produtos disponíveis, somente para o AJAX.
      *
-     * @return object
+     * @return array
      */
     public function getByAjax(): array
     {
@@ -71,6 +71,7 @@ class ProductModel extends Model
                 sell_price
             FROM products
             WHERE status <> false AND user_id = :user_id
+            ORDER BY name ASC
         ");
 
         $stmt->execute([
