@@ -8,6 +8,7 @@ FlashMessage::render()
 
 <main style="margin-bottom: 7rem;">
     <section class="container">
+        <!-- Título -->
         <h1 class="text-center" style="font-size: 1.8rem; margin-top: 1.5rem; margin-bottom: 3.5rem;">
             Todas Encomenda
         </h1>
