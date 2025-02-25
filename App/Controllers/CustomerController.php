@@ -192,12 +192,13 @@ class CustomerController extends Controller
 
     /**
      * Retorna todos os clientes para o Ajax de clientes.
+     *
      * @return void
      */
     public function customers(): void
     {
-        $data = $this->customerModel->getAll();
-        $data = (array) $data;
-        echo json_encode($data);
+        $customersData = $this->customerModel->getByAjax();
+
+        echo json_encode($customersData);
     }
 }
