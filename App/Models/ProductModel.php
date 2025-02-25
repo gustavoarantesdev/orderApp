@@ -67,13 +67,15 @@ class ProductModel extends Model
      */
     public function getById(int $id): mixed
     {
-        $stmt = $this->pdo->prepare(
-            "SELECT * FROM products WHERE user_id = :user_id AND id = :id"
-        );
+        $stmt = $this->pdo->prepare("
+            SELECT *
+            FROM products
+            WHERE id = :id AND user_id = :user_id
+        ");
 
         $stmt->execute([
-            ':user_id' => $_SESSION['user_id'],
-            ':id' => $id
+            ':id'      => $id,
+            ':user_id' => $_SESSION['user_id']
         ]);
 
         return $stmt->fetch();
@@ -87,11 +89,21 @@ class ProductModel extends Model
      */
     public function create(object $data): void
     {
-        $stmt = $this->pdo->prepare(
-            "INSERT INTO products (
-                user_id, name, sell_price, cost_price, status, description
+        $stmt = $this->pdo->prepare("
+            INSERT INTO products (
+                user_id,
+                name,
+                sell_price,
+                cost_price,
+                status,
+                description
             ) VALUES (
-                :user_id, :name, :sell_price, :cost_price, :status, :description
+                :user_id,
+                :name,
+                :sell_price,
+                :cost_price,
+                :status,
+                :description
         )");
 
         $stmt->execute([
@@ -112,19 +124,19 @@ class ProductModel extends Model
      */
     public function update(object $data): void
     {
-        $stmt = $this->pdo->prepare(
-            "UPDATE products SET
+        $stmt = $this->pdo->prepare("
+            UPDATE products SET
                 name        = :name,
                 sell_price  = :sell_price,
                 cost_price  = :cost_price,
                 status      = :status,
                 description = :description
-            WHERE user_id = :user_id AND id = :id"
-        );
+            WHERE id = :id AND user_id = :user_id
+        ");
 
         $stmt->execute([
-            ':user_id'     => $_SESSION['user_id'],
             ':id'          => $data->id,
+            ':user_id'     => $_SESSION['user_id'],
             ':name'        => $data->name,
             ':sell_price'  => $data->sell_price,
             ':cost_price'  => $data->cost_price,
@@ -141,11 +153,15 @@ class ProductModel extends Model
      */
     public function delete(int $id): bool
     {
-        $stmt = $this->pdo->prepare("DELETE FROM products WHERE user_id = :user_id AND id = :id");
+        $stmt = $this->pdo->prepare("
+            DELETE FROM products
+            WHERE id = :id AND user_id = :user_id
+        ");
+
         $stmt->execute([
-            ':user_id' => $_SESSION['user_id'],
-            ':id' => $id
-        ],);
+            ':id'      => $id,
+            ':user_id' => $_SESSION['user_id']
+        ]);
 
         return $stmt->rowCount() > 0;
     }
@@ -160,14 +176,16 @@ class ProductModel extends Model
      */
     public function productExists(string $name): bool
     {
-        $stmt = $this->pdo->prepare(
-            "SELECT COUNT(*) FROM products WHERE user_id = :user_id AND name = :name"
-        );
+        $stmt = $this->pdo->prepare( "
+            SELECT COUNT(*)
+            FROM products
+            WHERE name = :name AND user_id = :user_id
+        ");
 
         $stmt->execute([
-            ':user_id' => $_SESSION['user_id'],
-            ':name' => $name
-        ],);
+            ':name'    => $name,
+            ':user_id' => $_SESSION['user_id']
+        ]);
 
         return $stmt->fetchColumn() > 0;
     }
