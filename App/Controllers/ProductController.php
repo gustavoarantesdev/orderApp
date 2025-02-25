@@ -4,11 +4,9 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Helpers\ConvertPrice;
-use App\Helpers\product\FormatDataToShow;
 use App\Models\ProductModel;
 use App\Core\View;
 use App\Helpers\product\ExtractData;
-use App\Helpers\product\FormatDataToDb;
 use App\Helpers\ConvertDate;
 use App\Helpers\ValidateRequest;
 use App\Helpers\RedirectWithMessage;
@@ -98,18 +96,18 @@ class ProductController extends Controller
     public function edit(int $id): void
     {
         // Armazena os dados do produto encontrado.
-        $allData = $this->productModel->getById($id);
+        $productsData = $this->productModel->getById($id);
 
         // Se o produto não for encontrado, redireciona e exibe a flash message.
-        if (!$allData) {
+        if (!$productsData) {
             RedirectWithMessage::handle(BASE_URL . '/product/show', FLASH_ERROR, 'Produto não foi <b>econtrado</b>!');
         }
 
         // Converte a data de cadastro do produto para formato pt_BR.
-        $allData->created_at = ConvertDate::handle($allData->created_at);
+        $productsData->created_at = ConvertDate::handle($productsData->created_at);
 
         // Renderiza a view, passando os dados.
-        View::render('/product/edit', $allData);
+        View::render('/product/edit', $productsData);
     }
 
     /**
