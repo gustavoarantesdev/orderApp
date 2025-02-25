@@ -214,9 +214,9 @@ FlashMessage::render()
                             Já foi Pago? <span class="text-danger"><b>*</b></span>
                         </label>
                         <select name="payment_status" class="form-select rounded-4 p-3" required>
-                            <option value="1" <?= htmlspecialchars($viewData->payment_status) == 0 ? 'selected' : '' ?>>Não</option>
-                            <option value="2" <?= htmlspecialchars($viewData->payment_status) == 1 ? 'selected' : '' ?>>Sim</option>
-                            <option value="3" <?= htmlspecialchars($viewData->payment_status) == 2 ? 'selected' : '' ?>>Parcialmente</option>
+                            <option value="1" <?= htmlspecialchars($viewData->payment_status) == 1 ? 'selected' : '' ?>>Não</option>
+                            <option value="2" <?= htmlspecialchars($viewData->payment_status) == 2 ? 'selected' : '' ?>>Sim</option>
+                            <option value="3" <?= htmlspecialchars($viewData->payment_status) == 3 ? 'selected' : '' ?>>Parcialmente</option>
                         </select>
                         <div class="invalid-feedback">
                             Selecione se já foi pago.
