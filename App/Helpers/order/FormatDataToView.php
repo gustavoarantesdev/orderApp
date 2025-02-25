@@ -19,7 +19,7 @@ class FormatDataToView
     public static function handle(object $ordersData): object
     {
         foreach ($ordersData as $orderData) {
-            $orderData->order_situation = self::formatOrderSituation($orderData->completion_date);
+            $orderData->order_situation = self::formatOrderSituation($orderData->order_status, $orderData->completion_date);
             $orderData->order_status    = self::formatOrderStatus($orderData->order_status);
             $orderData->customer_name   = FormatCustomerName::handle($orderData->customer_name);
             isset($orderData->withdraw) ? $orderData->withdraw = self::formatWithdraw($orderData->withdraw) : null;
@@ -40,7 +40,7 @@ class FormatDataToView
      * @param string $completionDate Data de entrega.
      * @return string
      */
-    private static function formatOrderSituation(string $completionDate): string
+    private static function formatOrderSituation(string $status, string $completionDate): string
     {
         $currentDate = date('Y-m-d');
         $daysCounted = self::daysCountShow((string) $completionDate);
@@ -51,6 +51,11 @@ class FormatDataToView
             'overdue'  => '<span class="badge bg-danger-subtle border border-danger-subtle text-danger rounded-pill text-center py-2"><i class="bi bi-circle-fill me-1"></i>Atrasada!</span>',
             'toDoIn'   => '<span class="badge bg-tertiary-subtle border border-tertiary-subtle text-body-secondary rounded-pill text-center py-2"><i class="bi bi-circle-fill me-1"></i>Faltam ' . $daysCounted . ' Dias</span>',
         ];
+
+        // Encomenda finalizada
+        if ($status == 3) {
+            return '';
+        }
 
         // Encomenda para hoje
         if ($completionDate == $currentDate) {
