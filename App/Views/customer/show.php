@@ -5,6 +5,7 @@ use App\Helpers\FlashMessage;
 FlashMessage::render()
 
 ?>
+
 <main style="margin-bottom: 7rem;">
     <section class="container">
         <!-- Título -->
@@ -13,12 +14,18 @@ FlashMessage::render()
         </h1>
         <div class="col mt-5 card p-3 rounded-5 shadow">
             <div class="card-body table-responsive">
-                <table class="table align-middle table-responsive">
+                <table class="table align-middle text-nowrap">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
+                            <th scope="col">Tipo</th>
                             <th scope="col">Nome</th>
-                            <th scope="col">Celular</th>
+                            <th scope="col" >Qtd. Pedidos</th>
+                            <th scope="col">Total Vendido</th>
+                            <th scope="col">Total Pago</th>
+                            <th scope="col">Contato</th>
+                            <th scope="col">Sexo</th>
+                            <th scope="col">Idade</th>
                             <th scope="col">Editar</th>
                         </tr>
                     </thead>
@@ -27,8 +34,14 @@ FlashMessage::render()
                         <?php foreach ($viewData as $data) { ?>
                             <tr>
                                 <td><?= htmlspecialchars($data->id) ?></td>
+                                <td><?= htmlspecialchars($data->person_type) ?></td>
                                 <td><?= htmlspecialchars($data->name) ?></td>
+                                <td><?= htmlspecialchars($data->total_orders) ?></td>
+                                <td>R$ <?= htmlspecialchars($data->total_sales) ?></td>
+                                <td>R$ <?= htmlspecialchars($data->total_paid) ?></td>
                                 <td><?= htmlspecialchars($data->phone) ?></td>
+                                <td><?= htmlspecialchars($data->gender) ?></td>
+                                <td><?= htmlspecialchars($data->yearsold) ?></td>
                                 <td>
                                     <button class="btn bg-body-secondary p-2 lh-1 rounded-5" type="button"
                                         onclick="window.location='<?= BASE_URL . '/cliente/editar/' . htmlspecialchars($data->id) ?>'">
