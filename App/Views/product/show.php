@@ -14,7 +14,7 @@ FlashMessage::render()
         </h1>
         <div class="col mt-5 card p-3 rounded-5 shadow">
             <div class="card-body table-responsive">
-                <table class="table align-middle table-responsive">
+                <table class="table align-middle text-nowrap">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
