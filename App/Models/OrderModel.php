@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Helpers\ConvertDate;
 use App\Helpers\ConvertPrice;
-use App\Helpers\order\formatDataToView;
+use App\Helpers\order\FormatDataToView;
 use PDO;
 use App\Core\Model;
 
@@ -95,7 +95,7 @@ class OrderModel extends Model
         $ordersData = (object) $ordersData;
 
         // Aplica as formatações nos dados.
-        formatDataToView::handle($ordersData);
+        FormatDataToView::handle($ordersData);
 
         return $ordersData;
     }
@@ -138,7 +138,7 @@ class OrderModel extends Model
         $ordersData = (object) $ordersData;
 
         // Aplica as formatações nos dados.
-        formatDataToView::handle($ordersData);
+        FormatDataToView::handle($ordersData);
 
         return $ordersData;
     }

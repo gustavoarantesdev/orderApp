@@ -9,7 +9,7 @@ use DateTime;
  * Classe respnsável por centralizar os métodos para formatar os dados da encomenda
  * para a view.
  */
-class formatDataToView
+class FormatDataToView
 {
     /**
      * Formata os dados da encomenda, com os outros métodos dessa classe.
