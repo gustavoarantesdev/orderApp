@@ -83,13 +83,10 @@ class ProductController extends Controller
     public function show(): void
     {
         // Armazena os dados de todos produtos.
-        $allData = $this->productModel->getAll();
-
-        // Formata os dados para apresentação na view.
-        $allData = FormatDataToShow::handle($allData);
+        $productsData = $this->productModel->getAll();
 
         // Renderiza a view, passando os dados.
-        View::render('/product/show', $allData);
+        View::render('/product/show', $productsData);
     }
 
     /**
