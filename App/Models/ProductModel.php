@@ -58,6 +58,31 @@ class ProductModel extends Model
     }
 
     /**
+     * Retorna todos os produtos disponíveis, somente para o AJAX.
+     *
+     * @return object
+     */
+    public function getByAjax(): array
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT
+                id,
+                name,
+                sell_price
+            FROM products
+            WHERE status <> false AND user_id = :user_id
+        ");
+
+        $stmt->execute([
+            ':user_id' => $_SESSION['user_id']
+        ]);
+
+        $productsData = $stmt->fetchAll();
+
+        return $productsData;
+    }
+
+    /**
      * Retorna um produto pelo ID informado.
      *
      * Se não for encontrada retorna null.
