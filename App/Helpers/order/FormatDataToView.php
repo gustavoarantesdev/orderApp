@@ -18,7 +18,8 @@ class FormatDataToView
     public static function handle(object $ordersData): object
     {
         foreach ($ordersData as $orderData) {
-            $orderData->order_status    = self::formatOrderStatus($orderData->order_status, $orderData->completion_date);
+            $orderData->order_situation = self::formatOrderSituation($orderData->completion_date);
+            $orderData->order_status    = self::formatOrderStatus($orderData->order_status);
             $orderData->customer_name   = self::formatCustomerName($orderData->customer_name);
             isset($orderData->withdraw) ? $orderData->withdraw = self::formatWithdraw($orderData->withdraw) : null;
             $orderData->completion_date = self::formatDate($orderData->completion_date);
@@ -33,46 +34,55 @@ class FormatDataToView
     }
 
     /**
-     * Formata o status da encomenda (se ela está em produção, atrasada, concluída)
-     * de acordo com a data de finalização e status da encomenda.
+     * Formata a situação da encomenda (se ela é para hoje, amanhã ou atrasada), de acordo com a data de finalização.
      *
-     * @param int $status Status da encomenda.
      * @param string $completionDate Data de entrega.
      * @return string
      */
-    private static function formatOrderStatus(int $status, string $completionDate): string
+    private static function formatOrderSituation(string $completionDate): string
     {
         $currentDate = date('Y-m-d');
         $daysCounted = self::daysCountShow((string) $completionDate);
 
-        $orderStatus = [
-            'production' => '<span class="badge bg-tertiary-subtle border border-tertiary-subtle text-body-secondary rounded-pill text-center py-2"><i class="bi bi-circle-fill me-1"></i>Faltam ' . $daysCounted . ' Dias</span>',
-            'scheduled'  => '<span class="badge bg-info-subtle border border-info-subtle text-info-emphasis rounded-pill text-center py-2"><i class="bi bi-circle-fill me-1"></i>Agendada</span>',
-            'today'      => '<span class="badge bg-warning-subtle border border-warning-subtle text-warning-emphasis rounded-pill text-center py-2"><i class="bi bi-circle-fill text-warning me-1"></i>Para Hoje!</span>',
-            'tomorrow'   => '<span class="badge bg-primary-subtle border border-primary-subtle text-primary rounded-pill text-center py-2"><i class="bi bi-circle-fill me-1"></i>Para Amanhã</span>',
-            'overdue'    => '<span class="badge bg-danger-subtle border border-danger-subtle text-danger rounded-pill text-center py-2"><i class="bi bi-circle-fill me-1"></i>Atrasada!</span>',
-            'completed'  => '<span class="badge bg-success-subtle border border-success-subtle text-success rounded-pill text-center py-2"><i class="bi bi-circle-fill me-1"></i>Finalizada</span>',
+        $orderSituation = [
+            'today'    => '<span class="badge bg-warning-subtle border border-warning-subtle text-warning-emphasis rounded-pill text-center py-2"><i class="bi bi-circle-fill text-warning me-1"></i>Para Hoje!</span>',
+            'tomorrow' => '<span class="badge bg-primary-subtle border border-primary-subtle text-primary rounded-pill text-center py-2"><i class="bi bi-circle-fill me-1"></i>Para Amanhã</span>',
+            'overdue'  => '<span class="badge bg-danger-subtle border border-danger-subtle text-danger rounded-pill text-center py-2"><i class="bi bi-circle-fill me-1"></i>Atrasada!</span>',
+            'toDoIn'   => '<span class="badge bg-tertiary-subtle border border-tertiary-subtle text-body-secondary rounded-pill text-center py-2"><i class="bi bi-circle-fill me-1"></i>Faltam ' . $daysCounted . ' Dias</span>',
         ];
 
-        // Encomenda finalizada
-        if ($status == 3) {
-            return $orderStatus['completed'];
-        }
-
-        // Encomenda para o dia atual
+        // Encomenda para hoje
         if ($completionDate == $currentDate) {
-            return $orderStatus['today'];
+            return $orderSituation['today'];
         }
 
         // Encomenda para amanhã
         if ($daysCounted == 0) {
-            return $orderStatus['tomorrow'];
+            return $orderSituation['tomorrow'];
         }
 
         // Encomenda atrasada
-        if ($status == 2 && $completionDate < $currentDate) {
-            return $orderStatus['overdue'];
+        if ($completionDate < $currentDate) {
+            return $orderSituation['overdue'];
         }
+
+        // Encomenda para os próximos dias
+        return $orderSituation['toDoIn'];
+    }
+
+    /**
+     * Formata o status da encomenda (se ela está em produção, agendada ou finalizada), de acordo com o status da encomenda.
+     *
+     * @param int $status Status da encomenda.
+     * @return string
+     */
+    private static function formatOrderStatus(int $status): string
+    {
+        $orderStatus = [
+            'production' => '<span class="badge bg-warning-subtle border border-warning-subtle text-warning-emphasis rounded-pill text-center"><i class="bi bi-circle-fill text-warning me-1"></i>Em Produção</span>',
+            'scheduled'  => '<span class="badge bg-info-subtle border border-info-subtle text-info-emphasis rounded-pill text-center"><i class="bi bi-circle-fill me-1"></i>Agendada</span>',
+            'completed'  => '<span class="badge bg-success-subtle border border-success-subtle text-success rounded-pill text-center"><i class="bi bi-circle-fill me-1"></i>Finalizada</span>',
+        ];
 
         // Encomenda em produção
         if ($status == 2) {
@@ -84,8 +94,8 @@ class FormatDataToView
             return $orderStatus['scheduled'];
         }
 
-        // Encomenda para os próximos dias
-        return $orderStatus['production'];
+        // Encomenda finalizada
+        return $orderStatus['completed'];
     }
 
     /**
