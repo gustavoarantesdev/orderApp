@@ -7,15 +7,14 @@ use App\Helpers\ConvertPrice;
 /**
  * Formata os dados para exibir na view.
  */
-abstract class FormatDataToShow
+abstract class FormatDataToView
 {
     public static function handle(object $data): object
     {
         // Percorre o array de objetos que é retornado da model, aplicando as funções.
         foreach ($data as $item) {
-            $item->sell_price = ConvertPrice::handle($item->sell_price, 'br');
+            $item->total_sales = ConvertPrice::handle($item->total_sales, 'br');
             $item->cost_price = ConvertPrice::handle($item->cost_price, 'br');
-
             $item->status = self::status($item->status);
         }
 
