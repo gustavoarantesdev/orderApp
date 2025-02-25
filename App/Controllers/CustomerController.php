@@ -83,10 +83,10 @@ class CustomerController extends Controller
     public function show(): void
     {
         // Armazena os dados de todos clientes.
-        $allData = $this->customerModel->getAll();
+        $customersData = $this->customerModel->getAll();
 
         // Renderiza a view, passando os dados.
-        View::render('/customer/show', $allData);
+        View::render('/customer/show', $customersData);
     }
 
     /**
