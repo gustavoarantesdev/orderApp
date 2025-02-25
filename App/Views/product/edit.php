@@ -54,7 +54,7 @@ FlashMessage::render()
                     <!-- Preço de custo -->
                     <div class="col">
                         <label class="form-label">
-                            Preço de custo <span class="text-danger"><b>*</bn></span>
+                            Preço de custo <span class="text-danger"><b>*</b></span>
                         </label>
                         <input type="text" name="cost_price" class="money form-control rounded-4 p-3"
                             inputmode="numeric" value="<?= htmlspecialchars($viewData->cost_price) ?>" required>
@@ -92,8 +92,7 @@ FlashMessage::render()
                         Observação
                     </label>
                     <textarea type="text" name="description" rows="3"
-                        class="form-control rounded-4 p-3"><?= $viewData->description != null ? htmlspecialchars($viewData->description) : '' ?>
-                    </textarea>
+                        class="form-control rounded-4 p-3"><?= $viewData->description != null ? htmlspecialchars($viewData->description) : '' ?></textarea>
                 </div>
 
                 <!-- Botões -->
@@ -135,7 +134,7 @@ FlashMessage::render()
                         </div>
                     </div>
                     <div class="text-body-tertiary text-center mt-3">
-                        <?= "Códito: {$viewData->id} - Cadastrado em: {$viewData->created_at}" ?>
+                        <?= "Código: {$viewData->id} - Cadastrado em: {$viewData->created_at}" ?>
                     </div>
             </form>
         </div>
