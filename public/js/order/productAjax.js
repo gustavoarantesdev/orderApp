@@ -23,10 +23,10 @@ xhrProducts.onreadystatechange = function () {
 
 xhrProducts.send();
 
-const productId = document.getElementById('productIdInput');
-const productName = document.getElementById('productNameInput');
-const productSellPrice = document.getElementById('productSellPriceInput');
-const productQuantity = document.getElementById('productQuantityInput');
+const productIdInput = document.getElementById('productIdInput');
+const productNameInput = document.getElementById('productNameInput');
+const productSellPriceInput = document.getElementById('productSellPriceInput');
+const productQuantityInput = document.getElementById('productQuantityInput');
 
 // Preenche os campos de valor unitário e quantidade de acordo com o item selecionado.
 document.getElementById('productNameInput').addEventListener('change', function () {
@@ -35,14 +35,13 @@ document.getElementById('productNameInput').addEventListener('change', function 
 
     options.forEach(option => {
         if (option.value === productSelectedName) {
-            productId.value = option.dataset.productId;
-
-            productSellPrice.value = option.dataset.productSellPrice;
-            productQuantity.value = 1;
+            productIdInput.value = option.dataset.productId;
+            productSellPriceInput.value = option.dataset.productSellPrice;
+            productQuantityInput.value = 1;
 
             // Disparar eventos manualmente após alterar os valores
-            productSellPrice.dispatchEvent(new Event('input'));
-            productQuantity.dispatchEvent(new Event('change'));
+            productSellPriceInput.dispatchEvent(new Event('input'));
+            productQuantityInput.dispatchEvent(new Event('change'));
         }
     });
 });
