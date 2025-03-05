@@ -1,139 +1,75 @@
-const subtotal = document.getElementById('subtotal');
-const additional = document.getElementById('additional'); // Campo de adicional
-const discount = document.getElementById('discount'); // Campo de desconto
 const orderItems = document.getElementById('orderItems');
+// Variável que representa o id de cada produto adicionado
+let counterId = 0;
 
-const paymentValueInput = document.getElementById('paymentValue');
-let count = 0;
-let currentSubtotal = 0;
-
-// Verifica e preenche os inputs se estiverem vazios
-function verifyInputs() {
-    if (!additional.value || isNaN(formatInputValue(additional.value))) {
-        additional.value = '0,00';
-    }
-    if (!discount.value || isNaN(formatInputValue(discount.value))) {
-        discount.value = '0,00';
-    }
-}
-
-// Formata os valores de entrada (input).
-function formatInputValue(value) {
-    // Remove espaços e converte vírgula para ponto
-    return parseFloat(value.replace(/\./g, '').replace(',', '.')) || 0;
-}
-
-// Formata o valor de saída do cálculo.
-function formatOutputValue(value) {
-    return new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value);
-}
-
+/**
+ * Adiciona os produtos da encomenda.
+ */
 document.getElementById('addOrderItemBtn').addEventListener('click', function () {
-    const id = productId.value;
-    const name = productName.value;
-    const sell = formatInputValue(productSellPrice.value);
-    const qtd = formatInputValue(productQuantity.value);
+    // Os valores das constantes, são definidos em productAjax.js
+    const productId = productIdInput.value;
+    const productName = productNameInput.value;
+    const productQuantity = parseQuantity(productQuantityInput.value);
+    const productSellPrice = parsePrice(productSellPriceInput.value);
 
-    // Verifica se os inputs estão preenchidos corretamente
-    if (name === '' || sell <= 0 || qtd <= 0) {
+    // Verifica se os inputs do produto estão preenchidos corretamente
+    if (productName === '' || productQuantity <= 0 || productSellPrice <= 0) {
         return;
     }
 
-    productId.value = '';
-    productName.value = '';
-    productSellPrice.value = '';
-    productQuantity.value = '';
+    // Incrementa o contador de produtos
+    counterId++;
+    const divId = `item-${counterId}`;
+    // Armazena o valor de cada item
+    const finalItemPrice = calcItemTotal(productQuantity, productSellPrice);
 
-    count++;
-    const divId = `item-${count}`;
-    const itemTotal = sell * qtd;
-    currentSubtotal += itemTotal; // Atualiza o subtotal
-
+    // Adiciona o item
     orderItems.innerHTML += `
-        <div class="orderItems row g-2 mb-2" id="${divId}">
-            <input type="hidden" name="product_id${count}" value="${id}">
-            <div class="col-4">
-                <input name="product_name${count}" class="form-control bg-body-tertiary rounded-4 p-2" value="${name}" readonly>
+        <div class="orderItems d-flex flex-column flex-md-row gap-2 border p-2 mb-2 rounded-3 shadow-sm" id="${divId}">
+            <div class="d-flex gap-2">
+                <input type="hidden" name="product_id${counterId}" value="${productId}">
+
+                <div style="width: 90%">
+                    <p class="m-0" style="font-size: 0.8rem;">Nome</p>
+                    <input name="product_name${counterId}"
+                        class="form-control bg-body-tertiary rounded-4" value="${productName}"
+                        readonly>
+                </div>
+
+                <div style="width: 40%">
+                    <p class="m-0" style="font-size: 0.8rem;">Quantidade</p>
+                    <input name="product_quantity${counterId}"
+                        class="form-control bg-body-tertiary rounded-4" value="${productQuantity}"
+                        readonly>
+                </div>
             </div>
-            <div class="col">
-                <input name="product_sell_price${count}" class="form-control bg-body-tertiary rounded-4 p-2" value="${formatOutputValue(sell)}" readonly>
+
+            <div class="d-flex gap-2">
+                <div class="flex-grow-1">
+                    <p class="m-0" style="font-size: 0.8rem;">Preço</p>
+                    <input name="product_sell_price${counterId}"
+                        class="form-control bg-body-tertiary rounded-4"
+                        value="${formatOutputValue(productSellPrice)}" readonly>
+                </div>
+
+                <div class="flex-grow-1 align-self-end">
+                    <button data-id="${divId}" data-item-total="${finalItemPrice}"
+                        class="deleteButton btn bg-danger-subtle text-danger-emphasis rounded-4 d-flex align-items-center justify-content-center"
+                        type="button" style="width: 100%; height: 41px;">
+                        <i class="bi bi-x" style="font-size: 1.5rem;"></i>
+                    </button>
+                </div>
             </div>
-            <div class="col">
-                <input name="product_quantity${count}" class="form-control bg-body-tertiary rounded-4 p-2" value="${qtd}" readonly>
-            </div>
-            <div class="col d-flex justify-content-start align-items-center">
-                <button data-id="${divId}" data-total="${itemTotal}" class="deleteButton btn bg-danger-subtle text-danger-emphasis rounded-4 d-flex align-items-center justify-content-center"
-                    type="button" style="width: 100%; height: 41px;">
-                    <i class="bi bi-trash" style="font-size: 1.5rem;"></i>
-                </button>
-            </div>
-            <br>
+            <br class="hidden">
         </div>
     `;
 
-    updateSubtotal();
-});
+    // Adiciona o valor do item ao subtotal
+    updateSubtotalValue(finalItemPrice);
 
-// Delegação de eventos para remover itens corretamente
-orderItems.addEventListener('click', function (event) {
-    let target = event.target;
-
-    // Se o clique foi no ícone, pega o elemento pai (botão)
-    if (target.tagName === 'I') {
-        target = target.closest('.deleteButton');
-    }
-
-    if (target && target.classList.contains('deleteButton')) {
-        const divId = target.getAttribute('data-id');
-        const itemTotal = formatInputValue(target.getAttribute('data-total'));
-
-        currentSubtotal -= itemTotal;
-
-        const element = document.getElementById(divId);
-        if (element) {
-            element.remove();
-        }
-
-        updateSubtotal();
-    }
-});
-
-
-// Atualiza o subtotal considerando adicional e desconto
-function updateSubtotal() {
-    verifyInputs(); // Garante que os inputs estejam preenchidos corretamente
-
-    const additionalValue = formatInputValue(additional.value);
-    const discountValue = formatInputValue(discount.value);
-
-    // Cálcula o valor do subtotal.
-    const finalTotal = currentSubtotal + additionalValue - discountValue;
-
-    // Armazena o resultado do cálculo no input de Subtotal.
-    subtotal.value = formatOutputValue(finalTotal);
-    // Armazena o valor do cálculo no input de Valor de Pagamento.
-    paymentValueInput.value = subtotal.value;
-}
-
-
-// Atualiza o total sempre que adicional ou desconto forem alterados
-[additional, discount].forEach((input) => {
-    input.addEventListener('change', updateSubtotal);
-});
-
-
-// Executa quando a página de editar a encomenda é carregada.
-document.addEventListener('DOMContentLoaded', function () {
-    let existingItems = document.querySelectorAll('.orderItems'); // Pega os itens já carregados pelo PHP
-    count = existingItems.length; // Atualiza o count com o número correto
-
-    // Recalcula o subtotal inicial somando os itens existentes
-    currentSubtotal = 0;
-    existingItems.forEach((item) => {
-        const price = formatInputValue(item.querySelector('[name^="product_sell_price"]').value);
-        const quantity = formatInputValue(item.querySelector('[name^="product_quantity"]').value);
-        currentSubtotal += price * quantity;
-    });
-
-    updateSubtotal(); // Atualiza os valores com adicional e desconto
+    // Limpa os inputs após adicionar um item
+    productIdInput.value = '';
+    productNameInput.value = '';
+    productSellPriceInput.value = '';
+    productQuantityInput.value = '';
 });
